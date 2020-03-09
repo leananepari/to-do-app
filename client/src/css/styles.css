@@ -9,6 +9,60 @@ body {
 html, body {
   overflow-x: hidden; }
 
+/*============================================================
+  LOGIN PAGE
+=============================================================*/
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 300px;
+  margin: 0 auto; }
+  .login-page .logo-wrap {
+    display: flex;
+    align-items: center; }
+    .login-page .logo-wrap h1 {
+      font-size: 60px;
+      align-self: flex-end;
+      margin-bottom: 5px;
+      margin-left: -25px;
+      font-weight: 200; }
+  .login-page .subtitle {
+    display: inline-block;
+    font-size: 30px;
+    margin-top: 40px;
+    font-weight: 200;
+    letter-spacing: 0.8px; }
+    .login-page .subtitle .life {
+      font-weight: 400; }
+    .login-page .subtitle .organized {
+      font-style: italic; }
+  .login-page .input-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px; }
+    .login-page .input-wrap input {
+      width: 160px;
+      height: 25px;
+      margin-bottom: 5px;
+      outline: none;
+      border: 1px solid lightgray; }
+  .login-page .sign-up-message {
+    margin-top: 40px;
+    font-weight: 200; }
+    .login-page .sign-up-message button {
+      width: 60px;
+      height: 25px;
+      margin-left: 15px;
+      background-color: #0EA4E0;
+      color: white;
+      outline: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 2px; }
+
 /*
 html5doctor.com Reset Stylesheet
 v1.6.1
@@ -96,7 +150,3 @@ hr {
 
 input, select {
   vertical-align: middle; }
-
-/* end of media query */
-/* end of media query */
-/* end of media query */
