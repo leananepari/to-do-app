@@ -9,6 +9,144 @@ body {
 html, body {
   overflow-x: hidden; }
 
+/*============================================================
+  LOGIN PAGE
+=============================================================*/
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 300px;
+  margin: 0 auto; }
+  .login-page .logo-wrap {
+    display: flex;
+    align-items: center; }
+    .login-page .logo-wrap h1 {
+      font-size: 60px;
+      align-self: flex-end;
+      margin-bottom: 5px;
+      margin-left: -25px;
+      font-weight: 200; }
+  .login-page .subtitle {
+    display: inline-block;
+    font-size: 30px;
+    margin-top: 40px;
+    font-weight: 200;
+    letter-spacing: 0.8px; }
+    .login-page .subtitle .life {
+      font-weight: 400; }
+    .login-page .subtitle .organized {
+      font-style: italic; }
+  .login-page .input-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px; }
+    .login-page .input-wrap input {
+      width: 160px;
+      height: 25px;
+      margin-bottom: 5px;
+      outline: none;
+      border: 1px solid lightgray; }
+    .login-page .input-wrap .btn-login {
+      height: 25px;
+      cursor: pointer;
+      border-radius: 2px;
+      outline: none; }
+  .login-page .sign-up-message {
+    margin-top: 40px;
+    font-weight: 200; }
+    .login-page .sign-up-message button {
+      width: 60px;
+      height: 25px;
+      margin-left: 15px;
+      background-color: #0EA4E0;
+      color: white;
+      outline: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 2px; }
+
+/*=================================================================
+ SIGN UP PAGE
+==============================================================*/
+/*=================================================================
+ HEADER
+==============================================================*/
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%; }
+  header .logo-header {
+    display: flex;
+    margin-left: 20px; }
+    header .logo-header h1 {
+      align-self: flex-end;
+      margin-bottom: 5px;
+      margin-left: -5px;
+      font-weight: 200; }
+  header .user-greeting {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; }
+    header .user-greeting h2 {
+      font-weight: 200;
+      margin-right: 10px;
+      letter-spacing: 1px; }
+
+/*=================================================================
+ DASHBOARD
+==============================================================*/
+.dashboard-wrap {
+  margin-top: 70px;
+  display: flex; }
+  .dashboard-wrap .tabs-list {
+    width: 25%;
+    height: calc(100vh - 70px);
+    border-right: 1px solid gray; }
+    .dashboard-wrap .tabs-list .tab {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px;
+      cursor: pointer; }
+      .dashboard-wrap .tabs-list .tab div {
+        margin-left: 5px; }
+  .dashboard-wrap .display {
+    width: 75%;
+    display: flex;
+    flex-direction: column; }
+    .dashboard-wrap .display .banner {
+      height: 200px;
+      background-color: lightblue; }
+    .dashboard-wrap .display .todo {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      height: 40px;
+      border-bottom: 1px solid gray;
+      padding: 20px; }
+      .dashboard-wrap .display .todo .circle {
+        width: 25px;
+        height: 25px;
+        border: 1px solid gray;
+        border-radius: 50%;
+        cursor: pointer; }
+      .dashboard-wrap .display .todo .text {
+        margin-left: 15px; }
+        .dashboard-wrap .display .todo .text .category {
+          font-size: 14px;
+          margin-top: 5px; }
+
 /*
 html5doctor.com Reset Stylesheet
 v1.6.1
@@ -40,7 +178,7 @@ body {
   line-height: 1; }
 
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+footer, hgroup, menu, nav, section {
   display: block; }
 
 nav ul {
@@ -96,7 +234,3 @@ hr {
 
 input, select {
   vertical-align: middle; }
-
-/* end of media query */
-/* end of media query */
-/* end of media query */

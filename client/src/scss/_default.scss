@@ -13,3 +13,204 @@ html,body {
   overflow-x: hidden; 
 }
 
+/*============================================================
+  LOGIN PAGE
+=============================================================*/
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 300px;
+  margin: 0 auto;
+
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      font-size: 60px;
+      align-self: flex-end;
+      margin-bottom: 5px;
+      margin-left: -25px;
+      font-weight: 200;
+    }
+  }
+
+  .subtitle {
+    display: inline-block;
+    font-size: 30px;
+    margin-top: 40px;
+    font-weight: 200;
+    letter-spacing: 0.8px;
+    // margin-left: 20px;
+
+    .life {
+      font-weight: 400;
+    }
+    .organized {
+      font-style: italic;
+    }
+  }
+
+  .input-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+
+    input {
+      width: 160px;
+      height: 25px;
+      margin-bottom: 5px;
+      outline: none;
+      border: 1px solid lightgray;
+    }
+    .btn-login {
+      height: 25px;
+      cursor: pointer;
+      border-radius: 2px;
+      outline: none;
+    }
+  }
+
+  .sign-up-message {
+    margin-top: 40px;
+    font-weight: 200;
+
+    button {
+      width: 60px;
+      height: 25px;
+      margin-left: 15px;
+      background-color: #0EA4E0;
+      // background-color: #09658a;
+      color: white;
+      outline: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-radius: 2px;
+    }
+  }
+
+}
+
+/*=================================================================
+ SIGN UP PAGE
+==============================================================*/
+
+
+
+
+/*=================================================================
+ HEADER
+==============================================================*/
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  // background-color: #2097D1;
+  box-shadow: 0 0 6px rgba(0,0,0,.2);
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+
+  .logo-header {
+    display: flex;
+    margin-left: 20px;
+
+    h1 {
+      // font-size: 60px;
+      align-self: flex-end;
+      margin-bottom: 5px;
+      margin-left: -5px;
+      font-weight: 200;
+    }
+  }
+
+  .user-greeting {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+
+    h2 {
+      font-weight: 200;
+      margin-right: 10px;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+
+
+/*=================================================================
+ DASHBOARD
+==============================================================*/
+.dashboard-wrap {
+  margin-top: 70px;
+  display: flex;
+
+  .tabs-list {
+    width: 25%;
+    height: calc(100vh - 70px);
+    border-right: 1px solid gray;
+
+    .tab {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 20px;
+      cursor: pointer;
+      
+      div {
+        margin-left: 5px;
+      
+      }
+    }
+  }
+
+  .display {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+
+    .banner {
+      height: 200px;
+      background-color: lightblue;
+    }
+
+    .todo {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      height: 40px;
+      border-bottom: 1px solid gray;
+      padding: 20px;
+
+      .circle {
+        width: 25px;
+        height: 25px;
+        border: 1px solid gray;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .text {
+        margin-left: 15px;
+
+        .category {
+          font-size: 14px;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+
+}
+
+//#0EA4E0
+//green #69B100
