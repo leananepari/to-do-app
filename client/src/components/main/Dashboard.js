@@ -50,12 +50,23 @@ const Dashboard = () => {
     setList(updated);
   }
 
+  const addTodo = (newTodo) => {
+    //api call to add a new todo
+    //get back updated list and set it to state
+    let newObj = {"id": list.length, "to-do": newTodo.to_do, "category": newTodo.category, "completed": false};
+    let newArr = [...list];
+    newArr.push(newObj);
+    setList(newArr);
+  }
+
   return (
+    <>
+    <Header />
     <div className="dashboard-wrap">
-      <Header />
       <TabsList categories={categories} icons={category_icons} selected={selected} setSelected={setSelected}/>
-      <Display list={list} selected={selected} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+      <Display list={list} selected={selected} updateTodo={updateTodo} deleteTodo={deleteTodo} addTodo={addTodo}/>
     </div>
+    </>
   )
 } 
 
