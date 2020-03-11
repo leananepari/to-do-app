@@ -2,12 +2,17 @@ import React, { useState, useEffect }  from 'react';
 import Todo from './Todo';
 import Image from '../../assets/mountains.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css'
 
 
 const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
   const [selectedList, setSelectedList] = useState([]);
   const [slideWindow, setSlideWindow] = useState(false);
+  const [newTodo, setNewTodo] = useState({'to_do': ""});
+  const [category, setCategory] = useState();
+  const categoryOptions = ["To Do", "Groceries", "Work", "Family", "Travel", "Excercise"];
 
   useEffect(() => {
     if (selected === "My Day") {
@@ -26,6 +31,14 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
     setSlideWindow(false);
   }
 
+  const handleChange = (event) => {
+    setNewTodo({...newTodo, [event.target.name]: event.target.value })
+  }
+
+  const handleCategoryDropdown = () => {
+
+  }
+
   return (
     <div className="display">
       <div className="banner"> 
@@ -39,7 +52,30 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
         <div className="text">Add a to-do</div>
       </div>
       <div className={slideWindow ? "slide-out-window-open" : "slide-out-window-close"}>
-        <FontAwesomeIcon onClick={handleCloseSlideWindow} style={{width: '25px', height: '25px', cursor: 'pointer', color: 'gray', margin: '0 auto', marginRight: '0px'}} icon={faTimesCircle} size='lg'/> 
+        <div className="add-to-do-window">
+          <div className="top-section">
+            <h2>Add a to-do</h2>
+            <textarea 
+              type="text"
+              name="to_do"
+              value={newTodo.to_do}
+              onChange={handleChange}
+              placeholder="New to-do"
+            />
+            <Dropdown 
+              onChange={handleCategoryDropdown} 
+              controlClassName='myControlClassName' 
+              className='dropdownRoot' 
+              options={categoryOptions}   
+              value={category} 
+              placeholder='Select category...'
+            />
+            <button className="add-button">Add</button>
+          </div>
+          <div>
+            <FontAwesomeIcon onClick={handleCloseSlideWindow} style={{width: '25px', height: '25px', cursor: 'pointer', color: 'gray', margin: '20px'}} icon={faChevronRight} size='lg'/> 
+          </div>
+        </div>
       </div>
     </div>
   )

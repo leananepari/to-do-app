@@ -172,6 +172,39 @@ header {
       align-self: flex-end;
       right: 0px;
       transition: right 1s; }
+    .dashboard-wrap .display .add-to-do-window {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100vh - 70px); }
+      .dashboard-wrap .display .add-to-do-window .top-section {
+        margin: 20px; }
+        .dashboard-wrap .display .add-to-do-window .top-section h2 {
+          font-size: 18px;
+          font-weight: 200;
+          color: #495DFB;
+          margin-bottom: 20px; }
+        .dashboard-wrap .display .add-to-do-window .top-section textarea {
+          height: 64px;
+          font-size: 16px;
+          outline: none;
+          border: 1px solid lightgray;
+          border-radius: 2px;
+          margin-bottom: 10px;
+          width: 100%;
+          box-sizing: border-box;
+          padding-left: 10px;
+          padding-top: 10px; }
+        .dashboard-wrap .display .add-to-do-window .top-section .add-button {
+          width: 100%;
+          margin-top: 20px;
+          height: 30px;
+          border-radius: 2px;
+          outline: none;
+          cursor: pointer;
+          background-color: rgba(73, 93, 251, 0.6);
+          font-size: 14px;
+          color: white; }
 
 /*
 html5doctor.com Reset Stylesheet
