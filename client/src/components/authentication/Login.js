@@ -12,6 +12,10 @@ const Login = (props) => {
     props.history.push('/signup')
   }
 
+  const handleLogin = () => {
+
+  }
+
   return (
     <div className="login-page" >
       <div className="logo-wrap">
@@ -36,6 +40,7 @@ const Login = (props) => {
           onChange={handleChange}
           placeholder="Your password"
         /> 
+        <button className="btn-login" onClick={handleLogin}>Login</button>
       </div>
       <div className="sign-up-message">
         Don't have an account? 
