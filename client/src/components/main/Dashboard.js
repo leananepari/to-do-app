@@ -50,11 +50,15 @@ const Dashboard = () => {
     setList(updated);
   }
 
+  const addTodo = (newTodo) => {
+
+  }
+
   return (
     <div className="dashboard-wrap">
       <Header />
       <TabsList categories={categories} icons={category_icons} selected={selected} setSelected={setSelected}/>
-      <Display list={list} selected={selected} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+      <Display list={list} selected={selected} updateTodo={updateTodo} deleteTodo={deleteTodo} addTodo={addTodo}/>
     </div>
   )
 } 

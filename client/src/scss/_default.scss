@@ -155,17 +155,18 @@ header {
   .tabs-list {
     width: 25%;
     height: calc(100vh - 70px);
-    border-right: 1px solid gray;
+    border-right: 1px solid #d6d4d4;
+   
 
     .tab {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding: 20px;
+      margin: 20% 0 0px 10%;
       cursor: pointer;
       
       div {
-        margin-left: 5px;
+        margin-left: 15px;
       
       }
     }
@@ -188,7 +189,7 @@ header {
       font-weight: 300;
       letter-spacing: 1px;
       height: 40px;
-      border-bottom: 1px solid gray;
+      border-bottom: 1px solid #d6d4d4;
       padding: 20px;
 
       .circle {
@@ -197,6 +198,7 @@ header {
         border: 1px solid gray;
         border-radius: 50%;
         cursor: pointer;
+        box-sizing: border-box;
       }
 
       .text {
@@ -208,6 +210,41 @@ header {
         }
       }
     }
+    
+    .add-to-do {
+      display: flex;
+      align-items: center;
+      margin: 30px 0 0 20px;
+
+      .text {
+        margin-left: 5px;
+        color: #495DFB;
+      }
+    }
+
+    .slide-out-window-close {
+      position: absolute;
+      width: 30%;
+      height: calc(100vh - 70px);
+      background-color: white;
+      border-left: 1px solid #d6d4d4;
+      align-self: flex-end;
+      right: -30%;
+      transition: right 1s;
+
+    }
+    .slide-out-window-open {
+      position: absolute;
+      width: 30%;
+      height: calc(100vh - 70px);
+      background-color: white;
+      border-left: 1px solid #d6d4d4;
+      align-self: flex-end;
+      right: 0px;
+      transition: right 1s;
+    }
+
+
   }
 
 }

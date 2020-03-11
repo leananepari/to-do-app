@@ -110,15 +110,15 @@ header {
   .dashboard-wrap .tabs-list {
     width: 25%;
     height: calc(100vh - 70px);
-    border-right: 1px solid gray; }
+    border-right: 1px solid #d6d4d4; }
     .dashboard-wrap .tabs-list .tab {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding: 20px;
+      margin: 20% 0 0px 10%;
       cursor: pointer; }
       .dashboard-wrap .tabs-list .tab div {
-        margin-left: 5px; }
+        margin-left: 15px; }
   .dashboard-wrap .display {
     width: 75%;
     display: flex;
@@ -133,19 +133,45 @@ header {
       font-weight: 300;
       letter-spacing: 1px;
       height: 40px;
-      border-bottom: 1px solid gray;
+      border-bottom: 1px solid #d6d4d4;
       padding: 20px; }
       .dashboard-wrap .display .todo .circle {
         width: 25px;
         height: 25px;
         border: 1px solid gray;
         border-radius: 50%;
-        cursor: pointer; }
+        cursor: pointer;
+        box-sizing: border-box; }
       .dashboard-wrap .display .todo .text {
         margin-left: 15px; }
         .dashboard-wrap .display .todo .text .category {
           font-size: 14px;
           margin-top: 5px; }
+    .dashboard-wrap .display .add-to-do {
+      display: flex;
+      align-items: center;
+      margin: 30px 0 0 20px; }
+      .dashboard-wrap .display .add-to-do .text {
+        margin-left: 5px;
+        color: #495DFB; }
+    .dashboard-wrap .display .slide-out-window-close {
+      position: absolute;
+      width: 30%;
+      height: calc(100vh - 70px);
+      background-color: white;
+      border-left: 1px solid #d6d4d4;
+      align-self: flex-end;
+      right: -30%;
+      transition: right 1s; }
+    .dashboard-wrap .display .slide-out-window-open {
+      position: absolute;
+      width: 30%;
+      height: calc(100vh - 70px);
+      background-color: white;
+      border-left: 1px solid #d6d4d4;
+      align-self: flex-end;
+      right: 0px;
+      transition: right 1s; }
 
 /*
 html5doctor.com Reset Stylesheet
