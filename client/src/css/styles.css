@@ -106,11 +106,13 @@ header {
 ==============================================================*/
 .dashboard-wrap {
   margin-top: 70px;
-  display: flex; }
+  display: flex;
+  height: calc(100vh - 70px); }
   .dashboard-wrap .tabs-list {
     width: 25%;
     height: calc(100vh - 70px);
-    border-right: 1px solid #d6d4d4; }
+    border-right: 1px solid #d6d4d4;
+    overflow-y: hidden; }
     .dashboard-wrap .tabs-list .tab {
       display: flex;
       justify-content: flex-start;
@@ -122,11 +124,12 @@ header {
   .dashboard-wrap .display {
     width: 75%;
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    overflow-y: scroll; }
     .dashboard-wrap .display .banner {
       height: 200px;
       background-color: lightblue; }
-    .dashboard-wrap .display .todo {
+    .dashboard-wrap .display .todo-list .todo {
       display: flex;
       align-items: center;
       font-size: 18px;
@@ -135,22 +138,22 @@ header {
       height: 40px;
       border-bottom: 1px solid #d6d4d4;
       padding: 20px; }
-      .dashboard-wrap .display .todo .circle {
+      .dashboard-wrap .display .todo-list .todo .circle {
         width: 25px;
         height: 25px;
         border: 1px solid gray;
         border-radius: 50%;
         cursor: pointer;
         box-sizing: border-box; }
-      .dashboard-wrap .display .todo .text {
+      .dashboard-wrap .display .todo-list .todo .text {
         margin-left: 15px; }
-        .dashboard-wrap .display .todo .text .category {
+        .dashboard-wrap .display .todo-list .todo .text .category {
           font-size: 14px;
           margin-top: 5px; }
     .dashboard-wrap .display .add-to-do {
       display: flex;
       align-items: center;
-      margin: 30px 0 0 20px; }
+      margin: 30px 0 30px 20px; }
       .dashboard-wrap .display .add-to-do .text {
         margin-left: 5px;
         color: #495DFB; }

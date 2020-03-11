@@ -10,7 +10,7 @@ import 'react-dropdown/style.css'
 const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
   const [selectedList, setSelectedList] = useState([]);
   const [slideWindow, setSlideWindow] = useState(false);
-  const [newTodo, setNewTodo] = useState({'to_do': ""});
+  const [newTodo, setNewTodo] = useState({'to_do': "", "category": ""});
   const [category, setCategory] = useState();
   const categoryOptions = ["To Do", "Groceries", "Work", "Family", "Travel", "Excercise"];
 
@@ -35,8 +35,22 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
     setNewTodo({...newTodo, [event.target.name]: event.target.value })
   }
 
-  const handleCategoryDropdown = () => {
+  const handleCategoryDropdown = (event) => {
+    let index;
+    for (let i = 0; i < categoryOptions.length; i++) {
+      if (categoryOptions[i] === event.value) {
+        index = i;
+      }
+    }
+    setCategory(categoryOptions[index]); 
+    setNewTodo({...newTodo, category: event.value})
+  }
 
+  const handleAddButton = () => {
+    console.log('here', newTodo)
+    addTodo(newTodo);
+    setNewTodo({'to_do': "", "category": ""});
+    setCategory();
   }
 
   return (
@@ -44,9 +58,11 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
       <div className="banner"> 
         <img src={Image} style={{width: '100%', height: '100%'}}/>
       </div>
-      {selectedList.map((todo) => {
-        return <Todo todo={todo} key={todo.id} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
-      })}
+      <div className="todo-list">
+        {selectedList.map((todo) => {
+          return <Todo todo={todo} key={todo.id} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+        })}
+      </div>
       <div className="add-to-do" onClick={handleAddTodo}>
         <FontAwesomeIcon style={{width: '30px', height: '30px', cursor: 'pointer', color: '#495DFB'}} icon={faPlusCircle} size='lg'/> 
         <div className="text">Add a to-do</div>
@@ -70,7 +86,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
               value={category} 
               placeholder='Select category...'
             />
-            <button className="add-button">Add</button>
+            <button onClick={handleAddButton} className="add-button">Add</button>
           </div>
           <div>
             <FontAwesomeIcon onClick={handleCloseSlideWindow} style={{width: '25px', height: '25px', cursor: 'pointer', color: 'gray', margin: '20px'}} icon={faChevronRight} size='lg'/> 
