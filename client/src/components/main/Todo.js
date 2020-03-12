@@ -1,8 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faTimesCircle, faStar as starSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as starOutline} from '@fortawesome/free-regular-svg-icons';
 
-const Todo = ( { todo, updateTodo, deleteTodo } ) => {
+const Todo = ( { todo, updateTodo, deleteTodo, setImportant } ) => {
   // const [completed, setCompleted] = useState(todo.completed)
 
   useEffect(() => {
@@ -21,6 +22,10 @@ const Todo = ( { todo, updateTodo, deleteTodo } ) => {
     deleteTodo(todo.id)
   }
 
+  const handleImportant = () => {
+    setImportant(todo.id)
+  }
+
   return (
     <div className="todo">
 
@@ -34,9 +39,9 @@ const Todo = ( { todo, updateTodo, deleteTodo } ) => {
         <div className="category">{todo['category']}</div>
       </div>
       {todo.completed ? 
-        <FontAwesomeIcon onClick={handleDelete} style={{width: '25px', height: '25px', cursor: 'pointer', color: 'gray', margin: '0 auto', marginRight: '0px'}} icon={faTimesCircle} size='lg'/> 
+        <FontAwesomeIcon onClick={handleDelete} style={{width: '20px', height: '20px', cursor: 'pointer', color: 'gray', margin: '0 auto', marginRight: '0px'}} icon={faTimesCircle} size='lg'/> 
         :
-        <></>
+        <FontAwesomeIcon onClick={handleImportant} className={todo.important ? "star" : "none"} style={{width: '20px', height: '20px', cursor: 'pointer', color: `${todo.important ? '#FFFF33' : 'gray'}`, margin: '0 auto', marginRight: '0px'}} icon={todo.important ? starSolid : starOutline} size='lg'/> 
       }
     </div>
   )

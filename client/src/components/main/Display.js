@@ -7,7 +7,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css'
 
 
-const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
+const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportant }) => {
   const [selectedList, setSelectedList] = useState([]);
   const [slideWindow, setSlideWindow] = useState(false);
   const [newTodo, setNewTodo] = useState({'to_do': "", "category": ""});
@@ -18,8 +18,13 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
     if (selected === "My Day") {
       setSelectedList(list);
     } else {
-      let filtered = list.filter(todo => todo.category === selected);
-      setSelectedList(filtered)
+      if (selected === "Important") {
+        let filtered = list.filter(todo => todo.important === true);
+        setSelectedList(filtered)
+      } else {
+        let filtered = list.filter(todo => todo.category === selected);
+        setSelectedList(filtered)
+      }
     }
   }, [list, selected, slideWindow])
 
@@ -47,7 +52,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
   }
 
   const handleAddButton = () => {
-    console.log('here', newTodo)
+    // console.log('here', newTodo)
     addTodo(newTodo);
     setNewTodo({'to_do': "", "category": ""});
     setCategory();
@@ -60,7 +65,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo }) => {
       </div>
       <div className="todo-list">
         {selectedList.map((todo) => {
-          return <Todo todo={todo} key={todo.id} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+          return <Todo todo={todo} key={todo.id} updateTodo={updateTodo} deleteTodo={deleteTodo} setImportant={setImportant}/>
         })}
       </div>
       <div className="add-to-do" onClick={handleAddTodo}>
