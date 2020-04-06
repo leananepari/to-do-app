@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { axiosWithAuth } from '../../utils/AxiosWithAuth';
+import qs from 'qs';
 import Logo from '../../assets/Logo.svg';
 
 const Login = (props) => {
-  const [user, setUser] = useState({'email': "", 'password': ""});
+  const [user, setUser] = useState({'username': "", 'password': ""});
 
   const handleChange = (event) => {
     setUser({...user, [event.target.name]: event.target.value })
@@ -13,8 +15,37 @@ const Login = (props) => {
   }
 
   const handleLogin = () => {
+    axiosWithAuth().post('/login', qs.stringify({ ...user, grant_type: 'password' }))
+    .then(response => {
+      localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("tokenType", response.data.token_type);
 
+      console.log(response.data)
+
+      return getUserInfo()();
+    })
+    .then(user => {
+      // dispatch({ type: LOGIN_RESULT, payload: { success: true, user } });
+      console.log('Successful login', user);
+    })
+    .catch(error => {
+      console.log('Login failed', error);
+    });
   }
+
+  const getUserInfo = () => dispatch => {
+    return new Promise((resolve, reject) => {
+      axiosWithAuth().get('/users/getuserinfo')
+        .then(response => {
+          // dispatch({ type: USER_INFO_FETCH_SUCCESS, payload: response.data });
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.log('Could not get user info', error);
+          reject(error);
+        });
+    });
+  };
 
   return (
     <div className="login-page" >
@@ -28,10 +59,10 @@ const Login = (props) => {
       <div className="input-wrap">
         <input 
           type="email"
-          name="email"
-          value={user.email}
+          name="username"
+          value={user.username}
           onChange={handleChange}
-          placeholder="Your email"
+          placeholder="Your username"
         />
         <input 
           type="password"
