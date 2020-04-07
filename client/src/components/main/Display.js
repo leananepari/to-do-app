@@ -4,17 +4,19 @@ import Image from '../../assets/mountains.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css'
+import 'react-dropdown/style.css';
+import { category_lookup, id_lookup } from '../../data';
 
 
 const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportant }) => {
   const [selectedList, setSelectedList] = useState([]);
   const [slideWindow, setSlideWindow] = useState(false);
-  const [newTodo, setNewTodo] = useState({'to_do': "", "category": ""});
+  const [newTodo, setNewTodo] = useState({'to_do': "", "category_id_fk": ""});
   const [category, setCategory] = useState();
-  const categoryOptions = ["To Do", "Groceries", "Work", "Family", "Travel", "Excercise"];
+  const categoryOptions = ["To-do", "Groceries", "Work", "Family", "Travel", "Excercise"];
 
   useEffect(() => {
+
     if (selected === "My Day") {
       setSelectedList(list);
     } else {
@@ -22,7 +24,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
         let filtered = list.filter(todo => todo.important === true);
         setSelectedList(filtered)
       } else {
-        let filtered = list.filter(todo => todo.category === selected);
+        let filtered = list.filter(todo => category_lookup[todo.category_id_fk.toString()] === selected);
         setSelectedList(filtered)
       }
     }
@@ -41,20 +43,27 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
   }
 
   const handleCategoryDropdown = (event) => {
-    let index;
+    let id;
     for (let i = 0; i < categoryOptions.length; i++) {
       if (categoryOptions[i] === event.value) {
-        index = i;
+        id = id_lookup[categoryOptions[i]];
       }
     }
-    setCategory(categoryOptions[index]); 
-    setNewTodo({...newTodo, category: event.value})
+    setCategory(id_lookup[id]); 
+    setNewTodo({...newTodo, category_id_fk: id})
   }
 
   const handleAddButton = () => {
-    // console.log('here', newTodo)
-    addTodo(newTodo);
-    setNewTodo({'to_do': "", "category": ""});
+    let todo = {
+      "description": newTodo['to_do'],
+      "category_id_fk": newTodo["category_id_fk"],
+      "completed": false,
+      "important": false,
+      "created": "",
+      "due": ""
+    }
+    addTodo(todo);
+    setNewTodo({'to_do': "", "category_id_fk": ""});
     setCategory();
   }
 
@@ -65,7 +74,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
       </div>
       <div className="todo-list">
         {selectedList.map((todo) => {
-          return <Todo todo={todo} key={todo.id} updateTodo={updateTodo} deleteTodo={deleteTodo} setImportant={setImportant}/>
+          return <Todo todo={todo} key={todo.task_id} updateTodo={updateTodo} deleteTodo={deleteTodo} setImportant={setImportant}/>
         })}
       </div>
       <div className="add-to-do" onClick={handleAddTodo}>

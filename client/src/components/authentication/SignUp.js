@@ -11,12 +11,31 @@ const SignUp = (props) => {
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("tokenType", response.data.token_type);
       console.log(response.data)
+      return getUserInfo()();
+
+    })
+    .then(user => {
+      console.log('Successful login', user);
+      localStorage.setItem("user", JSON.stringify(user));
       props.history.push('/');
     })
     .catch(error => {
       console.log('Error')
     });
   }
+
+  const getUserInfo = () => dispatch => {
+    return new Promise((resolve, reject) => {
+      axiosWithAuth().get('/users/getuserinfo')
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.log('Could not get user info', error);
+          reject(error);
+        });
+    });
+  };
 
   const handleChange = (event) => {
     setNewUser({...newUser, [event.target.name]: event.target.value })

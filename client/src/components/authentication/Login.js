@@ -17,6 +17,8 @@ const Login = (props) => {
   const handleLogin = () => {
     axiosWithAuth().post('/login', qs.stringify({ ...user, grant_type: 'password' }))
     .then(response => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('tokenType');
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("tokenType", response.data.token_type);
 
@@ -25,8 +27,9 @@ const Login = (props) => {
       return getUserInfo()();
     })
     .then(user => {
-      // dispatch({ type: LOGIN_RESULT, payload: { success: true, user } });
       console.log('Successful login', user);
+      localStorage.setItem("user", JSON.stringify(user));
+      props.history.push('/');
     })
     .catch(error => {
       console.log('Login failed', error);
@@ -37,7 +40,6 @@ const Login = (props) => {
     return new Promise((resolve, reject) => {
       axiosWithAuth().get('/users/getuserinfo')
         .then(response => {
-          // dispatch({ type: USER_INFO_FETCH_SUCCESS, payload: response.data });
           resolve(response.data);
         })
         .catch(error => {

@@ -51,3 +51,22 @@ export const category_icons = {
 export const b_g_images = [
 
 ]
+
+export const category_lookup = {
+  "1": "Groceries",
+  "2": "Work",
+  "3": "Family",
+  "4": "Travel",
+  "5": "Exercise",
+  "6": "To-do",
+  "7": "Important"
+}
+
+export const id_lookup = {
+  "Groceries": 1,
+  "Work": 2,
+  "Family": 3,
+  "Travel": 4,
+  "Exercise": 5,
+  "To-do": 6,
+}
