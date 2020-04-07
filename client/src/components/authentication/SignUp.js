@@ -1,12 +1,41 @@
 import React, { useState } from 'react';
+import { axiosWithAuth } from '../../utils/AxiosWithAuth';
 import Logo from '../../assets/Logo.svg';
 
 const SignUp = (props) => {
-  const [newUser, setNewUser] = useState({"first_name": "", "last_name": "", "email": "", "password": ""})
+  const [newUser, setNewUser] = useState({"username": "", "password": "", "primaryemail": ""})
 
   const handleSignUp = () => {
+    axiosWithAuth().post('/createnewuser', newUser)
+    .then(response => {
+      localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("tokenType", response.data.token_type);
+      console.log(response.data)
+      return getUserInfo()();
 
+    })
+    .then(user => {
+      console.log('Successful login', user);
+      localStorage.setItem("user", JSON.stringify(user));
+      props.history.push('/');
+    })
+    .catch(error => {
+      console.log('Error')
+    });
   }
+
+  const getUserInfo = () => dispatch => {
+    return new Promise((resolve, reject) => {
+      axiosWithAuth().get('/users/getuserinfo')
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.log('Could not get user info', error);
+          reject(error);
+        });
+    });
+  };
 
   const handleChange = (event) => {
     setNewUser({...newUser, [event.target.name]: event.target.value })
@@ -28,32 +57,26 @@ const SignUp = (props) => {
       <div className="input-wrap">
         <input 
           type="text"
-          name="first_name"
-          value={newUser.first_name}
+          name="username"
+          value={newUser.username}
           onChange={handleChange}
-          placeholder="Your first name"
+          placeholder="Username"
         />
         <input 
           type="text"
-          name="last_name"
-          value={newUser.last_name}
-          onChange={handleChange}
-          placeholder="Your last name"
-        />
-        <input 
-          type="email"
-          name="email"
-          value={newUser.email}
-          onChange={handleChange}
-          placeholder="Your email"
-        />
-        <input 
-          type="password"
           name="password"
           value={newUser.password}
           onChange={handleChange}
-          placeholder="Your password"
-        /> 
+          placeholder="Password"
+        />
+        <input 
+          type="email"
+          name="primaryemail"
+          value={newUser.primaryemail}
+          onChange={handleChange}
+          placeholder="Your email"
+        />
+
         <button className="btn-login" onClick={handleSignUp}>Sign Up</button>
       </div>
       <div className="sign-up-message">

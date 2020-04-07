@@ -120,7 +120,13 @@ header {
       margin: 20% 0 0px 10%;
       cursor: pointer; }
       .dashboard-wrap .tabs-list .tab div {
-        margin-left: 15px; }
+        margin-left: 15px;
+        letter-spacing: 1px; }
+      .dashboard-wrap .tabs-list .tab .count {
+        justify-self: flex-end;
+        margin: 0 auto;
+        margin-right: 20px;
+        font-weight: 300; }
   .dashboard-wrap .display {
     width: 75%;
     display: flex;
@@ -150,6 +156,9 @@ header {
         .dashboard-wrap .display .todo-list .todo .text .category {
           font-size: 14px;
           margin-top: 5px; }
+      .dashboard-wrap .display .todo-list .todo .star path {
+        stroke: gray;
+        stroke-width: 50; }
     .dashboard-wrap .display .add-to-do {
       display: flex;
       align-items: center;

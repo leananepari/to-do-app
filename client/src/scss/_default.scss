@@ -169,7 +169,15 @@ header {
       
       div {
         margin-left: 15px;
+        letter-spacing: 1px;
       
+      }
+
+      .count {
+        justify-self: flex-end;
+        margin: 0 auto;
+        margin-right: 20px;
+        font-weight: 300;
       }
     }
   }
@@ -213,6 +221,13 @@ header {
             font-size: 14px;
             margin-top: 5px;
           }
+        }
+        .star path {
+          stroke: gray;
+          stroke-width: 50
+        }
+        .none path{
+
         }
       }
     }
@@ -302,3 +317,4 @@ header {
 
 //#0EA4E0
 //green #69B100
+
