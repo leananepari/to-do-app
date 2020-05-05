@@ -14,6 +14,10 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
   const [newTodo, setNewTodo] = useState({'to_do': "", "category_id_fk": ""});
   const [category, setCategory] = useState();
   const categoryOptions = ["To-do", "Groceries", "Work", "Family", "Travel", "Excercise"];
+  let today = new Date();
+  let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  let date = weekdays[today.getDay()]+", "+today.getDate()+" "+months[today.getMonth()];
 
   useEffect(() => {
 
@@ -28,6 +32,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
         setSelectedList(filtered)
       }
     }
+
   }, [list, selected, slideWindow])
 
   const handleAddTodo = () => {
@@ -49,7 +54,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
         id = id_lookup[categoryOptions[i]];
       }
     }
-    setCategory(id_lookup[id]); 
+    setCategory(event.value); 
     setNewTodo({...newTodo, category_id_fk: id})
   }
 
@@ -71,6 +76,10 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
     <div className="display">
       <div className="banner"> 
         <img src={Image} style={{width: '100%', height: '100%'}}/>
+        <div className="text">
+          <div className="title">{selected}</div>
+          <div className="date">{date}</div>
+        </div>
       </div>
       <div className="todo-list">
         {selectedList.map((todo) => {
