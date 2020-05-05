@@ -20,21 +20,20 @@ Redux (Possibly will be added later. For now, the state is handled with React ho
 
 ### `Back End`
 
-Coming up soon.
-Spring (Java)
+Spring (Java) [a link](https://github.com/leananepari/todo-app-spring)
 
 ## Features
 
-### User is able to create account and login
+### User is able to create account and login  ### `completed`
 
-### User is able to create a list of tasks organizing them by categories
+### User is able to create a list of tasks organizing them by categories ### `completed`
 
-### User is able to add, mark as completed/uncompleted, or delete a task
+### User is able to add, mark as completed/uncompleted, or delete a task  ### `completed`
 
-### User is able to set a due date for a task
+### User is able to set a due date for a task  ### `in progress`
 
-### User is able to set reminders
+### User is able to set reminders  ### `in progress`
 
-### User is able to upload their profile picture
+### User is able to upload their profile picture  ### `in progress`
 
 

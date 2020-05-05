@@ -30,24 +30,30 @@ const Dashboard = (props) => {
       let storeCount = {};
       storeCount["My Day"] = list.length;
       let countImportant = 0;
+      console.log('LIST', list)
 
-      list.forEach(todo => {
-        categoriesSet.add(category_lookup[todo.category_id_fk.toString()]);
-        if (storeCount.hasOwnProperty(category_lookup[todo.category_id_fk.toString()])) {
-          storeCount[category_lookup[todo.category_id_fk.toString()]] += 1;
-        } else {
-          storeCount[category_lookup[todo.category_id_fk.toString()]] = 1;
-        }
-        if (todo.important === true) {
-          countImportant ++;
-        }
-      });
+      if (list.length > 0) {
+        list.forEach(todo => {
+          categoriesSet.add(category_lookup[todo.category_id_fk.toString()]);
+          if (storeCount.hasOwnProperty(category_lookup[todo.category_id_fk.toString()])) {
+            storeCount[category_lookup[todo.category_id_fk.toString()]] += 1;
+          } else {
+            storeCount[category_lookup[todo.category_id_fk.toString()]] = 1;
+          }
+          if (todo.important === true) {
+            countImportant ++;
+          }
+        });
+      }
       //convert set to array
       let categoriesArr = Array.from(categoriesSet);
-      if (countImportant > 0) {
-        storeCount["Important"] = countImportant;
-        categoriesArr.push("Important");
+      if (list.length > 0) {
+        if (countImportant > 0) {
+          storeCount["Important"] = countImportant;
+          categoriesArr.push("Important");
+        }
       }
+      
       console.log('CATEGORIES HERE', categoriesArr)
       setList(list);
       setCategories(categoriesArr);

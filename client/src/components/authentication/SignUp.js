@@ -20,7 +20,7 @@ const SignUp = (props) => {
       props.history.push('/');
     })
     .catch(error => {
-      console.log('Error')
+      console.log('Error', error)
     });
   }
 
@@ -63,7 +63,7 @@ const SignUp = (props) => {
           placeholder="Username"
         />
         <input 
-          type="text"
+          type="password"
           name="password"
           value={newUser.password}
           onChange={handleChange}

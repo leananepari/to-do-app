@@ -24,7 +24,7 @@ const Login = (props) => {
 
       console.log(response.data)
 
-      return getUserInfo()();
+      return getUserInfo();
     })
     .then(user => {
       console.log('Successful login', user);
@@ -36,7 +36,7 @@ const Login = (props) => {
     });
   }
 
-  const getUserInfo = () => dispatch => {
+  const getUserInfo = () => {
     return new Promise((resolve, reject) => {
       axiosWithAuth().get('/users/getuserinfo')
         .then(response => {

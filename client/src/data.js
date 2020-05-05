@@ -69,4 +69,5 @@ export const id_lookup = {
   "Travel": 4,
   "Exercise": 5,
   "To-do": 6,
+  "Important": 7
 }
