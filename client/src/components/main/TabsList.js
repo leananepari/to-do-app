@@ -1,15 +1,28 @@
 import React from 'react';
 import Tab from './Tab';
+import { connect } from 'react-redux';
 
-const TabsList = ({ categories, icons, selected, setSelected, categoriesCount }) => {
+const TabsList = ( props ) => {
 
   return (
     <div className="tabs-list">
-      {categories.map((category) => {
-        return <Tab category={category} key={category} icon={icons[category]} selected={selected} setSelected={setSelected} categoriesCount={categoriesCount} />
+      {props.categories.map((category) => {
+        return <Tab category={category} key={category} icon={props.icons[category]} 
+                    selected={props.selected} setSelected={props.setSelected} 
+                />
       })}
     </div>
   )
 }
 
-export default TabsList;
+
+const mapStateToProps = state => {
+  return {
+    categories: state.categories,
+  }
+}
+
+export default connect (
+  mapStateToProps,
+  {}
+)(TabsList)

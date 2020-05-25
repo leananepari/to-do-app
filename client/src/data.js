@@ -44,7 +44,7 @@ export const category_icons = {
   "Family": faHome,
   "Travel": faPlane,
   "Exercise": faDumbbell,
-  "To-Do": faCheckSquare,
+  "To-do": faCheckSquare,
   "Important": faStar
 }
 
