@@ -7,12 +7,6 @@ Task manager app that lets you add tasks, set due dates, get reminders, and cust
 
 Designs are taken from existing to-do app design images available online.
 
-<!-- Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console. -->
-
 ### `Front End`
 
 React application.
@@ -24,16 +18,14 @@ Spring (Java) [a link](https://github.com/leananepari/todo-app-spring)
 
 ## Features
 
-### User is able to create account and login  ### `completed`
+### User is able to create account and login. `completed`
 
-### User is able to create a list of tasks organizing them by categories ### `completed`
+### User is able to create a list of tasks organizing them by categories. `completed`
 
-### User is able to add, mark as completed/uncompleted, or delete a task  ### `completed`
+### User is able to add, mark as completed/uncompleted, or delete a task. `completed`
 
-### User is able to set a due date for a task  ### `in progress`
+### User is able to set a due date for a task. `in progress`
 
-### User is able to set reminders  ### `in progress`
+### User is able to set reminders. `in progress`
 
-### User is able to upload their profile picture  ### `in progress`
-
-
+### User is able to upload their profile picture. `in progress`
