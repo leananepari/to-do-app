@@ -7,18 +7,18 @@ Task manager app that lets you add tasks, set due dates, get reminders, and cust
 
 ### `UX/UI`
 
-Designs are taken from existing to-do app design images available online.
+Designs were taken from an existing to-do app design images available online.
 
 ### `Front End`
 
->```React``` application.  
-```Redux``` state management.  
-```Saas``` as a CSS extension.
+>**React** application.  
+ **Redux** state management.  
+ **Saas** as a CSS extension.
 
 ### `Back End`
 
->```Spring (Java)``` [link](https://github.com/leananepari/todo-app-spring).  
-```PostgreSQL``` database.
+>**Spring (Java)** [link](https://github.com/leananepari/todo-app-spring).  
+ **PostgreSQL** database.
 
 ## Features
 
