@@ -19,7 +19,6 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     //api call to get user's task list
-    console.log('DASH', props)
     props.getTaskList(user.userid, props.history)
 
   }, [props.reload])

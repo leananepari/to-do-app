@@ -55,3 +55,20 @@ export const deleteTask = ( id, history ) => {
     });
   }
 }
+
+export const addTask = ( newTodo, history ) => {
+  return dispatch => {
+    dispatch({ type: 'ADD_TASK_START' });
+
+    axiosWithAuth().post('/api/tasks/add', newTodo)
+    .then(response => {
+      dispatch({ type: 'ADD_TASK_SUCCESS', payload: response.data })
+    })
+    .catch(error => {
+      dispatch({ type: 'ADD_TASK_FAILURE', payload: error})
+      localStorage.removeItem('token');
+      localStorage.removeItem('tokenType');
+      history.push('/login');
+    });
+  }
+}

@@ -80,6 +80,20 @@ export const reducer = (state = initialState, action) => {
         ...state
       }
 
+    case 'ADD_TASK_START':
+      return {
+        ...state
+      }
+    case 'ADD_TASK_SUCCESS':
+      return {
+        ...state,
+        reload: !state.reload
+      }
+    case 'ADD_TASK_FAILURE':
+      return {
+        ...state
+      }
+
 
     default:
       return state;
