@@ -6,6 +6,8 @@ import { faPlusCircle, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { category_lookup, id_lookup } from '../../data';
+import { connect } from 'react-redux';
+import { addTask } from '../../redux/actions';
 
 
 const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportant }) => {
@@ -67,6 +69,8 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
       "created": "",
       "due": ""
     }
+    // newTodo["user_id_fk"] = user.userid;
+
     addTodo(todo);
     setNewTodo({'to_do': "", "category_id_fk": ""});
     setCategory();
@@ -121,4 +125,13 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
 }
 
 
-export default Display;
+const mapStateToProps = state => {
+  return {
+
+  }
+};
+
+export default connect (
+  mapStateToProps,
+  { addTask }
+)(Display)
