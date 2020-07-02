@@ -10,7 +10,8 @@ const Tab = ( props ) => {
 
   return (
     <div className="tab" onClick={handleClick}>
-      <FontAwesomeIcon style={{width: '20px', height: '20px', color: `${props.selected === props.category ? '#0EA4E0' : 'gray'}`}} 
+      <FontAwesomeIcon style={{width: '20px', height: '20px', 
+                               color: `${props.selected === props.category ? '#0EA4E0' : 'gray'}`}} 
                        icon={props.icon} size='lg'/> 
       <div style={{color: `${props.selected === props.category ? '#0EA4E0' : 'gray'}`}}>{props.category}</div>
       <div className="count" style={{color: `${props.selected === props.category ? '#0EA4E0' : 'gray'}`}}>
