@@ -9,6 +9,7 @@ const initialState = {
 }
 
 export const reducer = (state = initialState, action) => {
+  
   switch (action.type) {
 
     case 'GET_TASK_LIST_START':
@@ -17,6 +18,7 @@ export const reducer = (state = initialState, action) => {
         isLoading: true,
         error: ''
       };
+
     case 'GET_TASK_LIST_SUCCESS':
       let list = action.payload;
 
@@ -61,39 +63,39 @@ export const reducer = (state = initialState, action) => {
     case 'GET_TASK_LIST_FAILURE': 
       return {
         ...state,
-      }
-
+      };
 
     case 'UPDATE_TASK_START':
       return {
         ...state
-      }
+      };
 
     case 'UPDATE_TASK_SUCCESS':
       return {
         ...state,
         reload: !state.reload
-      }
+      };
     
     case 'UPDATE_TASK_FAILURE':
       return {
         ...state
-      }
+      };
 
     case 'ADD_TASK_START':
       return {
         ...state
-      }
+      };
+
     case 'ADD_TASK_SUCCESS':
       return {
         ...state,
         reload: !state.reload
-      }
+      };
+
     case 'ADD_TASK_FAILURE':
       return {
         ...state
-      }
-
+      };
 
     default:
       return state;
