@@ -4,7 +4,9 @@ const initialState = {
   taskList: [],
   categories: [],
   categoryCount: [],
-  reload: false
+  reload: false,
+  loginFailure: false,
+  signupFailure: false
 
 }
 
@@ -17,7 +19,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: ''
-      };
+      }
 
     case 'GET_TASK_LIST_SUCCESS':
       let list = action.payload;
@@ -58,47 +60,72 @@ export const reducer = (state = initialState, action) => {
         categoryCount: storeCount,
         isLoading: false,
         error: ''
-      };
+      }
 
     case 'GET_TASK_LIST_FAILURE': 
       return {
         ...state,
-      };
+      }
 
     case 'UPDATE_TASK_START':
       return {
         ...state
-      };
+      }
 
     case 'UPDATE_TASK_SUCCESS':
       return {
         ...state,
         reload: !state.reload
-      };
+      }
     
     case 'UPDATE_TASK_FAILURE':
       return {
         ...state
-      };
+      }
 
     case 'ADD_TASK_START':
       return {
         ...state
-      };
+      }
 
     case 'ADD_TASK_SUCCESS':
       return {
         ...state,
         reload: !state.reload
-      };
+      }
 
     case 'ADD_TASK_FAILURE':
       return {
         ...state
-      };
+      }
+    
+    case 'LOGIN_FAILURE':
+      return {
+        ...state,
+        loginFailure: true
+      }
+    
+    case 'SET_LOGIN_FAILURE_FALSE':
+      return {
+        ...state,
+        loginFailure: false
+      }
+    
+    case 'SIGNUP_FAILURE':
+      return {
+        ...state,
+        signupFailure: true
+      }
+    
+    case 'SET_SIGNUP_FAILURE_FALSE':
+      return {
+        ...state,
+        signupFailure: false
+      }
 
     default:
       return state;
   }
+  
 }
 

@@ -79,7 +79,7 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
   return (
     <div className="display">
       <div className="banner"> 
-        <img src={Image} style={{width: '100%', height: '100%'}}/>
+        <img src={Image} alt="background-image"style={{width: '100%', height: '100%'}}/>
         <div className="text">
           <div className="title">{selected}</div>
           <div className="date">{date}</div>

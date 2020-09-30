@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { axiosWithAuth } from '../../utils/AxiosWithAuth';
-import qs from 'qs';
 import Logo from '../../assets/Logo.svg';
+import { connect } from 'react-redux';
+import { login, setLoginFailureFalse } from '../../redux/actions';
 
 const Login = (props) => {
   const [user, setUser] = useState({'username': "", 'password': ""});
 
   const handleChange = (event) => {
+    props.setLoginFailureFalse();
     setUser({...user, [event.target.name]: event.target.value })
   }
 
@@ -14,73 +15,57 @@ const Login = (props) => {
     props.history.push('/signup')
   }
 
-  const handleLogin = () => {
-    axiosWithAuth().post('/login', qs.stringify({ ...user, grant_type: 'password' }))
-    .then(response => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('tokenType');
-      localStorage.setItem("token", response.data.access_token);
-      localStorage.setItem("tokenType", response.data.token_type);
-
-      console.log(response.data)
-
-      return getUserInfo();
-    })
-    .then(user => {
-      console.log('Successful login', user);
-      localStorage.setItem("user", JSON.stringify(user));
-      props.history.push('/');
-    })
-    .catch(error => {
-      console.log('Login failed', error);
-    });
+  const handleLogin = (e) => {
+    e.preventDefault();
+    props.login(user, props.history);
   }
 
-  const getUserInfo = () => {
-    return new Promise((resolve, reject) => {
-      axiosWithAuth().get('/users/getuserinfo')
-        .then(response => {
-          resolve(response.data);
-        })
-        .catch(error => {
-          console.log('Could not get user info', error);
-          reject(error);
-        });
-    });
-  };
-
   return (
-    <div className="login-page" >
-      <div className="logo-wrap">
-        <img src={Logo} style={{width: '120px'}}/>
-        <h1>To-do</h1>
-      </div>
-      <div className="subtitle">
-        Your <span className="life">life</span> <span className="organized">organized</span>
-      </div>
-      <div className="input-wrap">
-        <input 
-          type="email"
-          name="username"
-          value={user.username}
-          onChange={handleChange}
-          placeholder="Your username"
-        />
-        <input 
-          type="password"
-          name="password"
-          value={user.password}
-          onChange={handleChange}
-          placeholder="Your password"
-        /> 
-        <button className="btn-login" onClick={handleLogin}>Login</button>
-      </div>
-      <div className="sign-up-message">
-        Don't have an account? 
-        <button onClick={handleSignUpClick}>Sign Up</button>
+    <div className="login-page">
+      <div className="login-box" >
+        <div>
+          <div className="logo-wrap">
+            <img src={Logo} alt="logo" style={{width: '80px'}}/>
+            <h1>To-do</h1>
+          </div>
+          <div className="subtitle">
+            Your <span className="life">life</span> <span className="organized">organized</span>
+          </div>
+        </div>
+        <form>
+          <div className="login-failure-message" style={{visibility: `${props.loginFailure ? 'visible' : 'hidden'}`}}>Invalid Credentials</div>
+          <input 
+            type="email"
+            name="username"
+            value={user.username}
+            onChange={handleChange}
+            placeholder="Your username"
+          />
+          <input 
+            type="password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+            placeholder="Your password"
+          /> 
+          <button className="btn-login" type="submit" onClick={handleLogin}>Login</button>
+        </form>
+        <div className="sign-up-message">
+          Don't have an account? 
+          <button onClick={handleSignUpClick}>Create</button>
+        </div>
       </div>
     </div>
   )
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    loginFailure: state.loginFailure
+  }
+};
+
+export default connect (
+  mapStateToProps,
+  { login, setLoginFailureFalse }
+)(Login)
