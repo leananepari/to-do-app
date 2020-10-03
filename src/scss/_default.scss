@@ -184,17 +184,24 @@ header {
     .dropdown-wrap {
 
       .dropdown {
+        width: 80px;
+        height: auto;
         right: 10px;
         background-color: white;
+        border: 1px solid lightgray;
         color: black;
         font-size: 14px;
         font-weight: 300;
         letter-spacing: 0.5px;
-        padding: 10px;
+        text-align: center;
 
         div {
-          padding: 5px 0 5px 0;
+          padding: 10px 0 10px 0;
           cursor: pointer;
+        }
+        div:hover {
+          background-color: rgba(73, 93, 251, 0.2);
+          width: 100%;
         }
       }
     }
@@ -357,8 +364,8 @@ header {
           margin-bottom: 20px;
         }
   
-        textarea {
-          height: 64px;
+        input {
+          height: 54px;
           font-size: 16px;
           outline: none;
           border: 1px solid lightgray;
@@ -367,9 +374,8 @@ header {
           width: 100%;
           box-sizing: border-box;
           padding-left: 10px;
-          padding-top: 10px;
         }
-        textarea:focus {
+        input:focus {
           border: 2px solid #495DFB;
         }
 

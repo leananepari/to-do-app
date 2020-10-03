@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from '../../assets/Logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions';
 import { withRouter } from 'react-router-dom';
@@ -9,6 +9,25 @@ import { withRouter } from 'react-router-dom';
 const Header = ( props ) => {
   let user = JSON.parse(localStorage.getItem('user'));
   const [dropdown, setDropdown] = useState(false);
+  const container = React.createRef();
+
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  })
+
+  const handleClick = e => {
+    if (container.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click 
+    setDropdown(false)
+  };
 
   const handleLogout = () => {
     props.logout(props.history);
@@ -30,14 +49,16 @@ const Header = ( props ) => {
       </div>
       <div className="user-greeting">
         <h2>Hello, {user.username}</h2>
-        <div className="dropdown-wrap">
-          <FontAwesomeIcon onClick={handleDropdown} style={{width: '45px', 
-                                                            height: '45px', 
+        <div className="dropdown-wrap" ref={container}>
+          <FontAwesomeIcon onClick={handleDropdown} style={{width: '25px', 
+                                                            height: '25px', 
                                                             cursor: 'pointer', 
-                                                            color: 'lightgray'}} 
-                                                    icon={faUserCircle} size='lg'/> 
+                                                            color: "darkgray"
+                                                            }} 
+                                                    icon={dropdown ? faAngleUp : faAngleDown} size='lg'/> 
           <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, 
                                             position: 'absolute'}}>
+            <div>Profile</div>
             <div>Settings</div>
             <div onClick={handleLogout}>Logout</div>
           </div>
