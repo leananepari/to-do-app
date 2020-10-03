@@ -8,13 +8,13 @@ import PrivateRoute from './components/authentication/PrivateRoute';
 
 function App() {
   return (
-    <div>
+    <>
       <Switch>
         <PrivateRoute exact path='/' component={Dashboard} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/signup' component={SignUp} />
       </Switch>
-    </div>
+    </>
   );
 }
 

@@ -14,59 +14,96 @@ html, body {
 =============================================================*/
 .login-page {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 300px;
-  margin: 0 auto; }
-  .login-page .logo-wrap {
-    display: flex;
-    align-items: center; }
-    .login-page .logo-wrap h1 {
-      font-size: 60px;
-      align-self: flex-end;
-      margin-bottom: 5px;
-      margin-left: -25px;
-      font-weight: 200; }
-  .login-page .subtitle {
-    display: inline-block;
-    font-size: 30px;
-    margin-top: 40px;
-    font-weight: 200;
-    letter-spacing: 0.8px; }
-    .login-page .subtitle .life {
-      font-weight: 400; }
-    .login-page .subtitle .organized {
-      font-style: italic; }
-  .login-page .input-wrap {
+  height: 100vh; }
+  .login-page .login-box {
     display: flex;
     flex-direction: column;
-    margin-top: 40px; }
-    .login-page .input-wrap input {
-      width: 160px;
-      height: 25px;
-      margin-bottom: 5px;
-      outline: none;
-      border: 1px solid lightgray; }
-    .login-page .input-wrap .btn-login {
-      height: 25px;
-      cursor: pointer;
-      border-radius: 2px;
-      outline: none; }
-  .login-page .sign-up-message {
-    margin-top: 40px;
-    font-weight: 200; }
-    .login-page .sign-up-message button {
-      width: 60px;
-      height: 25px;
-      margin-left: 15px;
-      background-color: #0EA4E0;
-      color: white;
-      outline: none;
-      cursor: pointer;
-      border: 1px solid transparent;
-      border-radius: 2px; }
+    justify-content: space-evenly;
+    align-items: center;
+    height: 80vh;
+    width: 450px;
+    margin: 0 auto;
+    border: 1px solid lightgrey;
+    border-radius: 7px; }
+    .login-page .login-box .logo-wrap {
+      display: flex;
+      align-items: center; }
+      .login-page .login-box .logo-wrap h1 {
+        font-size: 50px;
+        align-self: flex-end;
+        margin-bottom: 5px;
+        margin-left: -10px;
+        font-weight: 200; }
+    .login-page .login-box .subtitle {
+      display: inline-block;
+      font-size: 30px;
+      margin-top: 10px;
+      font-weight: 200;
+      letter-spacing: 0.8px; }
+      .login-page .login-box .subtitle .life {
+        font-weight: 400; }
+      .login-page .login-box .subtitle .organized {
+        font-style: italic; }
+    .login-page .login-box form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%; }
+      .login-page .login-box form .login-failure-message {
+        margin-bottom: 5px;
+        align-self: flex-start;
+        margin-left: 10%;
+        color: #dc3535;
+        font-size: 12px; }
+      .login-page .login-box form input {
+        width: 80%;
+        height: 45px;
+        margin-bottom: 15px;
+        outline: none;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        font-size: 16px;
+        padding-left: 5px;
+        background-color: white;
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        box-sizing: border-box; }
+      .login-page .login-box form input:focus {
+        border: 2px solid #0EA4E0;
+        background-color: white; }
+      .login-page .login-box form .btn-login {
+        height: 35px;
+        width: 20%;
+        cursor: pointer;
+        border-radius: 2px;
+        outline: none;
+        font-size: 14px;
+        align-self: flex-end;
+        margin-right: 10%;
+        background-color: #0EA4E0;
+        color: white;
+        border-radius: 5px; }
+      .login-page .login-box form .btn-login:focus {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+      .login-page .login-box form .btn-login:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+    .login-page .login-box .sign-up-message {
+      margin-top: 40px;
+      font-weight: 200;
+      width: 100%;
+      text-align: center; }
+      .login-page .login-box .sign-up-message button {
+        background-color: transparent;
+        color: #0EA4E0;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid transparent;
+        font-size: 16px; }
+      .login-page .login-box .sign-up-message button:focus {
+        background-color: #E9F0FE;
+        border-radius: 5px; }
+      .login-page .login-box .sign-up-message button:hover {
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
 
 /*=================================================================
  SIGN UP PAGE
@@ -100,6 +137,17 @@ header {
       font-weight: 200;
       margin-right: 10px;
       letter-spacing: 1px; }
+    header .user-greeting .dropdown-wrap .dropdown {
+      right: 10px;
+      background-color: white;
+      color: black;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      padding: 10px; }
+      header .user-greeting .dropdown-wrap .dropdown div {
+        padding: 5px 0 5px 0;
+        cursor: pointer; }
 
 /*=================================================================
  DASHBOARD
@@ -134,12 +182,11 @@ header {
     overflow-y: scroll; }
     .dashboard-wrap .display .banner {
       height: 200px;
-      background-color: lightblue;
       position: relative; }
       .dashboard-wrap .display .banner .text {
         position: absolute;
         top: 70%;
-        left: 10%;
+        left: 15%;
         transform: translate(-50%, -50%);
         color: white; }
         .dashboard-wrap .display .banner .text .title {
@@ -178,7 +225,8 @@ header {
       margin: 30px 0 30px 20px; }
       .dashboard-wrap .display .add-to-do .text {
         margin-left: 5px;
-        color: #495DFB; }
+        color: #495DFB;
+        cursor: pointer; }
     .dashboard-wrap .display .slide-out-window-close {
       position: absolute;
       width: 30%;
@@ -220,6 +268,8 @@ header {
           box-sizing: border-box;
           padding-left: 10px;
           padding-top: 10px; }
+        .dashboard-wrap .display .add-to-do-window .top-section textarea:focus {
+          border: 2px solid #495DFB; }
         .dashboard-wrap .display .add-to-do-window .top-section .add-button {
           width: 100%;
           margin-top: 20px;
@@ -230,6 +280,10 @@ header {
           background-color: rgba(73, 93, 251, 0.6);
           font-size: 14px;
           color: white; }
+        .dashboard-wrap .display .add-to-do-window .top-section .add-button:focus {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        .dashboard-wrap .display .add-to-do-window .top-section .add-button:hover {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
 
 /*
 html5doctor.com Reset Stylesheet

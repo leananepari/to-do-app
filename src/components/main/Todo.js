@@ -24,7 +24,8 @@ const Todo = ( props ) => {
   }
 
   const handleImportant = () => {
-    props.setImportant(props.todo)
+    props.todo['important'] = !props.todo['important'];
+    props.updateTask(props.todo);
   }
 
   return (

@@ -16,83 +16,125 @@ html,body {
 /*============================================================
   LOGIN PAGE
 =============================================================*/
-
 .login-page {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 300px;
-  margin: 0 auto;
 
-  .logo-wrap {
-    display: flex;
-    align-items: center;
-
-    h1 {
-      font-size: 60px;
-      align-self: flex-end;
-      margin-bottom: 5px;
-      margin-left: -25px;
-      font-weight: 200;
-    }
-  }
-
-  .subtitle {
-    display: inline-block;
-    font-size: 30px;
-    margin-top: 40px;
-    font-weight: 200;
-    letter-spacing: 0.8px;
-    // margin-left: 20px;
-
-    .life {
-      font-weight: 400;
-    }
-    .organized {
-      font-style: italic;
-    }
-  }
-
-  .input-wrap {
+  .login-box {
     display: flex;
     flex-direction: column;
-    margin-top: 40px;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 80vh;
+    width: 450px;
+    margin: 0 auto;
+    border: 1px solid lightgrey;
+    border-radius: 7px;
 
-    input {
-      width: 160px;
-      height: 25px;
-      margin-bottom: 5px;
-      outline: none;
-      border: 1px solid lightgray;
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+
+      h1 {
+        font-size: 50px;
+        align-self: flex-end;
+        margin-bottom: 5px;
+        margin-left: -10px;
+        font-weight: 200;
+      }
     }
-    .btn-login {
-      height: 25px;
-      cursor: pointer;
-      border-radius: 2px;
-      outline: none;
+
+    .subtitle {
+      display: inline-block;
+      font-size: 30px;
+      margin-top: 10px;
+      font-weight: 200;
+      letter-spacing: 0.8px;
+
+      .life {
+        font-weight: 400;
+      }
+      .organized {
+        font-style: italic;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+      .login-failure-message {
+        margin-bottom: 5px;
+        align-self: flex-start;
+        margin-left: 10%;
+        color: #dc3535;
+        font-size: 12px;
+      }
+
+      input {
+        width: 80%;
+        height: 45px;
+        margin-bottom: 15px;
+        outline: none;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        font-size: 16px;
+        padding-left: 5px;
+        background-color: white;
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        box-sizing: border-box;
+      }
+      input:focus {
+        border: 2px solid #0EA4E0;
+        background-color: white;
+      }
+      .btn-login {
+        height: 35px;
+        width: 20%;
+        cursor: pointer;
+        border-radius: 2px;
+        outline: none;
+        font-size: 14px;
+        align-self: flex-end;
+        margin-right: 10%;
+        background-color: #0EA4E0;
+        color: white;
+        border-radius: 5px;
+      }
+      .btn-login:focus {
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+      }
+      .btn-login:hover {
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+      }
+    }
+
+    .sign-up-message {
+      margin-top: 40px;
+      font-weight: 200;
+      width: 100%;
+      text-align: center;
+
+      button {
+        background-color: transparent;
+        color: #0EA4E0;
+        outline: none;
+        cursor: pointer;
+        border: 1px solid transparent;
+        font-size: 16px;
+      }
+      button:focus {
+        background-color: #E9F0FE;
+        border-radius: 5px;
+      }
+      button:hover {
+        text-shadow: 0 0 10px rgba(0,0,0,.2);
+      }
     }
   }
-
-  .sign-up-message {
-    margin-top: 40px;
-    font-weight: 200;
-
-    button {
-      width: 60px;
-      height: 25px;
-      margin-left: 15px;
-      background-color: #0EA4E0;
-      // background-color: #09658a;
-      color: white;
-      outline: none;
-      cursor: pointer;
-      border: 1px solid transparent;
-      border-radius: 2px;
-    }
-  }
-
 }
 
 /*=================================================================
@@ -110,7 +152,6 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 70px;
-  // background-color: #2097D1;
   box-shadow: 0 0 6px rgba(0,0,0,.2);
   position: fixed;
   top: 0;
@@ -122,7 +163,6 @@ header {
     margin-left: 20px;
 
     h1 {
-      // font-size: 60px;
       align-self: flex-end;
       margin-bottom: 5px;
       margin-left: -5px;
@@ -140,10 +180,26 @@ header {
       margin-right: 10px;
       letter-spacing: 1px;
     }
+
+    .dropdown-wrap {
+
+      .dropdown {
+        right: 10px;
+        background-color: white;
+        color: black;
+        font-size: 14px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        padding: 10px;
+
+        div {
+          padding: 5px 0 5px 0;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
-
-
 
 /*=================================================================
  DASHBOARD
@@ -190,13 +246,12 @@ header {
 
     .banner {
       height: 200px;
-      background-color: lightblue;
       position: relative;
 
       .text {
         position: absolute;
         top: 70%;
-        left: 10%;
+        left: 15%;
         transform: translate(-50%, -50%);
         color: white;
 
@@ -261,6 +316,7 @@ header {
       .text {
         margin-left: 5px;
         color: #495DFB;
+        cursor: pointer;
       }
     }
 
@@ -313,6 +369,9 @@ header {
           padding-left: 10px;
           padding-top: 10px;
         }
+        textarea:focus {
+          border: 2px solid #495DFB;
+        }
 
         .add-button {
           width: 100%;
@@ -324,6 +383,15 @@ header {
           background-color: rgba(73, 93, 251, 0.6);
           font-size: 14px;
           color: white;
+        }
+        .add-button:focus {
+          box-shadow: 0 0 10px rgba(0,0,0,.2);
+        }
+        .add-button:hover {
+          box-shadow: 0 0 10px rgba(0,0,0,.2);
+        }
+
+        .myControlClassName:focus {
         }
       }
 
