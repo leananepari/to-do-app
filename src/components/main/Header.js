@@ -31,8 +31,13 @@ const Header = ( props ) => {
       <div className="user-greeting">
         <h2>Hello, {user.username}</h2>
         <div className="dropdown-wrap">
-          <FontAwesomeIcon onClick={handleDropdown} style={{width: '45px', height: '45px', cursor: 'pointer', color: 'lightgray'}} icon={faUserCircle} size='lg'/> 
-          <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, position: 'absolute'}}>
+          <FontAwesomeIcon onClick={handleDropdown} style={{width: '45px', 
+                                                            height: '45px', 
+                                                            cursor: 'pointer', 
+                                                            color: 'lightgray'}} 
+                                                    icon={faUserCircle} size='lg'/> 
+          <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, 
+                                            position: 'absolute'}}>
             <div>Settings</div>
             <div onClick={handleLogout}>Logout</div>
           </div>

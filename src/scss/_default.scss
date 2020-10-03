@@ -199,11 +199,7 @@ header {
       }
     }
   }
-
-
 }
-
-
 
 /*=================================================================
  DASHBOARD
@@ -320,6 +316,7 @@ header {
       .text {
         margin-left: 5px;
         color: #495DFB;
+        cursor: pointer;
       }
     }
 
@@ -372,6 +369,9 @@ header {
           padding-left: 10px;
           padding-top: 10px;
         }
+        textarea:focus {
+          border: 2px solid #495DFB;
+        }
 
         .add-button {
           width: 100%;
@@ -383,6 +383,15 @@ header {
           background-color: rgba(73, 93, 251, 0.6);
           font-size: 14px;
           color: white;
+        }
+        .add-button:focus {
+          box-shadow: 0 0 10px rgba(0,0,0,.2);
+        }
+        .add-button:hover {
+          box-shadow: 0 0 10px rgba(0,0,0,.2);
+        }
+
+        .myControlClassName:focus {
         }
       }
 

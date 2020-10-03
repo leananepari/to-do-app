@@ -1,13 +1,15 @@
-import { category_lookup } from '../../data';
+// import { category_lookup } from '../../data';
 
 const initialState = {
+  user: {},
   taskList: [],
   categories: [],
   categoryCount: [],
   reload: false,
   loginFailure: false,
-  signupFailure: false
-
+  signupFailure: false,
+  category_lookup: {},
+  category_id_lookup: {}
 }
 
 export const reducer = (state = initialState, action) => {
@@ -19,6 +21,25 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: ''
+      }
+
+    case 'SET_CATEGORIES':
+      let name_lookup = {};
+      let id_lookup = {};
+      action.payload.forEach((category) => {
+        name_lookup[category['category_id']] = category['category_name'];
+        id_lookup[category['category_name']] = category['category_id'];
+      })
+      return {
+        ...state,
+        category_lookup: name_lookup,
+        category_id_lookup: id_lookup
+      }
+    
+    case 'SET_USER':
+      return {
+        ...state,
+        user: action.payload
       }
 
     case 'GET_TASK_LIST_SUCCESS':
@@ -33,11 +54,11 @@ export const reducer = (state = initialState, action) => {
 
       if (list.length > 0) {
         list.forEach(todo => {
-          categoriesSet.add(category_lookup[todo.category_id_fk.toString()]);
-          if (storeCount.hasOwnProperty(category_lookup[todo.category_id_fk.toString()])) {
-            storeCount[category_lookup[todo.category_id_fk.toString()]] += 1;
+          categoriesSet.add(state.category_lookup[todo.category_id_fk.toString()]);
+          if (storeCount.hasOwnProperty(state.category_lookup[todo.category_id_fk.toString()])) {
+            storeCount[state.category_lookup[todo.category_id_fk.toString()]] += 1;
           } else {
-            storeCount[category_lookup[todo.category_id_fk.toString()]] = 1;
+            storeCount[state.category_lookup[todo.category_id_fk.toString()]] = 1;
           }
           if (todo.important === true) {
             countImportant ++;

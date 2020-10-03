@@ -35,6 +35,7 @@ const Login = (props) => {
         <form>
           <div className="login-failure-message" style={{visibility: `${props.loginFailure ? 'visible' : 'hidden'}`}}>Invalid Credentials</div>
           <input 
+            autoFocus
             type="email"
             name="username"
             value={user.username}

@@ -10,12 +10,13 @@ import { connect } from 'react-redux';
 import { addTask } from '../../redux/actions';
 
 
-const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportant }) => {
+const Display = ( props ) => {
+  const user = JSON.parse(localStorage.getItem('user'));
   const [selectedList, setSelectedList] = useState([]);
   const [slideWindow, setSlideWindow] = useState(false);
   const [newTodo, setNewTodo] = useState({'to_do': "", "category_id_fk": ""});
   const [category, setCategory] = useState();
-  const categoryOptions = ["To-do", "Groceries", "Work", "Family", "Travel", "Excercise"];
+  const categoryOptions = ["To-do", "Groceries", "Work", "Family", "Travel", "Exercise"];
   let today = new Date();
   let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -23,21 +24,21 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
 
   useEffect(() => {
 
-    if (selected === "My Day") {
-      setSelectedList(list);
+    if (props.selected === "My Day") {
+      setSelectedList(props.taskList);
     } else {
-      if (selected === "Important") {
-        let filtered = list.filter(todo => todo.important === true);
+      if (props.selected === "Important") {
+        let filtered = props.taskList.filter(todo => todo.important === true);
         setSelectedList(filtered)
       } else {
-        let filtered = list.filter(todo => category_lookup[todo.category_id_fk.toString()] === selected);
+        let filtered = props.taskList.filter(todo => category_lookup[todo.category_id_fk.toString()] === props.selected);
         setSelectedList(filtered)
       }
     }
 
-  }, [list, selected, slideWindow])
+  }, [props.taskList, props.selected, slideWindow, props.reload])
 
-  const handleAddTodo = () => {
+  const handleOpenSlideWindow = () => {
     setSlideWindow(true);
   }
 
@@ -60,7 +61,9 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
     setNewTodo({...newTodo, category_id_fk: id})
   }
 
-  const handleAddButton = () => {
+  const handleAddButton = (e) => {
+    e.preventDefault();
+
     let todo = {
       "description": newTodo['to_do'],
       "category_id_fk": newTodo["category_id_fk"],
@@ -69,9 +72,13 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
       "created": "",
       "due": ""
     }
-    // newTodo["user_id_fk"] = user.userid;
+    //if category wasn't selected set it to default 'to-do'
+    if (newTodo['category_id_fk'] == "") {
+      todo["category_id_fk"] = id_lookup["To-do"];
+    }
 
-    addTodo(todo);
+    todo["user_id_fk"] = user.userid;
+    props.addTask(todo)
     setNewTodo({'to_do': "", "category_id_fk": ""});
     setCategory();
   }
@@ -81,42 +88,52 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
       <div className="banner"> 
         <img src={Image} alt="background-image"style={{width: '100%', height: '100%'}}/>
         <div className="text">
-          <div className="title">{selected}</div>
+          <div className="title">{props.selected}</div>
           <div className="date">{date}</div>
         </div>
       </div>
       <div className="todo-list">
         {selectedList.map((todo) => {
-          return <Todo todo={todo} key={todo.task_id} updateTodo={updateTodo} deleteTodo={deleteTodo} setImportant={setImportant}/>
+          return <Todo todo={todo} key={todo.task_id} />
         })}
       </div>
-      <div className="add-to-do" onClick={handleAddTodo}>
-        <FontAwesomeIcon style={{width: '30px', height: '30px', cursor: 'pointer', color: '#495DFB'}} icon={faPlusCircle} size='lg'/> 
+      <div className="add-to-do" onClick={handleOpenSlideWindow}>
+        <FontAwesomeIcon style={{width: '30px', 
+                                 height: '30px', 
+                                 cursor: 'pointer', 
+                                 color: '#495DFB'}} icon={faPlusCircle} size='lg'/> 
         <div className="text">Add a to-do</div>
       </div>
       <div className={slideWindow ? "slide-out-window-open" : "slide-out-window-close"}>
         <div className="add-to-do-window">
           <div className="top-section">
             <h2>Add a to-do</h2>
-            <textarea 
-              type="text"
-              name="to_do"
-              value={newTodo.to_do}
-              onChange={handleChange}
-              placeholder="New to-do"
-            />
-            <Dropdown 
-              onChange={handleCategoryDropdown} 
-              controlClassName='myControlClassName' 
-              className='dropdownRoot' 
-              options={categoryOptions}   
-              value={category} 
-              placeholder='Select category...'
-            />
-            <button onClick={handleAddButton} className="add-button">Add</button>
+            <form className="add-todo-form">
+              <textarea 
+                type="text"
+                name="to_do"
+                value={newTodo.to_do}
+                onChange={handleChange}
+                placeholder="New to-do"
+              />
+              <Dropdown 
+                onChange={handleCategoryDropdown} 
+                controlClassName='myControlClassName' 
+                className='dropdownRoot' 
+                options={categoryOptions}   
+                value={category} 
+                placeholder='Select category...'
+              />
+              <button type="submit" onClick={handleAddButton} className="add-button">Add</button>
+            </form>
           </div>
           <div>
-            <FontAwesomeIcon onClick={handleCloseSlideWindow} style={{width: '25px', height: '25px', cursor: 'pointer', color: 'gray', margin: '20px'}} icon={faChevronRight} size='lg'/> 
+            <FontAwesomeIcon onClick={handleCloseSlideWindow} style={{width: '25px', 
+                                                                      height: '25px', 
+                                                                      cursor: 'pointer', 
+                                                                      color: 'gray', 
+                                                                      margin: '20px'}} 
+                                                              icon={faChevronRight} size='lg'/> 
           </div>
         </div>
       </div>
@@ -127,7 +144,8 @@ const Display = ( { list, selected, updateTodo, deleteTodo, addTodo, setImportan
 
 const mapStateToProps = state => {
   return {
-
+    taskList: state.taskList,
+    reload: state.reload
   }
 };
 

@@ -225,7 +225,8 @@ header {
       margin: 30px 0 30px 20px; }
       .dashboard-wrap .display .add-to-do .text {
         margin-left: 5px;
-        color: #495DFB; }
+        color: #495DFB;
+        cursor: pointer; }
     .dashboard-wrap .display .slide-out-window-close {
       position: absolute;
       width: 30%;
@@ -267,6 +268,8 @@ header {
           box-sizing: border-box;
           padding-left: 10px;
           padding-top: 10px; }
+        .dashboard-wrap .display .add-to-do-window .top-section textarea:focus {
+          border: 2px solid #495DFB; }
         .dashboard-wrap .display .add-to-do-window .top-section .add-button {
           width: 100%;
           margin-top: 20px;
@@ -277,6 +280,10 @@ header {
           background-color: rgba(73, 93, 251, 0.6);
           font-size: 14px;
           color: white; }
+        .dashboard-wrap .display .add-to-do-window .top-section .add-button:focus {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        .dashboard-wrap .display .add-to-do-window .top-section .add-button:hover {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
 
 /*
 html5doctor.com Reset Stylesheet
