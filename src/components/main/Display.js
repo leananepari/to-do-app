@@ -109,7 +109,7 @@ const Display = ( props ) => {
           <div className="top-section">
             <h2>Add a to-do</h2>
             <form className="add-todo-form">
-              <textarea 
+              <input 
                 type="text"
                 name="to_do"
                 value={newTodo.to_do}

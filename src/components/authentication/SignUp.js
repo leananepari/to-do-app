@@ -35,6 +35,7 @@ const SignUp = (props) => {
         <form>
           <div className="login-failure-message" style={{visibility: `${props.signupFailure ? 'visible' : 'hidden'}`}}>{newUser.username} is already taken!</div>
           <input 
+            autoFocus
             type="text"
             name="username"
             value={newUser.username}

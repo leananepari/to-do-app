@@ -138,16 +138,22 @@ header {
       margin-right: 10px;
       letter-spacing: 1px; }
     header .user-greeting .dropdown-wrap .dropdown {
+      width: 80px;
+      height: auto;
       right: 10px;
       background-color: white;
+      border: 1px solid lightgray;
       color: black;
       font-size: 14px;
       font-weight: 300;
       letter-spacing: 0.5px;
-      padding: 10px; }
+      text-align: center; }
       header .user-greeting .dropdown-wrap .dropdown div {
-        padding: 5px 0 5px 0;
+        padding: 10px 0 10px 0;
         cursor: pointer; }
+      header .user-greeting .dropdown-wrap .dropdown div:hover {
+        background-color: rgba(73, 93, 251, 0.2);
+        width: 100%; }
 
 /*=================================================================
  DASHBOARD
@@ -257,8 +263,8 @@ header {
           font-weight: 200;
           color: #495DFB;
           margin-bottom: 20px; }
-        .dashboard-wrap .display .add-to-do-window .top-section textarea {
-          height: 64px;
+        .dashboard-wrap .display .add-to-do-window .top-section input {
+          height: 54px;
           font-size: 16px;
           outline: none;
           border: 1px solid lightgray;
@@ -266,9 +272,8 @@ header {
           margin-bottom: 10px;
           width: 100%;
           box-sizing: border-box;
-          padding-left: 10px;
-          padding-top: 10px; }
-        .dashboard-wrap .display .add-to-do-window .top-section textarea:focus {
+          padding-left: 10px; }
+        .dashboard-wrap .display .add-to-do-window .top-section input:focus {
           border: 2px solid #495DFB; }
         .dashboard-wrap .display .add-to-do-window .top-section .add-button {
           width: 100%;
