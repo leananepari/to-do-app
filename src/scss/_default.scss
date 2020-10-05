@@ -95,7 +95,6 @@ html,body {
         height: 35px;
         width: 20%;
         cursor: pointer;
-        border-radius: 2px;
         outline: none;
         font-size: 14px;
         align-self: flex-end;
@@ -103,6 +102,7 @@ html,body {
         background-color: #0EA4E0;
         color: white;
         border-radius: 5px;
+        border: 1px solid transparent;
       }
       .btn-login:focus {
         box-shadow: 0 0 10px rgba(0,0,0,.2);
@@ -161,6 +161,8 @@ header {
   .logo-header {
     display: flex;
     margin-left: 20px;
+    text-decoration: none;
+    color: black;
 
     h1 {
       align-self: flex-end;
@@ -184,25 +186,73 @@ header {
     .dropdown-wrap {
 
       .dropdown {
-        width: 80px;
+        width: 120px;
         height: auto;
         right: 10px;
         background-color: white;
-        border: 1px solid lightgray;
         color: black;
         font-size: 14px;
         font-weight: 300;
         letter-spacing: 0.5px;
         text-align: center;
 
-        div {
-          padding: 10px 0 10px 0;
-          cursor: pointer;
+        .triangle {
+          display: flex;
+          width: 120px;
+          height: 15px;
+
+
+          div {
+            width: 33%;
+            border-bottom: 1px solid lightgray;
+
+            .triangle-up {
+              width: 0;
+              height: 0;
+              border-left: 15px solid transparent;
+              border-right: 15px solid transparent;
+              border-bottom: 15px solid lightgray;
+            }
+            .triangle-up:after {
+              content: '';
+              width: 0;
+              height: 0;
+              border-left: 13px solid transparent;
+              border-right: 13px solid transparent;
+              border-bottom: 13px solid white;
+              position: absolute;
+              right: 13px;
+              top: 2px
+            }
+          }
+
         }
-        div:hover {
+
+
+        .text {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 15px 0 15px 0;
+          cursor: pointer;
+          border-left: 1px solid lightgray;
+          border-right: 1px solid lightgray;
+          box-sizing: border-box;
+          text-decoration: none;
+          color: black;
+
+        }
+        .text:hover {
           background-color: rgba(73, 93, 251, 0.2);
           width: 100%;
         }
+
+        img {
+          width: 15px; 
+          height: 15px; 
+          margin-right: 5px;
+        }
+
       }
     }
   }
