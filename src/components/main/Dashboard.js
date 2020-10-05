@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
 import TabsList from './TabsList';
 import Display from './Display';
 import { connect } from 'react-redux';
@@ -17,7 +16,6 @@ const Dashboard = ( props ) => {
 
   return (
     <>
-    <Header />
     <div className="dashboard-wrap">
       <TabsList selected={selected} setSelected={setSelected} />
       <Display selected={selected} />

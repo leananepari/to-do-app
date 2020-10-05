@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo.svg';
+import userIcon from '../../assets/user-icon.svg';
+import settingsIcon from '../../assets/settings.svg';
+import logoutIcon from '../../assets/logout-icon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
@@ -43,12 +47,12 @@ const Header = ( props ) => {
 
   return (
     <header>
-      <div className="logo-header">
+      <Link to={'/'} className="logo-header">
         <img src={Logo} style={{width: '35px'}}/>
         <h1>To-do</h1>
-      </div>
+      </Link>
       <div className="user-greeting">
-        <h2>Hello, {user.username}</h2>
+        <h2>Hello, {user ? user.username : ""}</h2>
         <div className="dropdown-wrap" ref={container}>
           <FontAwesomeIcon onClick={handleDropdown} style={{width: '25px', 
                                                             height: '25px', 
@@ -58,9 +62,25 @@ const Header = ( props ) => {
                                                     icon={dropdown ? faAngleUp : faAngleDown} size='lg'/> 
           <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, 
                                             position: 'absolute'}}>
-            <div>Profile</div>
-            <div>Settings</div>
-            <div onClick={handleLogout}>Logout</div>
+            <div className="triangle">
+              <div></div>
+              <div></div>
+              <div>
+                <div className="triangle-up"></div>
+              </div>
+            </div>
+            <Link to={'/profile'} className="text">
+              <img src={userIcon} />
+              Profile
+            </Link>
+            <Link to={'/settings'} className="text">
+              <img src={settingsIcon} />
+              Settings
+            </Link>
+            <div className="text" onClick={handleLogout}>
+              <img src={logoutIcon} />
+              Logout
+            </div>
           </div>
         </div>
       </div>
