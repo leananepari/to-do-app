@@ -240,33 +240,42 @@ header {
           font-size: 24px;
           margin-top: 5px;
           font-weight: 200; }
-    .dashboard-wrap .display .todo-list .todo {
-      display: flex;
-      align-items: center;
-      font-size: 18px;
-      font-weight: 300;
-      letter-spacing: 1px;
-      height: 40px;
-      border-bottom: 1px solid #d6d4d4;
-      padding: 20px; }
-      .dashboard-wrap .display .todo-list .todo .circle {
-        width: 25px;
-        height: 25px;
-        border: 1px solid gray;
-        border-radius: 50%;
-        cursor: pointer;
-        box-sizing: border-box; }
-      .dashboard-wrap .display .todo-list .todo .text {
-        margin-left: 15px;
-        cursor: pointer; }
-        .dashboard-wrap .display .todo-list .todo .text .category {
-          font-size: 14px;
-          margin-top: 5px; }
-      .dashboard-wrap .display .todo-list .todo .star path {
-        stroke: gray;
-        stroke-width: 50; }
+    .dashboard-wrap .display .todo-list {
+      margin: 10px 15px 0 15px; }
+      .dashboard-wrap .display .todo-list .todo {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 300;
+        letter-spacing: 1px;
+        height: 40px;
+        border-radius: 10px;
+        padding: 20px;
+        position: relative; }
+        .dashboard-wrap .display .todo-list .todo .border {
+          border-bottom: 1px solid #d6d4d4;
+          position: absolute;
+          left: 15px;
+          right: 10px;
+          bottom: 0px; }
+        .dashboard-wrap .display .todo-list .todo .circle {
+          width: 25px;
+          height: 25px;
+          border: 1px solid gray;
+          border-radius: 50%;
+          cursor: pointer;
+          box-sizing: border-box; }
+        .dashboard-wrap .display .todo-list .todo .text {
+          margin-left: 15px;
+          cursor: pointer; }
+          .dashboard-wrap .display .todo-list .todo .text .category {
+            font-size: 14px;
+            margin-top: 5px; }
+        .dashboard-wrap .display .todo-list .todo .star path {
+          stroke: gray;
+          stroke-width: 50; }
     .dashboard-wrap .display .add-to-do {
-      margin: 30px 0 30px 20px; }
+      margin: 30px 0 30px 33px; }
       .dashboard-wrap .display .add-to-do .click-wrap {
         width: max-content;
         display: flex;
@@ -293,19 +302,19 @@ header {
       align-self: flex-end;
       right: 0px;
       transition: right 1s; }
-    .dashboard-wrap .display .add-to-do-window {
+    .dashboard-wrap .display .slide-window {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: calc(100vh - 70px); }
-      .dashboard-wrap .display .add-to-do-window .top-section {
+      .dashboard-wrap .display .slide-window .add-todo-top-section {
         margin: 20px; }
-        .dashboard-wrap .display .add-to-do-window .top-section h2 {
+        .dashboard-wrap .display .slide-window .add-todo-top-section h2 {
           font-size: 18px;
           font-weight: 200;
           color: #495DFB;
           margin-bottom: 20px; }
-        .dashboard-wrap .display .add-to-do-window .top-section input {
+        .dashboard-wrap .display .slide-window .add-todo-top-section input {
           height: 54px;
           font-size: 16px;
           outline: none;
@@ -315,9 +324,9 @@ header {
           width: 100%;
           box-sizing: border-box;
           padding-left: 10px; }
-        .dashboard-wrap .display .add-to-do-window .top-section input:focus {
+        .dashboard-wrap .display .slide-window .add-todo-top-section input:focus {
           border: 2px solid #495DFB; }
-        .dashboard-wrap .display .add-to-do-window .top-section .add-button {
+        .dashboard-wrap .display .slide-window .add-todo-top-section .add-button {
           width: 100%;
           margin-top: 20px;
           height: 30px;
@@ -328,11 +337,58 @@ header {
           font-size: 14px;
           color: white;
           border: 1px solid transparent; }
-        .dashboard-wrap .display .add-to-do-window .top-section .add-button:focus {
+        .dashboard-wrap .display .slide-window .add-todo-top-section .add-button:focus {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
-        .dashboard-wrap .display .add-to-do-window .top-section .add-button:hover {
+        .dashboard-wrap .display .slide-window .add-todo-top-section .add-button:hover {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
-        .dashboard-wrap .display .add-to-do-window .top-section .myControlClassName {
+        .dashboard-wrap .display .slide-window .add-todo-top-section .myControlClassName {
+          cursor: pointer; }
+      .dashboard-wrap .display .slide-window .edit-todo-section {
+        margin: 20px; }
+        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap {
+          display: flex;
+          margin-bottom: 10px; }
+          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea {
+            resize: none;
+            font-size: 18px;
+            font-weight: 550;
+            outline: none;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            margin: 0 5px 0px 5px;
+            box-sizing: border-box;
+            padding-left: 10px; }
+          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea:focus {
+            border: 1px solid lightgray;
+            border-radius: 2px; }
+          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap .circle {
+            width: 18px;
+            height: 18px;
+            border: 1px solid gray;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: 7px;
+            flex: 0 0 auto;
+            box-sizing: border-box; }
+          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap .star path {
+            stroke: gray;
+            stroke-width: 50; }
+        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .save-button {
+          width: 100%;
+          margin-top: 20px;
+          height: 30px;
+          border-radius: 2px;
+          outline: none;
+          cursor: pointer;
+          background-color: rgba(73, 93, 251, 0.6);
+          font-size: 14px;
+          color: white;
+          border: 1px solid transparent; }
+        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .save-button:focus {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .save-button:hover {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .myControlClassName {
           cursor: pointer; }
 
 /*

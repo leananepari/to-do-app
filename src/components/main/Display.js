@@ -2,7 +2,8 @@ import React, { useState, useEffect }  from 'react';
 import Todo from './Todo';
 import Image from '../../assets/mountains.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faChevronRight, faCheckCircle, faStar as starSolid } from '@fortawesome/free-solid-svg-icons';
+import { faStar as starOutline} from '@fortawesome/free-regular-svg-icons';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { connect } from 'react-redux';
@@ -80,7 +81,7 @@ const Display = ( props ) => {
     }
 
     todo["user_id_fk"] = user.userid;
-    props.addTask(todo)
+    props.addTask(todo, props.history)
     setNewTodo( { 'to_do': "", "category_id_fk": "" } );
     setCategory();
   }
@@ -103,6 +104,21 @@ const Display = ( props ) => {
     e.preventDefault();
     props.updateTask(props.editTodo);
     props.setSelectedTodo('');
+  }
+
+  const handleMarked = () => {
+    props.selectedTodo['completed'] = !props.selectedTodo['completed'];
+    props.updateTask(props.selectedTodo, props.history)
+  }
+
+  const handleUnmarked = () => {
+    props.selectedTodo['completed'] = !props.selectedTodo['completed'];
+    props.updateTask(props.selectedTodo, props.history)
+  }
+
+  const handleImportant = () => {
+    props.selectedTodo['important'] = !props.selectedTodo['important'];
+    props.updateTask(props.selectedTodo, props.history);
   }
 
   return (
@@ -129,9 +145,9 @@ const Display = ( props ) => {
         </div>
       </div>
       <div className={props.slideWindow ? "slide-out-window-open" : "slide-out-window-close"}>
-        <div className="add-to-do-window">
+        <div className="slide-window">
           {props.selectedTodo === '' ? 
-            <div className="top-section">
+            <div className="add-todo-top-section">
               <h2>Add a to-do</h2>
               <form className="add-todo-form">
                 <input 
@@ -154,15 +170,45 @@ const Display = ( props ) => {
             </div>
 
           :
-            <div className="top-section">
-              <form className="add-todo-form">
-                <input 
-                  type="text"
-                  name="description"
-                  value={props.editTodo.description}
-                  onChange={handleEditTodoChange}
-                  placeholder="New to-do"
-                />
+            <div className="edit-todo-section">
+              <form className="edit-todo-form">
+                <div className="input-icon-wrap">
+                  {props.selectedTodo.completed ? 
+                    <FontAwesomeIcon 
+                    onClick={handleUnmarked} 
+                    style={{width: '18px', 
+                            height: '18px', 
+                            cursor: 'pointer', 
+                            color: '#69B100',
+                            marginTop: '7px'
+                          }} 
+                                    icon={faCheckCircle} size='lg'/> 
+                    : 
+                    <div className="circle" 
+                    onClick={handleMarked}
+                    ></div>
+                  }
+                  <textarea 
+                    type="text"
+                    wrap="soft"
+                    name="description"
+                    value={props.editTodo.description}
+                    onChange={handleEditTodoChange}
+                  />
+                  <FontAwesomeIcon 
+                         onClick={handleImportant} 
+                         className={props.selectedTodo.important ? "star" : "none"} 
+                         style={{width: '18px', 
+                                 height: '18px', 
+                                 cursor: 'pointer', 
+                                 color: `${props.selectedTodo.important ? '#FFFF33' : 'gray'}`, 
+                                 margin: '0 auto', 
+                                 marginRight: '0px',
+                                 marginTop: '5px'
+                                }} 
+                         icon={props.selectedTodo.important ? starSolid : starOutline} 
+                         size='lg'/> 
+                </div>
                 <Dropdown 
                   onChange={handleEditTodoCategoryDropdown} 
                   controlClassName='myControlClassName' 
@@ -171,11 +217,10 @@ const Display = ( props ) => {
                   value={props.editTodoCategory} 
                   placeholder='Select category...'
                 />
-                <button type="submit" onClick={handleEditTodoSubmitButton} className="add-button">Save</button>
+                <button type="submit" onClick={handleEditTodoSubmitButton} className="save-button">Save</button>
               </form>
             </div>
           }
-
 
           <div>
             <FontAwesomeIcon onClick={handleCloseSlideWindow} style={{width: '25px', 
