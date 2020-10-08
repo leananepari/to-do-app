@@ -12,21 +12,33 @@ const Todo = ( props ) => {
 
   const handleMarked = () => {
     props.todo['completed'] = !props.todo['completed'];
+    if (props.selectedTodo !== '') {
+      props.selectedTodo['completed'] = !props.selectedTodo['completed'];
+    }
     props.updateTask(props.todo, props.history)
   }
 
   const handleUnmarked = () => {
     props.todo['completed'] = !props.todo['completed'];
+    if (props.selectedTodo !== '') {
+      props.selectedTodo['completed'] = !props.selectedTodo['completed'];
+    }
     props.updateTask(props.todo, props.history)
   }
 
   const handleDelete = () => {
     props.deleteTask(props.todo.task_id, props.history)
+    if (props.selectedTodo !== '') {
+      props.setSelectedTodo('');
+    }
   }
 
   const handleImportant = () => {
     props.todo['important'] = !props.todo['important'];
-    props.updateTask(props.todo);
+    if (props.selectedTodo !== '') {
+      props.selectedTodo['important'] = !props.selectedTodo['important'];
+    }
+    props.updateTask(props.todo, props.history);
   }
 
   const handleSelectedTodo = () => {
@@ -63,6 +75,7 @@ const Todo = ( props ) => {
                                  margin: '0 auto', marginRight: '0px'}} 
                          icon={props.todo.important ? starSolid : starOutline} size='lg'/> 
       }
+      <div className="border"></div>
     </div>
   )
 }
