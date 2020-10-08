@@ -166,3 +166,22 @@ export const setSignupFailureFalse = () => {
     dispatch({ type: 'SET_SIGNUP_FAILURE_FALSE' })
   }
 }
+
+//================================================/
+export const setSelectedTodo = ( todo ) => {
+  return dispatch => {
+    dispatch({ type: 'SET_SELECTED_TODO', payload: todo})
+  }
+}
+
+export const setSlideWindow = ( bool ) => {
+  return dispatch => {
+    dispatch({ type: 'SET_SLIDE_WINDOW', payload: bool})
+  }
+}
+
+export const setEditTodo = ( todo ) => {
+  return dispatch => {
+    dispatch({ type: 'SET_EDIT_TODO', payload: todo })
+  }
+}

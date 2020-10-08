@@ -1,4 +1,3 @@
-// import { category_lookup } from '../../data';
 
 const initialState = {
   user: {},
@@ -9,7 +8,19 @@ const initialState = {
   loginFailure: false,
   signupFailure: false,
   category_lookup: {},
-  category_id_lookup: {}
+  category_id_lookup: {},
+  selectedTodo: '',
+  slideWindow: false,
+  editTodo: {"description": '', 
+             "category_id_fk": '', 
+             "important": false, 
+             "completed": false, 
+             "created": "",
+             "due": "",
+             'user_id_fk': '',
+             'task_id': '',
+            },
+  editTodoCategory: ''
 }
 
 export const reducer = (state = initialState, action) => {
@@ -142,6 +153,25 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         signupFailure: false
+      }
+    
+    case 'SET_SELECTED_TODO':
+      return {
+        ...state,
+        selectedTodo: action.payload
+      }
+
+    case 'SET_SLIDE_WINDOW':
+      return {
+        ...state,
+        slideWindow: action.payload
+      }
+
+    case 'SET_EDIT_TODO':
+      return {
+        ...state,
+        editTodo: action.payload,
+        editTodoCategory: state.category_lookup[action.payload.category_id_fk]
       }
 
     default:

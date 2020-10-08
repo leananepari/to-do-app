@@ -74,10 +74,10 @@ const Header = ( props ) => {
               Profile
             </Link>
             <Link to={'/settings'} className="text">
-              <img src={settingsIcon} />
+              <img src={settingsIcon} className="settings-icon"/>
               Settings
             </Link>
-            <div className="text" onClick={handleLogout}>
+            <div className="text last" onClick={handleLogout}>
               <img src={logoutIcon} />
               Logout
             </div>
