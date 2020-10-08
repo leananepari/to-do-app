@@ -175,8 +175,7 @@ header {
       header .user-greeting .dropdown-wrap .dropdown .text {
         display: flex;
         align-items: center;
-        justify-content: center;
-        padding: 15px 0 15px 0;
+        padding: 15px 0 15px 15px;
         cursor: pointer;
         border-left: 1px solid lightgray;
         border-right: 1px solid lightgray;
@@ -186,10 +185,14 @@ header {
       header .user-greeting .dropdown-wrap .dropdown .text:hover {
         background-color: rgba(73, 93, 251, 0.2);
         width: 100%; }
+      header .user-greeting .dropdown-wrap .dropdown .last {
+        border-bottom: 1px solid lightgray; }
       header .user-greeting .dropdown-wrap .dropdown img {
         width: 15px;
         height: 15px;
         margin-right: 5px; }
+      header .user-greeting .dropdown-wrap .dropdown .settings-icon {
+        margin-left: -1px; }
 
 /*=================================================================
  DASHBOARD
@@ -254,7 +257,8 @@ header {
         cursor: pointer;
         box-sizing: border-box; }
       .dashboard-wrap .display .todo-list .todo .text {
-        margin-left: 15px; }
+        margin-left: 15px;
+        cursor: pointer; }
         .dashboard-wrap .display .todo-list .todo .text .category {
           font-size: 14px;
           margin-top: 5px; }
@@ -262,13 +266,15 @@ header {
         stroke: gray;
         stroke-width: 50; }
     .dashboard-wrap .display .add-to-do {
-      display: flex;
-      align-items: center;
       margin: 30px 0 30px 20px; }
-      .dashboard-wrap .display .add-to-do .text {
-        margin-left: 5px;
-        color: #495DFB;
-        cursor: pointer; }
+      .dashboard-wrap .display .add-to-do .click-wrap {
+        width: max-content;
+        display: flex;
+        align-items: center; }
+        .dashboard-wrap .display .add-to-do .click-wrap .text {
+          margin-left: 5px;
+          color: #495DFB;
+          cursor: pointer; }
     .dashboard-wrap .display .slide-out-window-close {
       position: absolute;
       width: 30%;
@@ -320,11 +326,14 @@ header {
           cursor: pointer;
           background-color: rgba(73, 93, 251, 0.6);
           font-size: 14px;
-          color: white; }
+          color: white;
+          border: 1px solid transparent; }
         .dashboard-wrap .display .add-to-do-window .top-section .add-button:focus {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
         .dashboard-wrap .display .add-to-do-window .top-section .add-button:hover {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        .dashboard-wrap .display .add-to-do-window .top-section .myControlClassName {
+          cursor: pointer; }
 
 /*
 html5doctor.com Reset Stylesheet

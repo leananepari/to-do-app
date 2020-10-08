@@ -228,12 +228,10 @@ header {
 
         }
 
-
         .text {
           display: flex;
           align-items: center;
-          justify-content: center;
-          padding: 15px 0 15px 0;
+          padding: 15px 0 15px 15px;
           cursor: pointer;
           border-left: 1px solid lightgray;
           border-right: 1px solid lightgray;
@@ -247,10 +245,18 @@ header {
           width: 100%;
         }
 
+        .last {
+          border-bottom: 1px solid lightgray;
+        }
+
+
         img {
           width: 15px; 
           height: 15px; 
           margin-right: 5px;
+        }
+        .settings-icon {
+          margin-left: -1px;
         }
 
       }
@@ -348,6 +354,7 @@ header {
   
         .text {
           margin-left: 15px;
+          cursor: pointer;
   
           .category {
             font-size: 14px;
@@ -366,14 +373,18 @@ header {
 
     
     .add-to-do {
-      display: flex;
-      align-items: center;
       margin: 30px 0 30px 20px;
 
-      .text {
-        margin-left: 5px;
-        color: #495DFB;
-        cursor: pointer;
+      .click-wrap {
+        width: max-content;
+        display: flex;
+        align-items: center;
+
+        .text {
+          margin-left: 5px;
+          color: #495DFB;
+          cursor: pointer;
+        } 
       }
     }
 
@@ -439,6 +450,7 @@ header {
           background-color: rgba(73, 93, 251, 0.6);
           font-size: 14px;
           color: white;
+          border: 1px solid transparent;
         }
         .add-button:focus {
           box-shadow: 0 0 10px rgba(0,0,0,.2);
@@ -447,7 +459,8 @@ header {
           box-shadow: 0 0 10px rgba(0,0,0,.2);
         }
 
-        .myControlClassName:focus {
+        .myControlClassName {
+          cursor: pointer;
         }
       }
 
