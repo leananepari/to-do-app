@@ -12,7 +12,7 @@ const Todo = ( props ) => {
 
   const handleMarked = () => {
     props.todo['completed'] = !props.todo['completed'];
-    if (props.selectedTodo !== '') {
+    if (props.selectedTodo !== '' && props.selectedTodo.task_id === props.todo.task_id) {
       props.selectedTodo['completed'] = !props.selectedTodo['completed'];
     }
     props.updateTask(props.todo, props.history)
@@ -20,7 +20,7 @@ const Todo = ( props ) => {
 
   const handleUnmarked = () => {
     props.todo['completed'] = !props.todo['completed'];
-    if (props.selectedTodo !== '') {
+    if (props.selectedTodo !== '' && props.selectedTodo.task_id === props.todo.task_id) {
       props.selectedTodo['completed'] = !props.selectedTodo['completed'];
     }
     props.updateTask(props.todo, props.history)
@@ -28,14 +28,14 @@ const Todo = ( props ) => {
 
   const handleDelete = () => {
     props.deleteTask(props.todo.task_id, props.history)
-    if (props.selectedTodo !== '') {
+    if (props.selectedTodo !== '' && props.selectedTodo.task_id === props.todo.task_id) {
       props.setSelectedTodo('');
     }
   }
 
   const handleImportant = () => {
     props.todo['important'] = !props.todo['important'];
-    if (props.selectedTodo !== '') {
+    if (props.selectedTodo !== '' && props.selectedTodo.task_id === props.todo.task_id) {
       props.selectedTodo['important'] = !props.selectedTodo['important'];
     }
     props.updateTask(props.todo, props.history);
