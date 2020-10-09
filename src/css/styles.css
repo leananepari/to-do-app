@@ -349,6 +349,7 @@ header {
           display: flex;
           margin-bottom: 10px; }
           .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea {
+            font-family: BlinkMacSystemFont, Helvetica Neue,sans-serif;
             resize: none;
             font-size: 18px;
             font-weight: 550;
