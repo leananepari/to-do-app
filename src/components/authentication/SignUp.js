@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Logo from '../../assets/Logo.svg';
+import Logo from '../../assets/logo-blue-icon.svg';
 import { connect } from 'react-redux';
 import { signup, setSignupFailureFalse } from '../../redux/actions';
 
@@ -26,7 +26,7 @@ const SignUp = (props) => {
         <div>
           <div className="logo-wrap">
             <img src={Logo} alt="logo" style={{width: '80px'}}/>
-            <h1>To-do</h1>
+            <h1>To Do</h1>
           </div>
           <div className="subtitle">
             Your <span className="life">life</span> <span className="organized">organized</span>

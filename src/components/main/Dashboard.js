@@ -15,18 +15,16 @@ const Dashboard = ( props ) => {
   }, [props.reload])
 
   return (
-    <>
     <div className="dashboard-wrap">
       <TabsList selected={selected} setSelected={setSelected} />
       <Display selected={selected} />
     </div>
-    </>
   )
 } 
 
 const mapStateToProps = state => {
   return {
-    reload: state.reload
+    reload: state.reload,
   }
 };
 

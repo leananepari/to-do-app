@@ -1,4 +1,8 @@
 import { faSun, faPizzaSlice, faBriefcase, faHome, faPlane, faDumbbell, faCheckSquare, faStar } from '@fortawesome/free-solid-svg-icons';
+import sun_icon from './assets/sun-icon.svg';
+import home_icon from './assets/home-icon.svg';
+import star_icon from './assets/star-icon.svg';
+import calendar_icon from './assets/calendar-icon.svg';
 
 export const user = [
   {
@@ -38,14 +42,10 @@ export const user = [
 
 
 export const category_icons = {
-  "My Day": faSun,
-  "Groceries": faPizzaSlice,
-  "Work": faBriefcase,
-  "Family": faHome,
-  "Travel": faPlane,
-  "Exercise": faDumbbell,
-  "To-do": faCheckSquare,
-  "Important": faStar
+  "My Day": sun_icon,
+  "Tasks": home_icon,
+  "Important": star_icon,
+  "Planned": calendar_icon
 }
 
 export const b_g_images = [
@@ -71,3 +71,18 @@ export const id_lookup = {
   "To-do": 6,
   "Important": 7
 }
+
+
+export const list_example = [
+  {
+    "name": "books to read",
+    "items": [
+      {"id": 1, "description": "Book 1"},
+      {"id": 2, "description": "Book 2"},
+      {"id": 2, "description": "Book 3"},
+      {"id": 2, "description": "Book 4"},
+      {"id": 2, "description": "Book 5"},
+      {"id": 2, "description": "Book 6"},
+    ]
+  }
+]

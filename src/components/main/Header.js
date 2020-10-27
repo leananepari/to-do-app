@@ -4,11 +4,11 @@ import Logo from '../../assets/Logo.svg';
 import userIcon from '../../assets/user-icon.svg';
 import settingsIcon from '../../assets/settings.svg';
 import logoutIcon from '../../assets/logout-icon.svg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { logout } from '../../redux/actions';
 import { withRouter } from 'react-router-dom';
+import up_chevron from '../../assets/up-chevron.svg';
+import down_chevron from '../../assets/down-chevron.svg';
 
 const Header = ( props ) => {
   let user = JSON.parse(localStorage.getItem('user'));
@@ -48,18 +48,12 @@ const Header = ( props ) => {
   return (
     <header>
       <Link to={'/'} className="logo-header">
-        <img src={Logo} style={{width: '35px'}}/>
-        <h1>To-do</h1>
+        <img src={Logo} style={{width: '28px'}}/>
+        <h1>To Do</h1>
       </Link>
-      <div className="user-greeting">
-        <h2>Hello, {user ? user.username : ""}</h2>
+      <div className="right-side">
         <div className="dropdown-wrap" ref={container}>
-          <FontAwesomeIcon onClick={handleDropdown} style={{width: '25px', 
-                                                            height: '25px', 
-                                                            cursor: 'pointer', 
-                                                            color: "darkgray"
-                                                            }} 
-                                                    icon={dropdown ? faAngleUp : faAngleDown} size='lg'/> 
+          <img src={dropdown ? up_chevron : down_chevron} style={{width: '18px', cursor: 'pointer'}} onClick={handleDropdown}/>
           <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, 
                                             position: 'absolute'}}>
             <div className="triangle">

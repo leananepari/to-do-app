@@ -30,10 +30,10 @@ html, body {
       display: flex;
       align-items: center; }
       .login-page .login-box .logo-wrap h1 {
-        font-size: 50px;
+        font-size: 40px;
         align-self: flex-end;
         margin-bottom: 5px;
-        margin-left: -10px;
+        margin-left: 5px;
         font-weight: 200; }
     .login-page .login-box .subtitle {
       display: inline-block;
@@ -69,7 +69,7 @@ html, body {
         -webkit-box-shadow: 0 0 0 30px white inset !important;
         box-sizing: border-box; }
       .login-page .login-box form input:focus {
-        border: 2px solid #0EA4E0;
+        border: 2px solid #0178D7;
         background-color: white; }
       .login-page .login-box form .btn-login {
         height: 35px;
@@ -79,7 +79,7 @@ html, body {
         font-size: 14px;
         align-self: flex-end;
         margin-right: 10%;
-        background-color: #0EA4E0;
+        background-color: #0178D7;
         color: white;
         border-radius: 5px;
         border: 1px solid transparent; }
@@ -94,7 +94,7 @@ html, body {
       text-align: center; }
       .login-page .login-box .sign-up-message button {
         background-color: transparent;
-        color: #0EA4E0;
+        color: #0178D7;
         outline: none;
         cursor: pointer;
         border: 1px solid transparent;
@@ -115,31 +115,29 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+  height: 50px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
   position: fixed;
   top: 0;
   z-index: 10;
-  width: 100%; }
+  width: 100%;
+  background-color: #0178D7; }
   header .logo-header {
     display: flex;
+    align-items: center;
     margin-left: 20px;
     text-decoration: none;
     color: black; }
     header .logo-header h1 {
-      align-self: flex-end;
-      margin-bottom: 5px;
-      margin-left: -5px;
-      font-weight: 200; }
-  header .user-greeting {
+      margin-left: 5px;
+      font-size: 16px;
+      color: #ffffff;
+      font-weight: 300; }
+  header .right-side {
     display: flex;
     align-items: center;
     margin-right: 20px; }
-    header .user-greeting h2 {
-      font-weight: 200;
-      margin-right: 10px;
-      letter-spacing: 1px; }
-    header .user-greeting .dropdown-wrap .dropdown {
+    header .right-side .dropdown-wrap .dropdown {
       width: 120px;
       height: auto;
       right: 10px;
@@ -149,20 +147,21 @@ header {
       font-weight: 300;
       letter-spacing: 0.5px;
       text-align: center; }
-      header .user-greeting .dropdown-wrap .dropdown .triangle {
+      header .right-side .dropdown-wrap .dropdown .triangle {
         display: flex;
         width: 120px;
         height: 15px; }
-        header .user-greeting .dropdown-wrap .dropdown .triangle div {
-          width: 33%;
-          border-bottom: 1px solid lightgray; }
-          header .user-greeting .dropdown-wrap .dropdown .triangle div .triangle-up {
+        header .right-side .dropdown-wrap .dropdown .triangle div {
+          width: 33.3%;
+          border-bottom: 1px solid lightgray;
+          background-color: #0178D7; }
+          header .right-side .dropdown-wrap .dropdown .triangle div .triangle-up {
             width: 0;
             height: 0;
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
             border-bottom: 15px solid lightgray; }
-          header .user-greeting .dropdown-wrap .dropdown .triangle div .triangle-up:after {
+          header .right-side .dropdown-wrap .dropdown .triangle div .triangle-up:after {
             content: '';
             width: 0;
             height: 0;
@@ -172,7 +171,7 @@ header {
             position: absolute;
             right: 13px;
             top: 2px; }
-      header .user-greeting .dropdown-wrap .dropdown .text {
+      header .right-side .dropdown-wrap .dropdown .text {
         display: flex;
         align-items: center;
         padding: 15px 0 15px 15px;
@@ -182,86 +181,84 @@ header {
         box-sizing: border-box;
         text-decoration: none;
         color: black; }
-      header .user-greeting .dropdown-wrap .dropdown .text:hover {
+      header .right-side .dropdown-wrap .dropdown .text:hover {
         background-color: rgba(73, 93, 251, 0.2);
         width: 100%; }
-      header .user-greeting .dropdown-wrap .dropdown .last {
+      header .right-side .dropdown-wrap .dropdown .last {
         border-bottom: 1px solid lightgray; }
-      header .user-greeting .dropdown-wrap .dropdown img {
+      header .right-side .dropdown-wrap .dropdown img {
         width: 15px;
         height: 15px;
         margin-right: 5px; }
-      header .user-greeting .dropdown-wrap .dropdown .settings-icon {
+      header .right-side .dropdown-wrap .dropdown .settings-icon {
         margin-left: -1px; }
 
 /*=================================================================
  DASHBOARD
 ==============================================================*/
 .dashboard-wrap {
-  margin-top: 70px;
+  margin-top: 50px;
   display: flex;
-  height: calc(100vh - 70px); }
+  height: calc(100vh - 50px); }
   .dashboard-wrap .tabs-list {
     width: 25%;
-    height: calc(100vh - 70px);
-    border-right: 1px solid #d6d4d4;
-    overflow-y: hidden; }
+    height: calc(100vh - 50px);
+    border-right: 1px solid #EAEAEA;
+    overflow-y: hidden;
+    background-color: #F5F5F5; }
     .dashboard-wrap .tabs-list .tab {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      margin: 20% 0 0px 10%;
+      padding: 10px 20px 10px 20px;
       cursor: pointer; }
       .dashboard-wrap .tabs-list .tab div {
         margin-left: 15px;
-        letter-spacing: 1px; }
+        letter-spacing: 0.7px;
+        font-size: 14px;
+        color: #34383C;
+        font-weight: 300; }
       .dashboard-wrap .tabs-list .tab .count {
         justify-self: flex-end;
         margin: 0 auto;
-        margin-right: 20px;
+        margin-right: 0px;
         font-weight: 300; }
+    .dashboard-wrap .tabs-list .tab:hover {
+      background-color: #FAFAFA; }
   .dashboard-wrap .display {
-    width: 75%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll; }
-    .dashboard-wrap .display .banner {
-      height: 200px;
-      position: relative; }
-      .dashboard-wrap .display .banner .text {
-        position: absolute;
-        top: 70%;
-        left: 15%;
-        transform: translate(-50%, -50%);
-        color: white; }
-        .dashboard-wrap .display .banner .text .title {
-          font-size: 42px; }
-        .dashboard-wrap .display .banner .text .date {
-          font-size: 24px;
-          margin-top: 5px;
-          font-weight: 200; }
+    width: 100%;
+    display: flex; }
+    .dashboard-wrap .display .text-wrap {
+      margin: 20px; }
+      .dashboard-wrap .display .text-wrap .title {
+        font-size: 20px;
+        letter-spacing: 1px;
+        margin-bottom: 10px; }
+      .dashboard-wrap .display .text-wrap .date {
+        font-size: 12px;
+        color: #767678; }
     .dashboard-wrap .display .todo-list {
-      margin: 10px 15px 0 15px; }
+      overflow-y: scroll;
+      height: calc(100% - 132px); }
       .dashboard-wrap .display .todo-list .todo {
         display: flex;
         align-items: center;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 300;
         letter-spacing: 1px;
         height: 40px;
-        border-radius: 10px;
-        padding: 20px;
+        padding: 10px 20px 10px 20px;
         position: relative; }
         .dashboard-wrap .display .todo-list .todo .border {
-          border-bottom: 1px solid #d6d4d4;
+          border-bottom: 1px solid #EAEAEA;
           position: absolute;
           left: 15px;
           right: 10px;
           bottom: 0px; }
         .dashboard-wrap .display .todo-list .todo .circle {
-          width: 25px;
-          height: 25px;
-          border: 1px solid gray;
+          width: 18px;
+          height: 18px;
+          border: 1px solid #3F6AE3;
           border-radius: 50%;
           cursor: pointer;
           box-sizing: border-box; }
@@ -269,52 +266,57 @@ header {
           margin-left: 15px;
           cursor: pointer; }
           .dashboard-wrap .display .todo-list .todo .text .category {
-            font-size: 14px;
-            margin-top: 5px; }
-        .dashboard-wrap .display .todo-list .todo .star path {
-          stroke: gray;
-          stroke-width: 50; }
+            font-size: 12px;
+            margin-top: 5px;
+            color: #767678; }
+      .dashboard-wrap .display .todo-list .todo:hover {
+        background-color: #F7F7F7; }
     .dashboard-wrap .display .add-to-do {
-      margin: 30px 0 30px 33px; }
-      .dashboard-wrap .display .add-to-do .click-wrap {
-        width: max-content;
+      padding: 10px 20px 10px 20px;
+      position: relative; }
+      .dashboard-wrap .display .add-to-do .border {
+        border-bottom: 1px solid #EAEAEA;
+        position: absolute;
+        left: 15px;
+        right: 10px;
+        bottom: 0px; }
+      .dashboard-wrap .display .add-to-do form {
         display: flex;
         align-items: center; }
-        .dashboard-wrap .display .add-to-do .click-wrap .text {
-          margin-left: 5px;
-          color: #495DFB;
-          cursor: pointer; }
-    .dashboard-wrap .display .slide-out-window-close {
-      position: absolute;
-      width: 30%;
-      height: calc(100vh - 70px);
+        .dashboard-wrap .display .add-to-do form input {
+          border: 1px solid transparent;
+          font-size: 14px;
+          margin-left: 10px;
+          width: 100%; }
+        .dashboard-wrap .display .add-to-do form ::placeholder {
+          color: #3F6AE3; }
+        .dashboard-wrap .display .add-to-do form input:focus {
+          outline: none; }
+        .dashboard-wrap .display .add-to-do form input:focus::-webkit-input-placeholder {
+          color: #767678; }
+    .dashboard-wrap .display .edit-window-close {
+      height: calc(100vh - 50px);
       background-color: white;
-      border-left: 1px solid #d6d4d4;
-      align-self: flex-end;
-      right: -30%;
-      transition: right 1s; }
-    .dashboard-wrap .display .slide-out-window-open {
-      position: absolute;
-      width: 30%;
-      height: calc(100vh - 70px);
-      background-color: white;
-      border-left: 1px solid #d6d4d4;
-      align-self: flex-end;
-      right: 0px;
-      transition: right 1s; }
-    .dashboard-wrap .display .slide-window {
+      display: none; }
+    .dashboard-wrap .display .edit-window-open {
+      width: 50%;
+      height: calc(100vh - 50px);
+      background-color: white; }
+    .dashboard-wrap .display .edit-todo-window {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: calc(100vh - 70px); }
-      .dashboard-wrap .display .slide-window .add-todo-top-section {
+      height: calc(100vh - 50px);
+      background-color: #F5F5F5;
+      border-left: 1px solid #EAEAEA; }
+      .dashboard-wrap .display .edit-todo-window .add-todo-top-section {
         margin: 20px; }
-        .dashboard-wrap .display .slide-window .add-todo-top-section h2 {
+        .dashboard-wrap .display .edit-todo-window .add-todo-top-section h2 {
           font-size: 18px;
           font-weight: 200;
           color: #495DFB;
           margin-bottom: 20px; }
-        .dashboard-wrap .display .slide-window .add-todo-top-section input {
+        .dashboard-wrap .display .edit-todo-window .add-todo-top-section input {
           height: 54px;
           font-size: 16px;
           outline: none;
@@ -324,9 +326,9 @@ header {
           width: 100%;
           box-sizing: border-box;
           padding-left: 10px; }
-        .dashboard-wrap .display .slide-window .add-todo-top-section input:focus {
+        .dashboard-wrap .display .edit-todo-window .add-todo-top-section input:focus {
           border: 2px solid #495DFB; }
-        .dashboard-wrap .display .slide-window .add-todo-top-section .add-button {
+        .dashboard-wrap .display .edit-todo-window .add-todo-top-section .add-button {
           width: 100%;
           margin-top: 20px;
           height: 30px;
@@ -337,60 +339,71 @@ header {
           font-size: 14px;
           color: white;
           border: 1px solid transparent; }
-        .dashboard-wrap .display .slide-window .add-todo-top-section .add-button:focus {
+        .dashboard-wrap .display .edit-todo-window .add-todo-top-section .add-button:focus {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
-        .dashboard-wrap .display .slide-window .add-todo-top-section .add-button:hover {
+        .dashboard-wrap .display .edit-todo-window .add-todo-top-section .add-button:hover {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
-        .dashboard-wrap .display .slide-window .add-todo-top-section .myControlClassName {
+        .dashboard-wrap .display .edit-todo-window .add-todo-top-section .myControlClassName {
           cursor: pointer; }
-      .dashboard-wrap .display .slide-window .edit-todo-section {
-        margin: 20px; }
-        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap {
-          display: flex;
-          margin-bottom: 10px; }
-          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea {
-            font-family: BlinkMacSystemFont, Helvetica Neue,sans-serif;
-            resize: none;
-            font-size: 18px;
-            font-weight: 550;
-            outline: none;
-            border: 1px solid transparent;
+      .dashboard-wrap .display .edit-todo-window .edit-todo-section {
+        margin: 10px; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form {
+          background-color: white;
+          padding: 10px;
+          border: 1px solid #EAEAEA; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap {
+            display: flex;
+            margin-bottom: 10px; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea {
+              font-family: BlinkMacSystemFont, Helvetica Neue,sans-serif;
+              resize: none;
+              height: auto;
+              font-size: 16px;
+              font-weight: 550;
+              outline: none;
+              border: 1px solid transparent;
+              border-radius: 2px;
+              margin: 0 5px 0px 5px;
+              padding-left: 10px;
+              word-wrap: break-word; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea:focus {
+              border: 1px solid lightgray;
+              border-radius: 2px;
+              background-color: ""; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea:hover {
+              background-color: #F5F5F5; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap .circle {
+              width: 18px;
+              height: 18px;
+              border: 1px solid #3F6AE3;
+              border-radius: 50%;
+              cursor: pointer;
+              margin-top: 7px;
+              flex: 0 0 auto;
+              box-sizing: border-box; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap .star path {
+              stroke: gray;
+              stroke-width: 50; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .save-button {
+            width: 100%;
+            margin-top: 20px;
+            height: 30px;
             border-radius: 2px;
-            margin: 0 5px 0px 5px;
-            box-sizing: border-box;
-            padding-left: 10px; }
-          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea:focus {
-            border: 1px solid lightgray;
-            border-radius: 2px; }
-          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap .circle {
-            width: 18px;
-            height: 18px;
-            border: 1px solid gray;
-            border-radius: 50%;
+            outline: none;
             cursor: pointer;
-            margin-top: 7px;
-            flex: 0 0 auto;
-            box-sizing: border-box; }
-          .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .input-icon-wrap .star path {
-            stroke: gray;
-            stroke-width: 50; }
-        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .save-button {
-          width: 100%;
-          margin-top: 20px;
-          height: 30px;
-          border-radius: 2px;
-          outline: none;
-          cursor: pointer;
-          background-color: rgba(73, 93, 251, 0.6);
-          font-size: 14px;
-          color: white;
-          border: 1px solid transparent; }
-        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .save-button:focus {
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
-        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .save-button:hover {
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
-        .dashboard-wrap .display .slide-window .edit-todo-section .edit-todo-form .myControlClassName {
-          cursor: pointer; }
+            background-color: rgba(73, 93, 251, 0.6);
+            font-size: 14px;
+            color: white;
+            border: 1px solid transparent; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .save-button:focus {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .save-button:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .myControlClassName {
+            cursor: pointer; }
+      .dashboard-wrap .display .edit-todo-window .bottom-section-wrap {
+        display: flex;
+        justify-content: space-between; }
 
 /*
 html5doctor.com Reset Stylesheet
@@ -416,8 +429,7 @@ time, mark, audio, video {
   border: 0;
   outline: 0;
   font-size: 100%;
-  vertical-align: baseline;
-  background: transparent; }
+  vertical-align: baseline; }
 
 body {
   line-height: 1; }
