@@ -10,7 +10,7 @@ const initialState = {
   category_lookup: {},
   category_id_lookup: {},
   selectedTodo: '',
-  slideWindow: false,
+  editWindow: false,
   editTodo: {"description": '', 
              "category_id_fk": '', 
              "important": false, 
@@ -20,7 +20,9 @@ const initialState = {
              'user_id_fk': '',
              'task_id': '',
             },
-  editTodoCategory: ''
+  editTodoCategory: '',
+  isLoading: false,
+  error: ''
 }
 
 export const reducer = (state = initialState, action) => {
@@ -30,7 +32,6 @@ export const reducer = (state = initialState, action) => {
     case 'GET_TASK_LIST_START':
       return {
         ...state,
-        isLoading: true,
         error: ''
       }
 
@@ -46,12 +47,6 @@ export const reducer = (state = initialState, action) => {
         category_lookup: name_lookup,
         category_id_lookup: id_lookup
       }
-    
-    case 'SET_USER':
-      return {
-        ...state,
-        user: action.payload
-      }
 
     case 'GET_TASK_LIST_SUCCESS':
       let list = action.payload;
@@ -59,6 +54,11 @@ export const reducer = (state = initialState, action) => {
       //get todo's categories by traversing the todo list
       let categoriesSet = new Set();
       categoriesSet.add("My Day");
+      categoriesSet.add("Important");
+      categoriesSet.add("Planned");
+      categoriesSet.add("Tasks");
+
+
       let storeCount = {};
       storeCount["My Day"] = list.length;
       let countImportant = 0;
@@ -76,13 +76,13 @@ export const reducer = (state = initialState, action) => {
           }
         });
       }
+      list.reverse();
+      
       //convert set to array
       let categoriesArr = Array.from(categoriesSet);
-      if (list.length > 0) {
-        if (countImportant > 0) {
-          storeCount["Important"] = countImportant;
-          categoriesArr.push("Important");
-        }
+
+      if (countImportant > 0) {
+        storeCount["Important"] = countImportant;
       }
 
       return {
@@ -90,50 +90,46 @@ export const reducer = (state = initialState, action) => {
         taskList: list,
         categories: categoriesArr,
         categoryCount: storeCount,
-        isLoading: false,
         error: ''
       }
 
     case 'GET_TASK_LIST_FAILURE': 
       return {
         ...state,
-      }
-
-    case 'UPDATE_TASK_START':
-      return {
-        ...state
+        isLoading: false,
+        error: 'Error'
       }
 
     case 'UPDATE_TASK_SUCCESS':
       return {
         ...state,
-        reload: !state.reload
+        reload: !state.reload,
       }
     
-    case 'UPDATE_TASK_FAILURE':
-      return {
-        ...state
-      }
-
-    case 'ADD_TASK_START':
-      return {
-        ...state
-      }
-
     case 'ADD_TASK_SUCCESS':
       return {
         ...state,
         reload: !state.reload
       }
 
-    case 'ADD_TASK_FAILURE':
+    case 'LOGIN_START':
+    case 'SIGNUP_START':
       return {
-        ...state
+        ...state,
+        isLoading: true
+      }
+
+    case 'SET_USER':
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload
       }
     
     case 'LOGIN_FAILURE':
       return {
         ...state,
+        isLoading: false,
         loginFailure: true
       }
     
@@ -146,6 +142,7 @@ export const reducer = (state = initialState, action) => {
     case 'SIGNUP_FAILURE':
       return {
         ...state,
+        isLoading: false,
         signupFailure: true
       }
     
@@ -161,16 +158,16 @@ export const reducer = (state = initialState, action) => {
         selectedTodo: action.payload
       }
 
-    case 'SET_SLIDE_WINDOW':
+    case 'SET_EDIT_WINDOW':
       return {
         ...state,
-        slideWindow: action.payload
+        editWindow: action.payload
       }
 
     case 'SET_EDIT_TODO':
       return {
         ...state,
-        editTodo: action.payload,
+        selectedTodo: action.payload,
         editTodoCategory: state.category_lookup[action.payload.category_id_fk]
       }
 

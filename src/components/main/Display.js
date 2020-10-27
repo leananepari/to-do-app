@@ -1,14 +1,13 @@
 import React, { useState, useEffect }  from 'react';
 import Todo from './Todo';
-import Image from '../../assets/mountains.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faChevronRight, faCheckCircle, faStar as starSolid } from '@fortawesome/free-solid-svg-icons';
-import { faStar as starOutline} from '@fortawesome/free-regular-svg-icons';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import plus_sign_icon from '../../assets/plus-sign-icon.svg';
 import { connect } from 'react-redux';
-import { addTask, setSlideWindow, setSelectedTodo, setEditTodo, updateTask } from '../../redux/actions';
-
+import { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask } from '../../redux/actions';
+import star_icon from '../../assets/star-icon.svg';
+import star_solid_icon from '../../assets/star-solid-icon.svg';
+import checkmark_icon from '../../assets/checkmark-icon.svg';
+import right_chevron from '../../assets/right-chevron.svg';
+import trash_icon from '../../assets/trash-icon.svg';
 
 const Display = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -19,15 +18,19 @@ const Display = ( props ) => {
   let today = new Date();
   let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-  let date = weekdays[today.getDay()]+", "+today.getDate()+" "+months[today.getMonth()];
+  let date = weekdays[today.getDay()]+", "+months[today.getMonth()]+" "+today.getDate();
 
   useEffect(() => {
 
     if (props.selected === "My Day") {
       setSelectedList(props.taskList);
-    } else {
+    } 
+    else {
       if (props.selected === "Important") {
         let filtered = props.taskList.filter(todo => todo.important === true);
+        setSelectedList(filtered)
+      } else if (props.selected === "Planned") {
+        let filtered = props.taskList.filter(todo => todo.due !== null);
         setSelectedList(filtered)
       } else {
         let filtered = props.taskList.filter(todo => props.category_lookup[todo.category_id_fk.toString()] === props.selected);
@@ -37,34 +40,15 @@ const Display = ( props ) => {
 
   }, [props.taskList, props.selected, props.slideWindow, props.reload])
 
-  const handleOpenSlideWindow = () => {
-    if (props.slideWindow && props.selectedTodo !== '') {
-      props.setSelectedTodo('');
-    } else {
-      props.setSlideWindow(true);
-    }
-  }
-
-  const handleCloseSlideWindow = () => {
-    props.setSlideWindow(false);
+  const handleCloseEditWindow = () => {
+    props.setEditWindow(false);
   }
 
   const handleChange = (event) => {
     setNewTodo( { ...newTodo, [event.target.name]: event.target.value } )
   }
 
-  const handleCategoryDropdown = (event) => {
-    let id;
-    for (let i = 0; i < categoryOptions.length; i++) {
-      if (categoryOptions[i] === event.value) {
-        id = props.category_id_lookup[categoryOptions[i]];
-      }
-    }
-    setCategory(event.value); 
-    setNewTodo( { ...newTodo, category_id_fk: id } )
-  }
-
-  const handleAddButton = (e) => {
+  const handleAddTodo = (e) => {
     e.preventDefault();
 
     let todo = {
@@ -75,9 +59,12 @@ const Display = ( props ) => {
       "created": "",
       "due": ""
     }
-    //if category wasn't selected set it to default 'to-do'
+    if (props.selected === "Important") {
+      todo['important'] = true;
+    }
+    //if category wasn't selected set it to default 'tasks'
     if (newTodo['category_id_fk'] === "") {
-      todo["category_id_fk"] = props.category_id_lookup["To-do"];
+      todo["category_id_fk"] = props.category_id_lookup["Tasks"];
     }
 
     todo["user_id_fk"] = user.userid;
@@ -86,24 +73,13 @@ const Display = ( props ) => {
     setCategory();
   }
 
-  const handleEditTodoCategoryDropdown = (event) => {
-    let id;
-    for (let i = 0; i < categoryOptions.length; i++) {
-      if (categoryOptions[i] === event.value) {
-        id = props.category_id_lookup[categoryOptions[i]];
-      }
-    }
-    props.setEditTodo( { ...props.editTodo, category_id_fk: id } );
-  }
-
   const handleEditTodoChange = (event) => {
-    props.setEditTodo( { ...props.editTodo, [event.target.name]: event.target.value } )
+    props.setEditTodo( { ...props.selectedTodo, [event.target.name]: event.target.value } )
   }
 
   const handleEditTodoSubmitButton = (e) => {
     e.preventDefault();
-    props.updateTask(props.editTodo);
-    props.setSelectedTodo('');
+    props.updateTask(props.selectedTodo);
   }
 
   const handleMarked = () => {
@@ -121,116 +97,92 @@ const Display = ( props ) => {
     props.updateTask(props.selectedTodo, props.history);
   }
 
+  const handleUserKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      handleEditTodoSubmitButton(e); 
+    }
+  }
+
+  const handleDelete = () => {
+    props.deleteTask(props.selectedTodo.task_id, props.history)
+    props.setEditWindow(false);
+  }
+
   return (
     <div className="display">
-      <div className="banner"> 
-        <img src={Image} alt="background-image"style={{width: '100%', height: '100%'}}/>
-        <div className="text">
-          <div className="title">{props.selected}</div>
-          <div className="date">{date}</div>
-        </div>
-      </div>
-      <div className="todo-list">
-        {selectedList.map((todo) => {
-          return <Todo todo={todo} key={todo.task_id} />
-        })}
-      </div>
-      <div className="add-to-do" >
-        <div onClick={handleOpenSlideWindow} className="click-wrap">
-          <FontAwesomeIcon style={{width: '30px', 
-                                  height: '30px', 
-                                  cursor: 'pointer', 
-                                  color: '#495DFB'}} icon={faPlusCircle} size='lg'/> 
-          <div className="text">Add a to-do</div>
-        </div>
-      </div>
-      <div className={props.slideWindow ? "slide-out-window-open" : "slide-out-window-close"}>
-        <div className="slide-window">
-          {props.selectedTodo === '' ? 
-            <div className="add-todo-top-section">
-              <h2>Add a to-do</h2>
-              <form className="add-todo-form">
-                <input 
-                  type="text"
-                  name="to_do"
-                  value={newTodo.to_do}
-                  onChange={handleChange}
-                  placeholder="New to-do"
-                />
-                <Dropdown 
-                  onChange={handleCategoryDropdown} 
-                  controlClassName='myControlClassName' 
-                  className='dropdownRoot' 
-                  options={categoryOptions}   
-                  value={category} 
-                  placeholder='Select category...'
-                />
-                <button type="submit" onClick={handleAddButton} className="add-button">Add</button>
-              </form>
-            </div>
+        
+        <div style={{width: '100%', margin: '0 10px 0 10px'}}>
+          <div className="text-wrap">
+            <div className="title" style={{color: `${props.selected !== "My Day" ? "#3F6AE3" : "#34383C"}`}}>{props.selected}</div>
+            {props.selected === "My Day" ?
+              <div className="date">{date}</div>
+            :
+              <></>
+            }
+          </div>
+          <div className="add-to-do" >
+            <form onSubmit={handleAddTodo} >
+              <img src={plus_sign_icon} style={{width: '16px'}} className="plus-icon"/>
+              <input 
+                 type="text"
+                 name="to_do"
+                 value={newTodo.to_do} 
+                 onChange={handleChange} 
+                 placeholder={props.selected === "Planned" ? "Add a task due today" : "Add a task"}
+                 autoComplete="off"
+               />
+            </form>
+            <div className="border"></div>
+          </div>
+      
+          <div className="todo-list">
+            {selectedList.map((todo) => {
+              return <Todo todo={todo} key={todo.task_id} />
+            })}
+          </div>
 
-          :
+        </div>
+
+      <div className={props.editWindow ? "edit-window-open" : "edit-window-close"}>
+
+        <div className="edit-todo-window">
             <div className="edit-todo-section">
-              <form className="edit-todo-form">
+              <form className="edit-todo-form" onSubmit={handleEditTodoSubmitButton}>
                 <div className="input-icon-wrap">
                   {props.selectedTodo.completed ? 
-                    <FontAwesomeIcon 
-                    onClick={handleUnmarked} 
-                    style={{width: '18px', 
-                            height: '18px', 
-                            cursor: 'pointer', 
-                            color: '#69B100',
-                            marginTop: '7px'
-                          }} 
-                                    icon={faCheckCircle} size='lg'/> 
+                    <img src={checkmark_icon} style={{width: '18px', cursor: 'pointer', marginTop: '7px', height: '18px'}} onClick={handleUnmarked}/>
                     : 
                     <div className="circle" 
                     onClick={handleMarked}
                     ></div>
                   }
+
                   <textarea 
                     type="text"
-                    wrap="soft"
                     name="description"
-                    value={props.editTodo.description}
+                    value={props.selectedTodo.description}
                     onChange={handleEditTodoChange}
+                    onKeyPress={handleUserKeyPress}
                   />
-                  <FontAwesomeIcon 
-                         onClick={handleImportant} 
-                         className={props.selectedTodo.important ? "star" : "none"} 
-                         style={{width: '18px', 
-                                 height: '18px', 
-                                 cursor: 'pointer', 
-                                 color: `${props.selectedTodo.important ? '#FFFF33' : 'gray'}`, 
-                                 margin: '0 auto', 
-                                 marginRight: '0px',
-                                 marginTop: '5px'
-                                }} 
-                         icon={props.selectedTodo.important ? starSolid : starOutline} 
-                         size='lg'/> 
+                  {props.selectedTodo.important ? 
+                    <img src={star_solid_icon} onClick={handleImportant} 
+                         style={{width: '16px', height: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px',
+                         marginTop: '5px'}}/>
+                  :
+                    <img src={star_icon} onClick={handleImportant} 
+                         style={{width: '16px', height: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px', 
+                         marginTop: '5px'}}/>
+                  }
                 </div>
-                <Dropdown 
-                  onChange={handleEditTodoCategoryDropdown} 
-                  controlClassName='myControlClassName' 
-                  className='dropdownRoot' 
-                  options={categoryOptions}   
-                  value={props.editTodoCategory} 
-                  placeholder='Select category...'
-                />
-                <button type="submit" onClick={handleEditTodoSubmitButton} className="save-button">Save</button>
               </form>
             </div>
-          }
+            <div className="bottom-section-wrap">
+              <img src={right_chevron} onClick={handleCloseEditWindow} style={{width: '16px', cursor: 'pointer', margin: '20px'}}/>
+              <img src={trash_icon} onClick={handleDelete} style={{width: '16px', cursor: 'pointer', margin: '20px'}} />
+            </div>
 
-          <div>
-            <FontAwesomeIcon onClick={handleCloseSlideWindow} style={{width: '25px', 
-                                                                      height: '25px', 
-                                                                      cursor: 'pointer', 
-                                                                      color: 'gray', 
-                                                                      margin: '20px'}} 
-                                                              icon={faChevronRight} size='lg'/> 
-          </div>
         </div>
+
       </div>
     </div>
   )
@@ -244,7 +196,7 @@ const mapStateToProps = state => {
     category_lookup: state.category_lookup,
     category_id_lookup: state.category_id_lookup,
     selectedTodo: state.selectedTodo,
-    slideWindow: state.slideWindow,
+    editWindow: state.editWindow,
     editTodo: state.editTodo,
     editTodoCategory: state.editTodoCategory
   }
@@ -252,5 +204,5 @@ const mapStateToProps = state => {
 
 export default connect (
   mapStateToProps,
-  { addTask, setSlideWindow, setSelectedTodo, setEditTodo, updateTask }
+  { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask }
 )(Display)

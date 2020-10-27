@@ -1,12 +1,11 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faStar as starSolid } from '@fortawesome/free-solid-svg-icons';
-import { faStar as starOutline} from '@fortawesome/free-regular-svg-icons';
 import { category_lookup } from '../../data';
 import { connect } from 'react-redux';
-import { updateTask, deleteTask, setSelectedTodo, setSlideWindow, setEditTodo } from '../../redux/actions';
+import { updateTask, deleteTask, setSelectedTodo, setEditWindow, setEditTodo } from '../../redux/actions';
 import { withRouter } from 'react-router-dom';
-import closeIcon from '../../assets/x-icon.svg';
+import checkmark_icon from '../../assets/checkmark-icon.svg';
+import star_icon from '../../assets/star-icon.svg';
+import star_solid_icon from '../../assets/star-solid-icon.svg';
 
 const Todo = ( props ) => {
 
@@ -26,13 +25,6 @@ const Todo = ( props ) => {
     props.updateTask(props.todo, props.history)
   }
 
-  const handleDelete = () => {
-    props.deleteTask(props.todo.task_id, props.history)
-    if (props.selectedTodo !== '' && props.selectedTodo.task_id === props.todo.task_id) {
-      props.setSelectedTodo('');
-    }
-  }
-
   const handleImportant = () => {
     props.todo['important'] = !props.todo['important'];
     if (props.selectedTodo !== '' && props.selectedTodo.task_id === props.todo.task_id) {
@@ -44,18 +36,19 @@ const Todo = ( props ) => {
   const handleSelectedTodo = () => {
     props.setSelectedTodo(props.todo);
     props.setEditTodo(props.todo);
-    if (props.slideWindow === false) {
-      props.setSlideWindow(true);
+    if (props.editWindow === false) {
+      props.setEditWindow(true);
     }
   }
 
   return (
-    <div className="todo" style={{ backgroundColor: `${props.selectedTodo !== "" && props.selectedTodo.task_id === props.todo.task_id && props.slideWindow ? "#F7F7F7" : 'transparent'}`}}>
+    <div className="todo" 
+      style={{ backgroundColor: `${props.selectedTodo !== "" && props.selectedTodo.task_id === props.todo.task_id && props.editWindow ? "#F3F6FF": ''}`}}>
 
       {props.todo.completed ? 
-        <FontAwesomeIcon onClick={handleUnmarked} style={{width: '25px', height: '25px', 
-                                                          cursor: 'pointer', color: '#69B100'}} 
-                         icon={faCheckCircle} size='lg'/> 
+        <img src={checkmark_icon} 
+             style={{width: '18px', cursor: 'pointer'}} 
+             onClick={handleUnmarked}/>
         : 
         <div className="circle" onClick={handleMarked}></div>}
 
@@ -65,16 +58,13 @@ const Todo = ( props ) => {
         </div>
         <div className="category">{category_lookup[props.todo['category_id_fk'].toString()]}</div>
       </div>
-      {props.todo.completed ? 
-        <img src={closeIcon} onClick={handleDelete} style={{width: '10px', height: '10px', cursor: 'pointer', color: 'gray', margin: '0 auto', marginRight: '0px'}}/>
+        {props.todo.important ? 
+          <img src={star_solid_icon} onClick={handleImportant} 
+               style={{width: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px'}}/>
         :
-        <FontAwesomeIcon onClick={handleImportant} className={props.todo.important ? "star" : "none"} 
-                         style={{width: '20px', height: '20px', 
-                                 cursor: 'pointer', 
-                                 color: `${props.todo.important ? '#FFFF33' : 'gray'}`, 
-                                 margin: '0 auto', marginRight: '0px'}} 
-                         icon={props.todo.important ? starSolid : starOutline} size='lg'/> 
-      }
+          <img src={star_icon} onClick={handleImportant} 
+               style={{width: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px'}}/>
+        }
       <div className="border"></div>
     </div>
   )
@@ -84,11 +74,11 @@ const mapStateToProps = state => {
   return {
     reload: state.reload,
     selectedTodo: state.selectedTodo,
-    slideWindow: state.slideWindow
+    editWindow: state.editWindow
   }
 }
 
 export default withRouter(connect(
   mapStateToProps,
-  { updateTask, deleteTask, setSelectedTodo, setSlideWindow, setEditTodo }
+  { updateTask, deleteTask, setSelectedTodo, setEditWindow, setEditTodo }
 )(Todo))

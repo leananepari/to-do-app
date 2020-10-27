@@ -1,5 +1,4 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 
 const Tab = ( props ) => {
@@ -9,14 +8,17 @@ const Tab = ( props ) => {
   }
 
   return (
-    <div className="tab" onClick={handleClick}>
-      <FontAwesomeIcon style={{width: '20px', 
-                               height: '20px', 
-                               color: `${props.selected === props.category ? '#0EA4E0' : 'gray'}`}} 
-                       icon={props.icon} size='lg'/> 
-      <div style={{color: `${props.selected === props.category ? '#0EA4E0' : 'gray'}`}}>{props.category}</div>
-      <div className="count" style={{color: `${props.selected === props.category ? '#0EA4E0' : 'gray'}`}}>
-                             {props.categoryCount[props.category]}</div>
+    <div className="tab" onClick={handleClick} 
+         style={{backgroundColor: `${props.selected === props.category ? '#EDEDED' : ''}`,
+                 marginTop: `${props.category === 'My Day' ? '20px' : '0px'}`}}>
+      <img src={props.icon} style={{height: '18px', width: '18px'}}/>
+      <div style={{color: `${props.selected === props.category && props.category !== "My Day" ? "#3F6AE3" : "#34383C"}`, 
+                   fontWeight: `${props.selected === props.category ? "500" : "200"}`}}>
+          {props.category}
+      </div>
+      <div className="count" style={{color: '#1B1C21'}}>
+          {props.categoryCount[props.category]}
+      </div>
     </div>
   )
 }
