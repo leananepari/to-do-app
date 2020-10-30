@@ -56,7 +56,7 @@ const Todo = ( props ) => {
         <div style={{textDecoration: `${props.todo.completed ? 'line-through' : 'none'}`}}>
              {props.todo['description']}
         </div>
-        <div className="category">{category_lookup[props.todo['category_id_fk'].toString()]}</div>
+        {/* <div className="category">{category_lookup[props.todo['category_id_fk'].toString()]}</div> */}
       </div>
         {props.todo.important ? 
           <img src={star_solid_icon} onClick={handleImportant} 

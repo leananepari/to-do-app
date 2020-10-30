@@ -21,23 +21,26 @@ const Display = ( props ) => {
   let date = weekdays[today.getDay()]+", "+months[today.getMonth()]+" "+today.getDate();
 
   useEffect(() => {
-
     if (props.selected === "My Day") {
-      setSelectedList(props.taskList);
-    } 
-    else {
-      if (props.selected === "Important") {
+      // setSelectedList(props.taskList);
+      let filtered = props.taskList.filter(todo => todo.my_day === true);
+      setSelectedList(filtered)
+    } else if (props.selected === "Important") {
         let filtered = props.taskList.filter(todo => todo.important === true);
         setSelectedList(filtered)
-      } else if (props.selected === "Planned") {
+    } else if (props.selected === "Planned") {
         let filtered = props.taskList.filter(todo => todo.due !== null);
         setSelectedList(filtered)
-      } else {
-        let filtered = props.taskList.filter(todo => props.category_lookup[todo.category_id_fk.toString()] === props.selected);
+    } else if (props.selected === "Tasks") {
+        let filtered = props.taskList.filter(todo => todo.list_id_fk === null);
+        setSelectedList(filtered)
+    } else {
+      if (props.customListLookupByName[props.selected]) {
+        let filtered = props.taskList.filter(todo => todo.list_id_fk === props.customListLookupByName[props.selected]['list_id']);
         setSelectedList(filtered)
       }
     }
-
+    
   }, [props.taskList, props.selected, props.slideWindow, props.reload])
 
   const handleCloseEditWindow = () => {
@@ -57,14 +60,21 @@ const Display = ( props ) => {
       "completed": false,
       "important": false,
       "created": "",
-      "due": ""
+      "due": "",
+      "list_id_fk": "",
+      "my_day": false,
+      "note": ""
     }
     if (props.selected === "Important") {
       todo['important'] = true;
     }
-    //if category wasn't selected set it to default 'tasks'
-    if (newTodo['category_id_fk'] === "") {
-      todo["category_id_fk"] = props.category_id_lookup["Tasks"];
+
+    if (props.customListLookupByName[props.selected]) {
+      todo['list_id_fk'] = props.customListLookupByName[props.selected]['list_id'];
+    }
+
+    if (props.selected === "My Day") {
+      todo["my_day"] = true;
     }
 
     todo["user_id_fk"] = user.userid;
@@ -122,7 +132,7 @@ const Display = ( props ) => {
           </div>
           <div className="add-to-do" >
             <form onSubmit={handleAddTodo} >
-              <img src={plus_sign_icon} style={{width: '16px'}} className="plus-icon"/>
+              <img src={plus_sign_icon} style={{width: '16px'}} />
               <input 
                  type="text"
                  name="to_do"
@@ -198,7 +208,9 @@ const mapStateToProps = state => {
     selectedTodo: state.selectedTodo,
     editWindow: state.editWindow,
     editTodo: state.editTodo,
-    editTodoCategory: state.editTodoCategory
+    editTodoCategory: state.editTodoCategory,
+    customListLookupByName: state.customListLookupByName
+
   }
 };
 
