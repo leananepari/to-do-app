@@ -20,7 +20,7 @@ const Login = (props) => {
     props.login(user, props.history);
   }
   {if (props.isLoading) {
-    return <div className="loading">Loading...</div>
+    return <div className="loader-wrap"><div className="loader"></div></div>
   } else {
       return (
         <div className="login-page">

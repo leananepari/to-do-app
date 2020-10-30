@@ -22,7 +22,10 @@ const initialState = {
             },
   editTodoCategory: '',
   isLoading: false,
-  error: ''
+  error: '',
+  customLists: [],
+  customListLookupByName: {},
+  customListLookupById: {}
 }
 
 export const reducer = (state = initialState, action) => {
@@ -60,19 +63,42 @@ export const reducer = (state = initialState, action) => {
 
 
       let storeCount = {};
-      storeCount["My Day"] = list.length;
+      // storeCount["Tasks"] = list.length;
       let countImportant = 0;
 
       if (list.length > 0) {
         list.forEach(todo => {
-          categoriesSet.add(state.category_lookup[todo.category_id_fk.toString()]);
-          if (storeCount.hasOwnProperty(state.category_lookup[todo.category_id_fk.toString()])) {
-            storeCount[state.category_lookup[todo.category_id_fk.toString()]] += 1;
+          if (todo.list_id_fk !== null) {
+            console.log('NOT NULL')
+            // categoriesSet.add(state.customListLookupById[todo.list_id_fk.toString()]);
+            if (storeCount.hasOwnProperty(state.customListLookupById[todo.list_id_fk.toString()])) {
+              storeCount[state.customListLookupById[todo.list_id_fk.toString()]] += 1;
+            } else {
+              storeCount[state.customListLookupById[todo.list_id_fk.toString()]] = 1;
+            }
           } else {
-            storeCount[state.category_lookup[todo.category_id_fk.toString()]] = 1;
+            if (storeCount['Tasks']) {
+              storeCount['Tasks'] += 1;
+            } else {
+              storeCount['Tasks'] = 1;
+            } 
           }
           if (todo.important === true) {
             countImportant ++;
+          }
+          if (todo.due !== null) {
+            if (storeCount['Planned']) {
+              storeCount['Planned'] += 1;
+            } else {
+              storeCount['Planned'] += 1;
+            }
+          }
+          if (todo.my_day === true) {
+            if (storeCount["My Day"]) {
+              storeCount["My Day"] += 1;
+            } else {
+              storeCount["My Day"] = 1;
+            }
           }
         });
       }
@@ -169,6 +195,27 @@ export const reducer = (state = initialState, action) => {
         ...state,
         selectedTodo: action.payload,
         editTodoCategory: state.category_lookup[action.payload.category_id_fk]
+      }
+    
+    case 'CREATE_NEW_LIST':
+      return {
+        ...state,
+        reload: !state.reload
+      }
+    
+    case 'GET_CUSTOM_LISTS':
+      let lookupByListName = {};
+      let lookupById = {};
+      action.payload.forEach(item => {
+        lookupByListName[item.name] = item;
+        lookupById[item['list_id']] = item.name;
+      })
+
+      return {
+        ...state,
+        customLists: action.payload,
+        customListLookupByName: lookupByListName,
+        customListLookupById: lookupById
       }
 
     default:

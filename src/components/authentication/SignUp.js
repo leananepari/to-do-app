@@ -20,57 +20,64 @@ const SignUp = (props) => {
     props.history.push('/login')
   }
 
-  return (
-    <div className="login-page">
-      <div className="login-box" >
-        <div>
-          <div className="logo-wrap">
-            <img src={Logo} alt="logo" style={{width: '80px'}}/>
-            <h1>To Do</h1>
-          </div>
-          <div className="subtitle">
-            Your <span className="life">life</span> <span className="organized">organized</span>
-          </div>
-        </div>
-        <form>
-          <div className="login-failure-message" style={{visibility: `${props.signupFailure ? 'visible' : 'hidden'}`}}>{newUser.username} is already taken!</div>
-          <input 
-            autoFocus
-            type="text"
-            name="username"
-            value={newUser.username}
-            onChange={handleChange}
-            placeholder="Username"
-          />
-          <input 
-            type="password"
-            name="password"
-            value={newUser.password}
-            onChange={handleChange}
-            placeholder="Password"
-          />
-          <input 
-            type="email"
-            name="primaryemail"
-            value={newUser.primaryemail}
-            onChange={handleChange}
-            placeholder="Your email"
-          />
+  {if (props.isLoading) {
+    return <div className="loader-wrap"><div className="loader"></div></div>
+  } else {
 
-          <button className="btn-login" onClick={handleSignUp}>Sign Up</button>
-        </form>
-        <div className="sign-up-message">
-          Already have an account? 
-          <button onClick={handleLoginClick}>Login</button>
+    return (
+      <div className="login-page">
+        <div className="login-box" >
+          <div>
+            <div className="logo-wrap">
+              <img src={Logo} alt="logo" style={{width: '80px'}}/>
+              <h1>To Do</h1>
+            </div>
+            <div className="subtitle">
+              Your <span className="life">life</span> <span className="organized">organized</span>
+            </div>
+          </div>
+          <form>
+            <div className="login-failure-message" style={{visibility: `${props.signupFailure ? 'visible' : 'hidden'}`}}>{newUser.username} is already taken!</div>
+            <input 
+              autoFocus
+              type="text"
+              name="username"
+              value={newUser.username}
+              onChange={handleChange}
+              placeholder="Username"
+            />
+            <input 
+              type="password"
+              name="password"
+              value={newUser.password}
+              onChange={handleChange}
+              placeholder="Password"
+            />
+            <input 
+              type="email"
+              name="primaryemail"
+              value={newUser.primaryemail}
+              onChange={handleChange}
+              placeholder="Your email"
+            />
+
+            <button className="btn-login" onClick={handleSignUp}>Sign Up</button>
+          </form>
+          <div className="sign-up-message">
+            Already have an account? 
+            <button onClick={handleLoginClick}>Login</button>
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
+ }
 }
 
 const mapStateToProps = state => {
   return {
-    signupFailure: state.signupFailure
+    signupFailure: state.signupFailure,
+    isLoading: state.isLoading
   }
 };
 

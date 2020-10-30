@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import TabsList from './TabsList';
 import Display from './Display';
 import { connect } from 'react-redux';
-import { getTaskList } from '../../redux/actions';
+import { getTaskList, getCustomLists } from '../../redux/actions';
 
 const Dashboard = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const [selected, setSelected] = useState("My Day");
+  const [selected, setSelected] = useState("Tasks");
 
   useEffect(() => {
     //api call to get user's task list
@@ -30,5 +30,5 @@ const mapStateToProps = state => {
 
 export default connect (
   mapStateToProps,
-  { getTaskList }
+  { getTaskList, getCustomLists }
 )(Dashboard)

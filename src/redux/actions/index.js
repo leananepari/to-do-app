@@ -3,20 +3,24 @@ import qs from 'qs';
 
 
 export const getTaskList = ( userId, history ) => {
+  console.log('TASKS ACTION')
+
   return dispatch => {
     dispatch({ type: 'GET_TASK_LIST_START' });
 
-    axiosWithAuth().get('/api/categories')
+    axiosWithAuth().get(`/api/lists/all/${userId}`)
       .then(response => {
-        dispatch({ type: 'SET_CATEGORIES', payload: response.data })
+        dispatch({ type: 'GET_CUSTOM_LISTS', payload: response.data })
+        console.log('CUSTOM LISTS: ', response)
       })
       .then(() => {
           axiosWithAuth().get(`/api/tasks/all/${userId}`, qs.stringify({ grant_type: 'password' }))
             .then(response => {
               dispatch({ type: 'GET_TASK_LIST_SUCCESS', payload: response.data })
-              console.log('TASKS: ', response.data)
+              console.log('TASKS call: ', response.data)
             })
             .catch(error => {
+              console.log('ERROR GETTING TASKS: ', error)
               dispatch({ type: 'GET_TASK_LIST_FAILURE', payload: error });
               localStorage.removeItem('token');
               localStorage.removeItem('tokenType');
@@ -80,6 +84,36 @@ export const addTask = ( newTodo, history ) => {
         localStorage.removeItem('tokenType');
         history.push('/login');
       });
+  }
+}
+
+export const createList = ( newList ) => {
+  console.log('action create list: ', newList)
+  return dispatch => {
+
+    axiosWithAuth().post('/api/lists/add', newList)
+      .then(response => {
+        console.log('SUCCESS list: ', response)
+        dispatch({ type: 'CREATE_NEW_LIST', payload: response.data })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+}
+
+export const getCustomLists = ( userId ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().get(`/api/lists/all/${userId}`)
+      .then(response => {
+        console.log('CUSTOM LISTS call: ', response)
+        dispatch({ type: 'GET_CUSTOM_LISTS', payload: response.data })
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 }
 

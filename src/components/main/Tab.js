@@ -5,6 +5,7 @@ const Tab = ( props ) => {
 
   const handleClick = () => {
     props.setSelected(props.category)
+    console.log('SELECTED: ', props.selected)
   }
 
   return (
@@ -25,7 +26,7 @@ const Tab = ( props ) => {
 
 const mapStateToProps = state => {
   return {
-    categoryCount: state.categoryCount
+    categoryCount: state.categoryCount,
   }
 }
 

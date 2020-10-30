@@ -17,6 +17,28 @@ html,body {
 /*============================================================
   LOGIN PAGE
 =============================================================*/
+.loader-wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loader {
+    border: 2px solid #f3f3f3; /* Light grey */
+    border-top: 2px solid  #0178D7; /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+
 .login-page {
   display: flex;
   align-items: center;
@@ -303,6 +325,35 @@ header {
       }
       .tab:hover {
         background-color: #FAFAFA;
+      }
+
+      .custom-lists {
+        margin-top: 20px;
+      }
+
+      .add-new-list {
+        padding: 10px 20px 10px 20px;
+        form {
+          display: flex;
+          align-items: center;
+  
+          input {
+            border: 1px solid transparent;
+            font-size: 14px;
+            margin-left: 15px;
+            width: 100%;
+            background-color: #F5F5F5;
+          }
+          ::placeholder {
+            color: #3F6AE3;
+          }
+          input:focus {
+            outline: none;
+          }
+          input:focus::-webkit-input-placeholder {
+            color: #767678;
+          }
+        }
       }
 
     }
