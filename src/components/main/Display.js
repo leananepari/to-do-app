@@ -2,25 +2,35 @@ import React, { useState, useEffect }  from 'react';
 import Todo from './Todo';
 import plus_sign_icon from '../../assets/plus-sign-icon.svg';
 import { connect } from 'react-redux';
-import { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask } from '../../redux/actions';
+import { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask, 
+         updateList, deleteList } from '../../redux/actions';
 import star_icon from '../../assets/star-icon.svg';
 import star_solid_icon from '../../assets/star-solid-icon.svg';
 import checkmark_icon from '../../assets/checkmark-icon.svg';
 import right_chevron from '../../assets/right-chevron.svg';
 import trash_icon from '../../assets/trash-icon.svg';
+import three_dots_icon from '../../assets/three-dots-icon.svg';
+import trash_icon_red from '../../assets/trash-icon-red.svg';
+import rename_icon from '../../assets/rename-icon.svg';
 
 const Display = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [selectedList, setSelectedList] = useState([]);
   const [newTodo, setNewTodo] = useState({ 'to_do': "", "category_id_fk": "" });
+  const [moreDropdown, setMoreDropdown] = useState(false);
+  const [listName, setListName] = useState({"name": ""});
+  const [listNameEdit, setListNameEdit] = useState(false);
   const [category, setCategory] = useState();
   const categoryOptions = ["To-do", "Groceries", "Work", "Family", "Travel", "Exercise"];
   let today = new Date();
   let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   let date = weekdays[today.getDay()]+", "+months[today.getMonth()]+" "+today.getDate();
+  const moreDropdownContainer = React.createRef();
+
 
   useEffect(() => {
+
     if (props.selected === "My Day") {
       // setSelectedList(props.taskList);
       let filtered = props.taskList.filter(todo => todo.my_day === true);
@@ -40,8 +50,27 @@ const Display = ( props ) => {
         setSelectedList(filtered)
       }
     }
-    
+
   }, [props.taskList, props.selected, props.slideWindow, props.reload])
+
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  })
+
+  const handleClick = e => {
+    if (moreDropdownContainer.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click 
+    setMoreDropdown(false);
+    setListNameEdit(false);
+  };
 
   const handleCloseEditWindow = () => {
     props.setEditWindow(false);
@@ -118,12 +147,85 @@ const Display = ( props ) => {
     props.setEditWindow(false);
   }
 
+  const handleMoreDropdown = () => {
+    setMoreDropdown(!moreDropdown);
+  }
+
+  const handleRenameList = () => {
+    setListName({"name": props.selected})
+    setListNameEdit(true);
+    setMoreDropdown(false);
+  }
+
+  const handleDeleteList = () => {
+    props.deleteList(props.customListLookupByName[props.selected]['list_id']);
+    setMoreDropdown(false);
+    props.setSelected("Tasks");
+  }
+
+  const handleChangeListName = ( event ) => {
+    setListName( { ...listName, [event.target.name]: event.target.value } )
+  }
+
+  const handleListUpdateSubmit = e => {
+    e.preventDefault();
+    let list = props.customListLookupByName[props.selected];
+    list['name'] = listName.name;
+    props.updateList(list);
+    setListNameEdit(false);
+    props.setSelected(list['name']);
+  }
+
+
   return (
     <div className="display">
         
         <div style={{width: '100%', margin: '0 10px 0 10px'}}>
-          <div className="text-wrap">
-            <div className="title" style={{color: `${props.selected !== "My Day" ? "#3F6AE3" : "#34383C"}`}}>{props.selected}</div>
+          <div className="text-wrap" ref={moreDropdownContainer}>
+
+            <div style={{display: 'flex', alignItems: 'center', position: 'relative'}}>
+               {listNameEdit ? 
+                <form onSubmit={handleListUpdateSubmit}>
+                  <input 
+                    autoFocus
+                    type="text"
+                    name="name"
+                    value={listName.name} 
+                    onChange={handleChangeListName} 
+                    autoComplete="off"
+                    
+                  />
+                </form>
+                  :
+                  <div className="title" style={{color: `${props.selected !== "My Day" ? "#3F6AE3" : "#34383C"}`}}>{props.selected}</div>
+               }
+                <img alt="more icon" onClick={handleMoreDropdown} src={three_dots_icon} className="more-icon"style={{width: '16px', 
+                                                                        marginLeft: '15px',
+                                                                        cursor: 'pointer'}}/>
+            </div>
+
+
+            <div className="more-dropdown" style={{display: `${moreDropdown ? 'block' : 'none'}`}}>
+              <div className="options">
+                {props.selected === "Important" || props.selected === "Planned" ? "Options" : "List options"}
+              </div>
+              {props.selected !== "My Day" && props.selected !== "Important" && props.selected !== "Planned" && props.selected !== "Tasks" ? 
+                <div>
+                  <div className="option-wrap" onClick={handleRenameList}>
+                    <img src={rename_icon} className="img" alt="rename icon"/>
+                    <ul>Rename list</ul>
+                  </div>
+                  <div className="option-wrap" onClick={handleDeleteList}>
+                    <img src={trash_icon_red} className="img" alt="trash icon"/>
+                    <ul style={{color: '#DB3B29'}}>Delete list</ul>
+                  </div>
+                </div>
+                :
+                <></>
+              }
+            </div>
+
+
             {props.selected === "My Day" ?
               <div className="date">{date}</div>
             :
@@ -132,7 +234,7 @@ const Display = ( props ) => {
           </div>
           <div className="add-to-do" >
             <form onSubmit={handleAddTodo} >
-              <img src={plus_sign_icon} style={{width: '16px'}} />
+              <img src={plus_sign_icon} style={{width: '16px'}} alt="plus sign icon"/>
               <input 
                  type="text"
                  name="to_do"
@@ -160,7 +262,7 @@ const Display = ( props ) => {
               <form className="edit-todo-form" onSubmit={handleEditTodoSubmitButton}>
                 <div className="input-icon-wrap">
                   {props.selectedTodo.completed ? 
-                    <img src={checkmark_icon} style={{width: '18px', cursor: 'pointer', marginTop: '7px', height: '18px'}} onClick={handleUnmarked}/>
+                    <img alt="checkmark icon" src={checkmark_icon} style={{width: '18px', cursor: 'pointer', marginTop: '7px', height: '18px'}} onClick={handleUnmarked}/>
                     : 
                     <div className="circle" 
                     onClick={handleMarked}
@@ -175,11 +277,11 @@ const Display = ( props ) => {
                     onKeyPress={handleUserKeyPress}
                   />
                   {props.selectedTodo.important ? 
-                    <img src={star_solid_icon} onClick={handleImportant} 
+                    <img alt="star solid icon" src={star_solid_icon} onClick={handleImportant} 
                          style={{width: '16px', height: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px',
                          marginTop: '5px'}}/>
                   :
-                    <img src={star_icon} onClick={handleImportant} 
+                    <img alt="star icon" src={star_icon} onClick={handleImportant} 
                          style={{width: '16px', height: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px', 
                          marginTop: '5px'}}/>
                   }
@@ -187,8 +289,8 @@ const Display = ( props ) => {
               </form>
             </div>
             <div className="bottom-section-wrap">
-              <img src={right_chevron} onClick={handleCloseEditWindow} style={{width: '16px', cursor: 'pointer', margin: '20px'}}/>
-              <img src={trash_icon} onClick={handleDelete} style={{width: '16px', cursor: 'pointer', margin: '20px'}} />
+              <img alt="right chevron icon" src={right_chevron} onClick={handleCloseEditWindow} style={{width: '16px', cursor: 'pointer', margin: '20px'}}/>
+              <img alt="trash icon" src={trash_icon} onClick={handleDelete} style={{width: '16px', cursor: 'pointer', margin: '20px'}} />
             </div>
 
         </div>
@@ -216,5 +318,6 @@ const mapStateToProps = state => {
 
 export default connect (
   mapStateToProps,
-  { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask }
+  { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask, updateList,
+    deleteList }
 )(Display)

@@ -17,7 +17,7 @@ const Dashboard = ( props ) => {
   return (
     <div className="dashboard-wrap">
       <TabsList selected={selected} setSelected={setSelected} />
-      <Display selected={selected} />
+      <Display selected={selected} setSelected={setSelected} />
     </div>
   )
 } 

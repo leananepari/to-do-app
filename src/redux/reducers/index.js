@@ -69,8 +69,6 @@ export const reducer = (state = initialState, action) => {
       if (list.length > 0) {
         list.forEach(todo => {
           if (todo.list_id_fk !== null) {
-            console.log('NOT NULL')
-            // categoriesSet.add(state.customListLookupById[todo.list_id_fk.toString()]);
             if (storeCount.hasOwnProperty(state.customListLookupById[todo.list_id_fk.toString()])) {
               storeCount[state.customListLookupById[todo.list_id_fk.toString()]] += 1;
             } else {
@@ -127,6 +125,8 @@ export const reducer = (state = initialState, action) => {
       }
 
     case 'UPDATE_TASK_SUCCESS':
+    case 'UPDATE_LIST_SUCCESS':
+    case 'DELETE_LIST_SUCCESS':
       return {
         ...state,
         reload: !state.reload,

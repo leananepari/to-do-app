@@ -19,6 +19,7 @@ const Login = (props) => {
     e.preventDefault();
     props.login(user, props.history);
   }
+  
   {if (props.isLoading) {
     return <div className="loader-wrap"><div className="loader"></div></div>
   } else {

@@ -48,12 +48,12 @@ const Header = ( props ) => {
   return (
     <header>
       <Link to={'/'} className="logo-header">
-        <img src={Logo} style={{width: '28px'}}/>
+        <img src={Logo} style={{width: '28px'}} alt="logo"/>
         <h1>To Do</h1>
       </Link>
       <div className="right-side">
         <div className="dropdown-wrap" ref={container}>
-          <img src={dropdown ? up_chevron : down_chevron} style={{width: '18px', cursor: 'pointer'}} onClick={handleDropdown}/>
+          <img alt="up or down chevron" src={dropdown ? up_chevron : down_chevron} style={{width: '18px', cursor: 'pointer'}} onClick={handleDropdown}/>
           <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, 
                                             position: 'absolute'}}>
             <div className="triangle">
@@ -64,15 +64,15 @@ const Header = ( props ) => {
               </div>
             </div>
             <Link to={'/profile'} className="text">
-              <img src={userIcon} />
+              <img src={userIcon} alt="user icon"/>
               Profile
             </Link>
             <Link to={'/settings'} className="text">
-              <img src={settingsIcon} className="settings-icon"/>
+              <img src={settingsIcon} className="settings-icon" alt="settings icon"/>
               Settings
             </Link>
             <div className="text last" onClick={handleLogout}>
-              <img src={logoutIcon} />
+              <img src={logoutIcon} alt="logout icon"/>
               Logout
             </div>
           </div>

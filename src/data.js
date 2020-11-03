@@ -1,4 +1,3 @@
-import { faSun, faPizzaSlice, faBriefcase, faHome, faPlane, faDumbbell, faCheckSquare, faStar } from '@fortawesome/free-solid-svg-icons';
 import sun_icon from './assets/sun-icon.svg';
 import home_icon from './assets/home-icon.svg';
 import star_icon from './assets/star-icon.svg';
