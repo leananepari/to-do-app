@@ -1,5 +1,4 @@
 import React from 'react';
-import { category_lookup } from '../../data';
 import { connect } from 'react-redux';
 import { updateTask, deleteTask, setSelectedTodo, setEditWindow, setEditTodo } from '../../redux/actions';
 import { withRouter } from 'react-router-dom';
@@ -46,7 +45,7 @@ const Todo = ( props ) => {
       style={{ backgroundColor: `${props.selectedTodo !== "" && props.selectedTodo.task_id === props.todo.task_id && props.editWindow ? "#F3F6FF": ''}`}}>
 
       {props.todo.completed ? 
-        <img src={checkmark_icon} 
+        <img src={checkmark_icon} alt="checkmark icon"
              style={{width: '18px', cursor: 'pointer'}} 
              onClick={handleUnmarked}/>
         : 
@@ -59,10 +58,10 @@ const Todo = ( props ) => {
         {/* <div className="category">{category_lookup[props.todo['category_id_fk'].toString()]}</div> */}
       </div>
         {props.todo.important ? 
-          <img src={star_solid_icon} onClick={handleImportant} 
+          <img src={star_solid_icon} onClick={handleImportant} alt="star solid icon"
                style={{width: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px'}}/>
         :
-          <img src={star_icon} onClick={handleImportant} 
+          <img src={star_icon} onClick={handleImportant} alt="star icon"
                style={{width: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px'}}/>
         }
       <div className="border"></div>

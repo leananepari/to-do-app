@@ -15,8 +15,9 @@ const TabsList = ( props ) => {
     let list = {...newList}
     list['user_id_fk'] = user.userid;
     list['theme_id_fk'] = 1;
-    props.createList(list);
+    props.createList(list, props.setSelected);
     setNewList({'name': ''});
+    
   }
 
   const handleChange = (event) => {
@@ -33,7 +34,6 @@ const TabsList = ( props ) => {
 
       <div className="custom-lists">
         {props.customLists.map(list => {
-          console.log('DEBUGGG: ', props.customLists)
           return <Tab category={list.name} icon={list_icon} key={list.list_id} selected={props.selected} setSelected={props.setSelected}/>
         })}
       </div>

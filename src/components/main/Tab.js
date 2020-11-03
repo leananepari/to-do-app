@@ -5,14 +5,13 @@ const Tab = ( props ) => {
 
   const handleClick = () => {
     props.setSelected(props.category)
-    console.log('SELECTED: ', props.selected)
   }
 
   return (
     <div className="tab" onClick={handleClick} 
          style={{backgroundColor: `${props.selected === props.category ? '#EDEDED' : ''}`,
                  marginTop: `${props.category === 'My Day' ? '20px' : '0px'}`}}>
-      <img src={props.icon} style={{height: '18px', width: '18px'}}/>
+      <img src={props.icon} style={{height: '18px', width: '18px'}} alt="tab icon"/>
       <div style={{color: `${props.selected === props.category && props.category !== "My Day" ? "#3F6AE3" : "#34383C"}`, 
                    fontWeight: `${props.selected === props.category ? "500" : "200"}`}}>
           {props.category}

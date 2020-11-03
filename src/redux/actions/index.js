@@ -3,7 +3,6 @@ import qs from 'qs';
 
 
 export const getTaskList = ( userId, history ) => {
-  console.log('TASKS ACTION')
 
   return dispatch => {
     dispatch({ type: 'GET_TASK_LIST_START' });
@@ -11,16 +10,13 @@ export const getTaskList = ( userId, history ) => {
     axiosWithAuth().get(`/api/lists/all/${userId}`)
       .then(response => {
         dispatch({ type: 'GET_CUSTOM_LISTS', payload: response.data })
-        console.log('CUSTOM LISTS: ', response)
       })
       .then(() => {
           axiosWithAuth().get(`/api/tasks/all/${userId}`, qs.stringify({ grant_type: 'password' }))
             .then(response => {
               dispatch({ type: 'GET_TASK_LIST_SUCCESS', payload: response.data })
-              console.log('TASKS call: ', response.data)
             })
             .catch(error => {
-              console.log('ERROR GETTING TASKS: ', error)
               dispatch({ type: 'GET_TASK_LIST_FAILURE', payload: error });
               localStorage.removeItem('token');
               localStorage.removeItem('tokenType');
@@ -87,14 +83,40 @@ export const addTask = ( newTodo, history ) => {
   }
 }
 
-export const createList = ( newList ) => {
-  console.log('action create list: ', newList)
+export const createList = ( newList, setSelectedTab ) => {
+
   return dispatch => {
 
     axiosWithAuth().post('/api/lists/add', newList)
       .then(response => {
-        console.log('SUCCESS list: ', response)
-        dispatch({ type: 'CREATE_NEW_LIST', payload: response.data })
+        dispatch({ type: 'CREATE_NEW_LIST', payload: response.data });
+        setSelectedTab(newList['name']);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+}
+
+export const updateList = ( list ) => {
+
+  return dispatch => {
+    axiosWithAuth().put('/api/lists/update', list)
+      .then(response => {
+        dispatch({ type: 'UPDATE_LIST_SUCCESS', payload: response.data })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+}
+
+export const deleteList = ( listId ) => {
+
+  return dispatch => {
+    axiosWithAuth().delete(`/api/lists/delete/${listId}`)
+      .then(response => {
+        dispatch({ type: 'DELETE_LIST_SUCCESS' })
       })
       .catch((error) => {
         console.log(error);
@@ -108,7 +130,6 @@ export const getCustomLists = ( userId ) => {
 
     axiosWithAuth().get(`/api/lists/all/${userId}`)
       .then(response => {
-        console.log('CUSTOM LISTS call: ', response)
         dispatch({ type: 'GET_CUSTOM_LISTS', payload: response.data })
       })
       .catch(error => {
@@ -132,18 +153,14 @@ export const login = (user, history) => {
     .then(response => {
       localStorage.setItem("token", response.data.access_token);
       localStorage.setItem("tokenType", response.data.token_type);
-  
-      console.log("response data login", response.data)
-      return getUserInfo()();
+        return getUserInfo()();
     })
     .then(user => {
       dispatch({ type: 'SET_USER', payload: user });
-      console.log('Successful login', user);
       localStorage.setItem("user", JSON.stringify(user));
       history.push('/');
     })
     .catch(error => {
-      console.log('Login failed', error);
       dispatch({ type: 'LOGIN_FAILURE' })
     });
   }
@@ -165,7 +182,6 @@ export const signup = ( newUser, history ) => {
     })
     .then(user => {
       dispatch({ type: 'SET_USER', payload: user });
-      console.log('Successful login', user);
       localStorage.setItem("user", JSON.stringify(user));
       history.push('/');
     })
@@ -181,7 +197,6 @@ const getUserInfo = () => () => {
   return new Promise((resolve, reject) => {
     axiosWithAuth().get('/users/getuserinfo')
       .then(response => {
-        console.log("DEBUGG LOGIN getUserInfo", response)
         resolve(response.data);
       })
       .catch(error => {
