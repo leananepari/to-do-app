@@ -269,104 +269,116 @@ header {
   .dashboard-wrap .display {
     width: 100%;
     display: flex; }
-    .dashboard-wrap .display .text-wrap {
-      margin: 20px;
-      width: fit-content; }
-      .dashboard-wrap .display .text-wrap .title {
-        font-size: 20px;
-        letter-spacing: 1px; }
-      .dashboard-wrap .display .text-wrap .more-icon {
-        padding: 5px;
-        border-radius: 2px; }
-      .dashboard-wrap .display .text-wrap .more-icon:hover {
-        background-color: #EDEDED; }
-      .dashboard-wrap .display .text-wrap .date {
-        font-size: 12px;
-        color: #767678;
-        margin-top: 10px; }
-      .dashboard-wrap .display .text-wrap .more-dropdown {
-        position: absolute;
-        background: white;
-        width: 200px;
-        box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px;
-        border-radius: 2px;
-        z-index: 5; }
-        .dashboard-wrap .display .text-wrap .more-dropdown .options {
-          padding: 20px;
-          border-bottom: 1px solid #EAEAEA;
-          color: #34383C;
-          text-align: center; }
-        .dashboard-wrap .display .text-wrap .more-dropdown .option-wrap {
+    .dashboard-wrap .display .middle-section-wrap {
+      width: 100%;
+      margin: 0 10px 0 10px; }
+      .dashboard-wrap .display .middle-section-wrap .text-wrap {
+        margin: 20px;
+        width: fit-content; }
+        .dashboard-wrap .display .middle-section-wrap .text-wrap .title-wrap {
           display: flex;
           align-items: center;
-          padding: 15px;
-          cursor: pointer; }
-        .dashboard-wrap .display .text-wrap .more-dropdown .option-wrap:hover {
-          background-color: #EDEDED; }
-        .dashboard-wrap .display .text-wrap .more-dropdown .img {
+          position: relative; }
+          .dashboard-wrap .display .middle-section-wrap .text-wrap .title-wrap .title {
+            font-size: 20px;
+            letter-spacing: 1px; }
+        .dashboard-wrap .display .middle-section-wrap .text-wrap .more-icon {
+          padding: 5px;
+          border-radius: 2px;
           width: 16px;
-          margin-right: 15px; }
-        .dashboard-wrap .display .text-wrap .more-dropdown ul {
-          color: #34383C;
+          margin-left: 15px;
+          cursor: pointer; }
+        .dashboard-wrap .display .middle-section-wrap .text-wrap .more-icon:hover {
+          background-color: #EDEDED; }
+        .dashboard-wrap .display .middle-section-wrap .text-wrap .date {
+          font-size: 12px;
+          color: #767678;
+          margin-top: 10px; }
+        .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown {
+          position: absolute;
+          background: white;
+          width: 200px;
+          box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px;
+          border-radius: 2px;
+          z-index: 5; }
+          .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown .options {
+            padding: 20px;
+            border-bottom: 1px solid #EAEAEA;
+            color: #34383C;
+            text-align: center; }
+          .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown .option-wrap {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            cursor: pointer; }
+          .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown .option-wrap:hover {
+            background-color: #EDEDED; }
+          .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown .img {
+            width: 16px;
+            margin-right: 15px; }
+          .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown ul {
+            color: #34383C;
+            font-weight: 300;
+            font-size: 14px; }
+      .dashboard-wrap .display .middle-section-wrap .todo-list {
+        overflow-y: scroll;
+        height: calc(100% - 132px); }
+        .dashboard-wrap .display .middle-section-wrap .todo-list .todo {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
           font-weight: 300;
-          font-size: 14px; }
-    .dashboard-wrap .display .todo-list {
-      overflow-y: scroll;
-      height: calc(100% - 132px); }
-      .dashboard-wrap .display .todo-list .todo {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        font-weight: 300;
-        letter-spacing: 1px;
-        height: 40px;
+          letter-spacing: 1px;
+          height: 40px;
+          padding: 10px 20px 10px 20px;
+          position: relative; }
+          .dashboard-wrap .display .middle-section-wrap .todo-list .todo .border {
+            border-bottom: 1px solid #EAEAEA;
+            position: absolute;
+            left: 15px;
+            right: 10px;
+            bottom: 0px; }
+          .dashboard-wrap .display .middle-section-wrap .todo-list .todo .circle {
+            width: 18px;
+            height: 18px;
+            border: 1px solid #3F6AE3;
+            border-radius: 50%;
+            cursor: pointer;
+            box-sizing: border-box; }
+          .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text {
+            margin-left: 15px;
+            cursor: pointer; }
+            .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .category {
+              font-size: 12px;
+              margin-top: 5px;
+              color: #767678; }
+        .dashboard-wrap .display .middle-section-wrap .todo-list .todo:hover {
+          background-color: #F7F7F7; }
+      .dashboard-wrap .display .middle-section-wrap .add-to-do {
         padding: 10px 20px 10px 20px;
         position: relative; }
-        .dashboard-wrap .display .todo-list .todo .border {
+        .dashboard-wrap .display .middle-section-wrap .add-to-do .border {
           border-bottom: 1px solid #EAEAEA;
           position: absolute;
           left: 15px;
           right: 10px;
           bottom: 0px; }
-        .dashboard-wrap .display .todo-list .todo .circle {
-          width: 18px;
-          height: 18px;
-          border: 1px solid #3F6AE3;
-          border-radius: 50%;
-          cursor: pointer;
-          box-sizing: border-box; }
-        .dashboard-wrap .display .todo-list .todo .text {
-          margin-left: 15px;
-          cursor: pointer; }
-          .dashboard-wrap .display .todo-list .todo .text .category {
-            font-size: 12px;
-            margin-top: 5px;
+        .dashboard-wrap .display .middle-section-wrap .add-to-do form {
+          display: flex;
+          align-items: center; }
+          .dashboard-wrap .display .middle-section-wrap .add-to-do form input {
+            border: 1px solid transparent;
+            font-size: 14px;
+            margin-left: 10px;
+            width: 100%; }
+          .dashboard-wrap .display .middle-section-wrap .add-to-do form ::placeholder {
+            color: #3F6AE3; }
+          .dashboard-wrap .display .middle-section-wrap .add-to-do form input:focus {
+            outline: none; }
+          .dashboard-wrap .display .middle-section-wrap .add-to-do form input:focus::-webkit-input-placeholder {
             color: #767678; }
-      .dashboard-wrap .display .todo-list .todo:hover {
-        background-color: #F7F7F7; }
-    .dashboard-wrap .display .add-to-do {
-      padding: 10px 20px 10px 20px;
-      position: relative; }
-      .dashboard-wrap .display .add-to-do .border {
-        border-bottom: 1px solid #EAEAEA;
-        position: absolute;
-        left: 15px;
-        right: 10px;
-        bottom: 0px; }
-      .dashboard-wrap .display .add-to-do form {
-        display: flex;
-        align-items: center; }
-        .dashboard-wrap .display .add-to-do form input {
-          border: 1px solid transparent;
-          font-size: 14px;
-          margin-left: 10px;
-          width: 100%; }
-        .dashboard-wrap .display .add-to-do form ::placeholder {
-          color: #3F6AE3; }
-        .dashboard-wrap .display .add-to-do form input:focus {
-          outline: none; }
-        .dashboard-wrap .display .add-to-do form input:focus::-webkit-input-placeholder {
-          color: #767678; }
+          .dashboard-wrap .display .middle-section-wrap .add-to-do form img {
+            width: 16px; }
     .dashboard-wrap .display .edit-window-close {
       height: calc(100vh - 50px);
       background-color: white;
@@ -427,6 +439,25 @@ header {
           .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap {
             display: flex;
             margin-bottom: 10px; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap .checkmark-icon {
+              width: 18px;
+              cursor: pointer;
+              margin-top: 7px;
+              height: 18px; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap .star-solid-icon {
+              width: 16px;
+              height: 16px;
+              cursor: pointer;
+              margin: 0 auto;
+              margin-right: 0px;
+              margin-top: 5px; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap .star-icon {
+              width: 16px;
+              height: 16px;
+              cursor: pointer;
+              margin: 0 auto;
+              margin-right: 0px;
+              margin-top: 5px; }
             .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .input-icon-wrap textarea {
               font-family: BlinkMacSystemFont, Helvetica Neue,sans-serif;
               resize: none;
@@ -477,6 +508,14 @@ header {
       .dashboard-wrap .display .edit-todo-window .bottom-section-wrap {
         display: flex;
         justify-content: space-between; }
+        .dashboard-wrap .display .edit-todo-window .bottom-section-wrap .right-chevron-icon {
+          width: 16px;
+          cursor: pointer;
+          margin: 20px; }
+        .dashboard-wrap .display .edit-todo-window .bottom-section-wrap .trash-icon {
+          width: 16px;
+          cursor: pointer;
+          margin: 20px; }
 
 /*
 html5doctor.com Reset Stylesheet

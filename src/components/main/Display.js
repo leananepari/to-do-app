@@ -180,61 +180,93 @@ const Display = ( props ) => {
   return (
     <div className="display">
         
-        <div style={{width: '100%', margin: '0 10px 0 10px'}}>
+        <div className="middle-section-wrap">
+
           <div className="text-wrap" ref={moreDropdownContainer}>
 
-            <div style={{display: 'flex', alignItems: 'center', position: 'relative'}}>
-               {listNameEdit ? 
-                <form onSubmit={handleListUpdateSubmit}>
-                  <input 
-                    autoFocus
-                    type="text"
-                    name="name"
-                    value={listName.name} 
-                    onChange={handleChangeListName} 
-                    autoComplete="off"
-                    
-                  />
-                </form>
-                  :
-                  <div className="title" style={{color: `${props.selected !== "My Day" ? "#3F6AE3" : "#34383C"}`}}>{props.selected}</div>
+            <div className="title-wrap">
+               {listNameEdit 
+
+                ? 
+                  <form onSubmit={handleListUpdateSubmit}>
+                    <input 
+                      autoFocus
+                      type="text"
+                      name="name"
+                      value={listName.name} 
+                      onChange={handleChangeListName} 
+                      autoComplete="off"
+                    />
+                  </form>
+                :
+                  <div className="title" 
+                       style={{color: `${props.selected !== "My Day" ? "#3F6AE3" : "#34383C"}`}}>
+                       {props.selected}
+                  </div>
                }
-                <img alt="more icon" onClick={handleMoreDropdown} src={three_dots_icon} className="more-icon"style={{width: '16px', 
-                                                                        marginLeft: '15px',
-                                                                        cursor: 'pointer'}}/>
+
+               {props.selected !== "My Day" 
+                && props.selected !== "Important" 
+                && props.selected !== "Planned" 
+                && props.selected !== "Tasks" 
+
+                ?
+                  
+                  <img alt="more icon" 
+                       onClick={handleMoreDropdown} 
+                       src={three_dots_icon} 
+                       className="more-icon"
+                  />
+                :
+                  <></>
+                }
             </div>
 
 
-            <div className="more-dropdown" style={{display: `${moreDropdown ? 'block' : 'none'}`}}>
+            <div className="more-dropdown" 
+                 style={{display: `${moreDropdown ? 'block' : 'none'}`}}>
+
               <div className="options">
-                {props.selected === "Important" || props.selected === "Planned" ? "Options" : "List options"}
+                {props.selected === "Important" 
+                 || props.selected === "Planned" ? "Options" : "List options"}
               </div>
-              {props.selected !== "My Day" && props.selected !== "Important" && props.selected !== "Planned" && props.selected !== "Tasks" ? 
-                <div>
-                  <div className="option-wrap" onClick={handleRenameList}>
-                    <img src={rename_icon} className="img" alt="rename icon"/>
-                    <ul>Rename list</ul>
+
+              {props.selected !== "My Day" 
+               && props.selected !== "Important" 
+               && props.selected !== "Planned" 
+               && props.selected !== "Tasks" 
+               
+               ? 
+                  <div>
+                    <div className="option-wrap" onClick={handleRenameList}>
+                      <img src={rename_icon} className="img" alt="rename icon"/>
+                      <ul>Rename list</ul>
+                    </div>
+                    <div className="option-wrap" onClick={handleDeleteList}>
+                      <img src={trash_icon_red} className="img" alt="trash icon"/>
+                      <ul style={{color: '#DB3B29'}}>Delete list</ul>
+                    </div>
                   </div>
-                  <div className="option-wrap" onClick={handleDeleteList}>
-                    <img src={trash_icon_red} className="img" alt="trash icon"/>
-                    <ul style={{color: '#DB3B29'}}>Delete list</ul>
-                  </div>
-                </div>
                 :
-                <></>
+                  <></>
               }
             </div>
 
 
-            {props.selected === "My Day" ?
+            {props.selected === "My Day" 
+            
+            ?
               <div className="date">{date}</div>
             :
               <></>
             }
           </div>
-          <div className="add-to-do" >
-            <form onSubmit={handleAddTodo} >
-              <img src={plus_sign_icon} style={{width: '16px'}} alt="plus sign icon"/>
+          
+          <div className="add-to-do">
+
+            <form onSubmit={handleAddTodo}>
+
+              <img src={plus_sign_icon} alt="plus sign icon"/>
               <input 
                  type="text"
                  name="to_do"
@@ -243,7 +275,9 @@ const Display = ( props ) => {
                  placeholder={props.selected === "Planned" ? "Add a task due today" : "Add a task"}
                  autoComplete="off"
                />
+
             </form>
+
             <div className="border"></div>
           </div>
       
@@ -259,14 +293,22 @@ const Display = ( props ) => {
 
         <div className="edit-todo-window">
             <div className="edit-todo-section">
+
               <form className="edit-todo-form" onSubmit={handleEditTodoSubmitButton}>
+
                 <div className="input-icon-wrap">
-                  {props.selectedTodo.completed ? 
-                    <img alt="checkmark icon" src={checkmark_icon} style={{width: '18px', cursor: 'pointer', marginTop: '7px', height: '18px'}} onClick={handleUnmarked}/>
-                    : 
+
+                  {props.selectedTodo.completed 
+                  
+                  ? 
+                    <img alt="checkmark icon" 
+                         src={checkmark_icon} 
+                         className="checkmark-icon"
+                         onClick={handleUnmarked}/>
+                  : 
                     <div className="circle" 
-                    onClick={handleMarked}
-                    ></div>
+                         onClick={handleMarked}> 
+                    </div>
                   }
 
                   <textarea 
@@ -276,21 +318,40 @@ const Display = ( props ) => {
                     onChange={handleEditTodoChange}
                     onKeyPress={handleUserKeyPress}
                   />
-                  {props.selectedTodo.important ? 
-                    <img alt="star solid icon" src={star_solid_icon} onClick={handleImportant} 
-                         style={{width: '16px', height: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px',
-                         marginTop: '5px'}}/>
+
+                  {props.selectedTodo.important 
+                  
+                  ? 
+                    <img alt="star solid icon" 
+                         src={star_solid_icon} 
+                         onClick={handleImportant} 
+                         className="star-solid-icon"
+                    />
                   :
-                    <img alt="star icon" src={star_icon} onClick={handleImportant} 
-                         style={{width: '16px', height: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px', 
-                         marginTop: '5px'}}/>
+                    <img alt="star icon" 
+                         src={star_icon} 
+                         onClick={handleImportant} 
+                         className="star-icon"
+                    />
                   }
                 </div>
               </form>
+
             </div>
+
             <div className="bottom-section-wrap">
-              <img alt="right chevron icon" src={right_chevron} onClick={handleCloseEditWindow} style={{width: '16px', cursor: 'pointer', margin: '20px'}}/>
-              <img alt="trash icon" src={trash_icon} onClick={handleDelete} style={{width: '16px', cursor: 'pointer', margin: '20px'}} />
+
+              <img alt="right chevron icon" 
+                   src={right_chevron} 
+                   onClick={handleCloseEditWindow} 
+                   className="right-chevron-icon"
+              />
+              <img alt="trash icon" 
+                   src={trash_icon} 
+                   onClick={handleDelete} 
+                   className="trash-icon"
+              />
+
             </div>
 
         </div>
