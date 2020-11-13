@@ -1,9 +1,8 @@
 import React, { useState, useEffect }  from 'react';
-import Todo from './Todo';
+import Task from './Task';
 import plus_sign_icon from '../../assets/plus-sign-icon.svg';
 import { connect } from 'react-redux';
-import { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask, 
-         updateList, deleteList } from '../../redux/actions';
+import { dashboard } from '../../state/actions';
 import star_icon from '../../assets/star-icon.svg';
 import star_solid_icon from '../../assets/star-solid-icon.svg';
 import checkmark_icon from '../../assets/checkmark-icon.svg';
@@ -16,23 +15,20 @@ import rename_icon from '../../assets/rename-icon.svg';
 const Display = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [selectedList, setSelectedList] = useState([]);
-  const [newTodo, setNewTodo] = useState({ 'to_do': "", "category_id_fk": "" });
+  const [newTask, setNewTodo] = useState({ 'to_do': "", "category_id_fk": "" });
   const [moreDropdown, setMoreDropdown] = useState(false);
   const [listName, setListName] = useState({"name": ""});
   const [listNameEdit, setListNameEdit] = useState(false);
-  const [category, setCategory] = useState();
-  const categoryOptions = ["To-do", "Groceries", "Work", "Family", "Travel", "Exercise"];
+  const moreDropdownContainer = React.createRef();
   let today = new Date();
   let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   let date = weekdays[today.getDay()]+", "+months[today.getMonth()]+" "+today.getDate();
-  const moreDropdownContainer = React.createRef();
 
 
   useEffect(() => {
 
     if (props.selected === "My Day") {
-      // setSelectedList(props.taskList);
       let filtered = props.taskList.filter(todo => todo.my_day === true);
       setSelectedList(filtered)
     } else if (props.selected === "Important") {
@@ -77,15 +73,15 @@ const Display = ( props ) => {
   }
 
   const handleChange = (event) => {
-    setNewTodo( { ...newTodo, [event.target.name]: event.target.value } )
+    setNewTodo( { ...newTask, [event.target.name]: event.target.value } )
   }
 
-  const handleAddTodo = (e) => {
+  const handleAddTask = (e) => {
     e.preventDefault();
 
-    let todo = {
-      "description": newTodo['to_do'],
-      "category_id_fk": newTodo["category_id_fk"],
+    let task = {
+      "description": newTask['to_do'],
+      "category_id_fk": newTask["category_id_fk"],
       "completed": false,
       "important": false,
       "created": "",
@@ -95,55 +91,55 @@ const Display = ( props ) => {
       "note": ""
     }
     if (props.selected === "Important") {
-      todo['important'] = true;
+      task['important'] = true;
     }
 
     if (props.customListLookupByName[props.selected]) {
-      todo['list_id_fk'] = props.customListLookupByName[props.selected]['list_id'];
+      task['list_id_fk'] = props.customListLookupByName[props.selected]['list_id'];
     }
 
     if (props.selected === "My Day") {
-      todo["my_day"] = true;
+      task["my_day"] = true;
     }
 
-    todo["user_id_fk"] = user.userid;
-    props.addTask(todo, props.history)
+    task["user_id_fk"] = user.userid;
+    props.addTask(task, props.history)
     setNewTodo( { 'to_do': "", "category_id_fk": "" } );
-    setCategory();
+
   }
 
-  const handleEditTodoChange = (event) => {
-    props.setEditTodo( { ...props.selectedTodo, [event.target.name]: event.target.value } )
+  const handleEditTaskChange = (event) => {
+    props.setEditTask( { ...props.selectedTask, [event.target.name]: event.target.value } )
   }
 
-  const handleEditTodoSubmitButton = (e) => {
+  const handleEditTaskSubmitButton = (e) => {
     e.preventDefault();
-    props.updateTask(props.selectedTodo);
+    props.updateTask(props.selectedTask);
   }
 
   const handleMarked = () => {
-    props.selectedTodo['completed'] = !props.selectedTodo['completed'];
-    props.updateTask(props.selectedTodo, props.history)
+    props.selectedTask['completed'] = !props.selectedTask['completed'];
+    props.updateTask(props.selectedTask, props.history)
   }
 
   const handleUnmarked = () => {
-    props.selectedTodo['completed'] = !props.selectedTodo['completed'];
-    props.updateTask(props.selectedTodo, props.history)
+    props.selectedTask['completed'] = !props.selectedTask['completed'];
+    props.updateTask(props.selectedTask, props.history)
   }
 
   const handleImportant = () => {
-    props.selectedTodo['important'] = !props.selectedTodo['important'];
-    props.updateTask(props.selectedTodo, props.history);
+    props.selectedTask['important'] = !props.selectedTask['important'];
+    props.updateTask(props.selectedTask, props.history);
   }
 
   const handleUserKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      handleEditTodoSubmitButton(e); 
+      handleEditTaskSubmitButton(e); 
     }
   }
 
-  const handleDelete = () => {
-    props.deleteTask(props.selectedTodo.task_id, props.history)
+  const handleDeleteTask = () => {
+    props.deleteTask(props.selectedTask.task_id, props.history)
     props.setEditWindow(false);
   }
 
@@ -151,14 +147,14 @@ const Display = ( props ) => {
     setMoreDropdown(!moreDropdown);
   }
 
-  const handleRenameList = () => {
+  const handleRenameCustomList = () => {
     setListName({"name": props.selected})
     setListNameEdit(true);
     setMoreDropdown(false);
   }
 
-  const handleDeleteList = () => {
-    props.deleteList(props.customListLookupByName[props.selected]['list_id']);
+  const handleDeleteCustomList = () => {
+    props.deleteCustomList(props.customListLookupByName[props.selected]['list_id']);
     setMoreDropdown(false);
     props.setSelected("Tasks");
   }
@@ -171,7 +167,7 @@ const Display = ( props ) => {
     e.preventDefault();
     let list = props.customListLookupByName[props.selected];
     list['name'] = listName.name;
-    props.updateList(list);
+    props.updateCustomList(list);
     setListNameEdit(false);
     props.setSelected(list['name']);
   }
@@ -238,11 +234,11 @@ const Display = ( props ) => {
                
                ? 
                   <div>
-                    <div className="option-wrap" onClick={handleRenameList}>
+                    <div className="option-wrap" onClick={handleRenameCustomList}>
                       <img src={rename_icon} className="img" alt="rename icon"/>
                       <ul>Rename list</ul>
                     </div>
-                    <div className="option-wrap" onClick={handleDeleteList}>
+                    <div className="option-wrap" onClick={handleDeleteCustomList}>
                       <img src={trash_icon_red} className="img" alt="trash icon"/>
                       <ul style={{color: '#DB3B29'}}>Delete list</ul>
                     </div>
@@ -264,13 +260,13 @@ const Display = ( props ) => {
           
           <div className="add-to-do">
 
-            <form onSubmit={handleAddTodo}>
+            <form onSubmit={handleAddTask}>
 
               <img src={plus_sign_icon} alt="plus sign icon"/>
               <input 
                  type="text"
                  name="to_do"
-                 value={newTodo.to_do} 
+                 value={newTask.to_do} 
                  onChange={handleChange} 
                  placeholder={props.selected === "Planned" ? "Add a task due today" : "Add a task"}
                  autoComplete="off"
@@ -282,8 +278,8 @@ const Display = ( props ) => {
           </div>
       
           <div className="todo-list">
-            {selectedList.map((todo) => {
-              return <Todo todo={todo} key={todo.task_id} />
+            {selectedList.map((task) => {
+              return <Task task={task} key={task.task_id} />
             })}
           </div>
 
@@ -294,11 +290,11 @@ const Display = ( props ) => {
         <div className="edit-todo-window">
             <div className="edit-todo-section">
 
-              <form className="edit-todo-form" onSubmit={handleEditTodoSubmitButton}>
+              <form className="edit-todo-form" onSubmit={handleEditTaskSubmitButton}>
 
                 <div className="input-icon-wrap">
 
-                  {props.selectedTodo.completed 
+                  {props.selectedTask.completed 
                   
                   ? 
                     <img alt="checkmark icon" 
@@ -314,12 +310,12 @@ const Display = ( props ) => {
                   <textarea 
                     type="text"
                     name="description"
-                    value={props.selectedTodo.description}
-                    onChange={handleEditTodoChange}
+                    value={props.selectedTask.description}
+                    onChange={handleEditTaskChange}
                     onKeyPress={handleUserKeyPress}
                   />
 
-                  {props.selectedTodo.important 
+                  {props.selectedTask.important 
                   
                   ? 
                     <img alt="star solid icon" 
@@ -348,7 +344,7 @@ const Display = ( props ) => {
               />
               <img alt="trash icon" 
                    src={trash_icon} 
-                   onClick={handleDelete} 
+                   onClick={handleDeleteTask} 
                    className="trash-icon"
               />
 
@@ -362,23 +358,25 @@ const Display = ( props ) => {
 }
 
 
-const mapStateToProps = state => {
-  return {
-    taskList: state.taskList,
-    reload: state.reload,
-    category_lookup: state.category_lookup,
-    category_id_lookup: state.category_id_lookup,
-    selectedTodo: state.selectedTodo,
-    editWindow: state.editWindow,
-    editTodo: state.editTodo,
-    editTodoCategory: state.editTodoCategory,
-    customListLookupByName: state.customListLookupByName
-
-  }
-};
-
-export default connect (
-  mapStateToProps,
-  { addTask, setEditWindow, setSelectedTodo, setEditTodo, updateTask, deleteTask, updateList,
-    deleteList }
-)(Display)
+export default connect(
+  state => ({
+    dashboard: state.dashboard,
+    taskList: state.dashboard.taskList,
+    reload: state.dashboard.reload,
+    category_lookup: state.dashboard.category_lookup,
+    category_id_lookup: state.dashboard.category_id_lookup,
+    selectedTask: state.dashboard.selectedTask,
+    editWindow: state.dashboard.editWindow,
+    editTask: state.dashboard.editTask,
+    editTaskCategory: state.dashboard.editTaskCategory,
+    customListLookupByName: state.dashboard.customListLookupByName
+  }),
+  { addTask: dashboard.addTask, 
+    setEditWindow: dashboard.setEditWindow, 
+    setSelectedTask: dashboard.setSelectedTask, 
+    setEditTask: dashboard.setEditTask, 
+    updateTask: dashboard.updateTask, 
+    deleteTask: dashboard.deleteTask, 
+    updateCustomList: dashboard.updateCustomList,
+    deleteCustomList: dashboard.deleteCustomList }
+)(Display);

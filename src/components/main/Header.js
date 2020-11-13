@@ -5,7 +5,7 @@ import userIcon from '../../assets/user-icon.svg';
 import settingsIcon from '../../assets/settings.svg';
 import logoutIcon from '../../assets/logout-icon.svg';
 import { connect } from 'react-redux';
-import { logout } from '../../redux/actions';
+import { authentication } from '../../state/actions';
 import { withRouter } from 'react-router-dom';
 import up_chevron from '../../assets/up-chevron.svg';
 import down_chevron from '../../assets/down-chevron.svg';
@@ -83,14 +83,10 @@ const Header = ( props ) => {
 }
 
 const headerWithRouter = withRouter(Header);
-const mapStateToProps = state => {
-  return {
-    taskList: state.taskList,
-    reload: state.reload
-  }
-};
 
-export default connect (
-  mapStateToProps,
-  { logout }
-)(headerWithRouter)
+export default connect(
+  state => ({
+    authentication: state.authentication,
+  }),
+  { logout: authentication.logout}
+)(headerWithRouter);

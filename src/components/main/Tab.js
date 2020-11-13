@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { dashboard } from '../../state/actions';
 
 const Tab = ( props ) => {
 
   const handleClick = () => {
-    props.setSelected(props.category)
+    if (props.selected !== props.category) {
+      props.setSelected(props.category);
+      props.setEditWindow(false);
+    }
   }
 
   return (
@@ -17,19 +21,18 @@ const Tab = ( props ) => {
           {props.category}
       </div>
       <div className="count" style={{color: '#1B1C21'}}>
-          {props.categoryCount[props.category]}
+          {props.categoryCount[props.category] !== 0 ? props.categoryCount[props.category] : ''}
       </div>
     </div>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    categoryCount: state.categoryCount,
-  }
-}
 
 export default connect(
-  mapStateToProps,
-  { }
-)(Tab)
+  state => ({
+    dashboard: state.dashboard,
+    categoryCount: state.dashboard.categoryCount,
+    reload: state.dashboard.reload
+  }),
+  { setEditWindow: dashboard.setEditWindow }
+)(Tab);

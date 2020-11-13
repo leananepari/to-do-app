@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TabsList from './TabsList';
 import Display from './Display';
 import { connect } from 'react-redux';
-import { getTaskList, getCustomLists } from '../../redux/actions';
+import { dashboard } from '../../state/actions';
 
 const Dashboard = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -22,13 +22,11 @@ const Dashboard = ( props ) => {
   )
 } 
 
-const mapStateToProps = state => {
-  return {
-    reload: state.reload,
-  }
-};
 
-export default connect (
-  mapStateToProps,
-  { getTaskList, getCustomLists }
-)(Dashboard)
+export default connect(
+  state => ({
+    dashboard: state.dashboard,
+    reload: state.dashboard.reload
+  }),
+  { getTaskList: dashboard.getTaskList }
+)(Dashboard);

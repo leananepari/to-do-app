@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Tab from './Tab';
 import { category_icons } from '../../data';
 import { connect } from 'react-redux';
-import { createList } from '../../redux/actions';
+import { dashboard } from '../../state/actions';
 import plus_sign_icon from '../../assets/plus-sign-icon.svg';
 import list_icon from '../../assets/list-icon.svg';
 
@@ -15,7 +15,7 @@ const TabsList = ( props ) => {
     let list = {...newList}
     list['user_id_fk'] = user.userid;
     list['theme_id_fk'] = 1;
-    props.createList(list, props.setSelected);
+    props.createCustomList(list, props.setSelected);
     setNewList({'name': ''});
     
   }
@@ -33,13 +33,13 @@ const TabsList = ( props ) => {
       })}
 
       <div className="custom-lists">
-        {props.customLists.map(list => {
+        {props.lists.map(list => {
           return <Tab category={list.name} icon={list_icon} key={list.list_id} selected={props.selected} setSelected={props.setSelected}/>
         })}
       </div>
       <div className="add-new-list"> 
         <form onSubmit={handleAddNewList} >
-          <img src={plus_sign_icon} style={{width: '16px'}}/>
+          <img src={plus_sign_icon} style={{width: '16px'}} alt="plus sign icon"/>
           <input 
               type="text"
               name="name"
@@ -55,14 +55,11 @@ const TabsList = ( props ) => {
 }
 
 
-const mapStateToProps = state => {
-  return {
-    categories: state.categories,
-    customLists: state.customLists
-  }
-}
-
-export default connect (
-  mapStateToProps,
-  { createList }
-)(TabsList)
+export default connect(
+  state => ({
+    dashboard: state.dashboard,
+    lists: state.dashboard.lists,
+    categories: state.dashboard.categories
+  }),
+  { createCustomList: dashboard.createCustomList }
+)(TabsList);
