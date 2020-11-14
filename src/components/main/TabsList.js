@@ -1,14 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tab from './Tab';
 import { category_icons } from '../../data';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
-import plus_sign_icon from '../../assets/plus-sign-icon.svg';
-import list_icon from '../../assets/list-icon.svg';
+import { ReactComponent as ListIcon } from '../../assets/list-icon.svg';
+import { ReactComponent as PlusSignIcon } from '../../assets/plus-sign-icon.svg';
 
 const TabsList = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const [newList, setNewList] = useState({'name': ''})
+  const [newList, setNewList] = useState({'name': ''});
+  const [focus, setFocus] = useState('none');
+  const refContainer = React.createRef();
+
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  })
+
+  const handleClick = e => {
+    if (refContainer.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click 
+    setFocus('none');
+  };
 
   const handleAddNewList = (e) => {
     e.preventDefault();
@@ -24,6 +44,10 @@ const TabsList = ( props ) => {
     setNewList( { ...newList, [event.target.name]: event.target.value } )
   }
 
+  const handleOnFocus = () => {
+    setFocus('focus');
+  }
+
   return (
     <div className="tabs-list">
       {props.categories.map((category) => {
@@ -34,12 +58,13 @@ const TabsList = ( props ) => {
 
       <div className="custom-lists">
         {props.lists.map(list => {
-          return <Tab category={list.name} icon={list_icon} key={list.list_id} selected={props.selected} setSelected={props.setSelected}/>
+          
+          return <Tab category={list.name} icon={ListIcon} key={list.list_id} selected={props.selected} setSelected={props.setSelected}/>
         })}
       </div>
       <div className="add-new-list"> 
         <form onSubmit={handleAddNewList} >
-          <img src={plus_sign_icon} style={{width: '16px'}} alt="plus sign icon"/>
+          <PlusSignIcon className={`plus-sign-icon ${focus}`} />
           <input 
               type="text"
               name="name"
@@ -47,6 +72,8 @@ const TabsList = ( props ) => {
               onChange={handleChange} 
               placeholder="New list"
               autoComplete="off"
+              onFocus={handleOnFocus} 
+              ref={refContainer}
             />
         </form>
       </div>

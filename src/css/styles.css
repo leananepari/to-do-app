@@ -57,6 +57,9 @@ html, body {
         margin-bottom: 5px;
         margin-left: 5px;
         font-weight: 200; }
+      .login-page .login-box .logo-wrap .logo-icon {
+        width: 60px;
+        height: 60px; }
     .login-page .login-box .subtitle {
       display: inline-block;
       font-size: 30px;
@@ -155,10 +158,17 @@ header {
       font-size: 16px;
       color: #ffffff;
       font-weight: 300; }
+    header .logo-header .logo-icon {
+      width: 28px;
+      height: 28px; }
   header .right-side {
     display: flex;
     align-items: center;
     margin-right: 20px; }
+    header .right-side .dropdown-wrap .chevron-icon {
+      width: 18px;
+      height: 18px;
+      cursor: pointer; }
     header .right-side .dropdown-wrap .dropdown {
       width: 120px;
       height: auto;
@@ -208,11 +218,11 @@ header {
         width: 100%; }
       header .right-side .dropdown-wrap .dropdown .last {
         border-bottom: 1px solid lightgray; }
-      header .right-side .dropdown-wrap .dropdown img {
+      header .right-side .dropdown-wrap .dropdown .icon {
         width: 15px;
         height: 15px;
         margin-right: 5px; }
-      header .right-side .dropdown-wrap .dropdown .settings-icon {
+      header .right-side .dropdown-wrap .dropdown .settings {
         margin-left: -1px; }
 
 /*=================================================================
@@ -234,6 +244,9 @@ header {
       align-items: center;
       padding: 10px 20px 10px 20px;
       cursor: pointer; }
+      .dashboard-wrap .tabs-list .tab .tab-icon {
+        height: 18px;
+        width: 18px; }
       .dashboard-wrap .tabs-list .tab div {
         margin-left: 15px;
         letter-spacing: 0.7px;
@@ -254,6 +267,11 @@ header {
       .dashboard-wrap .tabs-list .add-new-list form {
         display: flex;
         align-items: center; }
+        .dashboard-wrap .tabs-list .add-new-list form .plus-sign-icon {
+          max-width: 16px;
+          height: 16px; }
+        .dashboard-wrap .tabs-list .add-new-list form .focus path {
+          fill: #767678; }
         .dashboard-wrap .tabs-list .add-new-list form input {
           border: 1px solid transparent;
           font-size: 14px;
@@ -286,6 +304,7 @@ header {
           padding: 5px;
           border-radius: 2px;
           width: 16px;
+          height: 16px;
           margin-left: 15px;
           cursor: pointer; }
         .dashboard-wrap .display .middle-section-wrap .text-wrap .more-icon:hover {
@@ -313,8 +332,9 @@ header {
             cursor: pointer; }
           .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown .option-wrap:hover {
             background-color: #EDEDED; }
-          .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown .img {
+          .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown .icon {
             width: 16px;
+            height: 16px;
             margin-right: 15px; }
           .dashboard-wrap .display .middle-section-wrap .text-wrap .more-dropdown ul {
             color: #34383C;
@@ -352,13 +372,21 @@ header {
               font-size: 12px;
               margin-top: 5px;
               color: #767678; }
+          .dashboard-wrap .display .middle-section-wrap .todo-list .todo .checkmark-icon {
+            width: 18px;
+            height: 18px;
+            cursor: pointer; }
+          .dashboard-wrap .display .middle-section-wrap .todo-list .todo .star-icon {
+            width: 16px;
+            cursor: pointer;
+            margin: 0 auto;
+            margin-right: 0px; }
         .dashboard-wrap .display .middle-section-wrap .todo-list .todo:hover {
           background-color: #F7F7F7; }
       .dashboard-wrap .display .middle-section-wrap .add-to-do {
         padding: 10px 20px 10px 20px;
         position: relative; }
         .dashboard-wrap .display .middle-section-wrap .add-to-do .border {
-          border-bottom: 1px solid #EAEAEA;
           position: absolute;
           left: 15px;
           right: 10px;
@@ -366,6 +394,13 @@ header {
         .dashboard-wrap .display .middle-section-wrap .add-to-do form {
           display: flex;
           align-items: center; }
+          .dashboard-wrap .display .middle-section-wrap .add-to-do form .circle {
+            min-width: 18px;
+            height: 18px;
+            border: 1px solid #767678;
+            border-radius: 50%;
+            cursor: pointer;
+            box-sizing: border-box; }
           .dashboard-wrap .display .middle-section-wrap .add-to-do form input {
             border: 1px solid transparent;
             font-size: 14px;
@@ -510,10 +545,12 @@ header {
         justify-content: space-between; }
         .dashboard-wrap .display .edit-todo-window .bottom-section-wrap .right-chevron-icon {
           width: 16px;
+          height: 16px;
           cursor: pointer;
           margin: 20px; }
         .dashboard-wrap .display .edit-todo-window .bottom-section-wrap .trash-icon {
           width: 16px;
+          height: 16px;
           cursor: pointer;
           margin: 20px; }
 

@@ -1,16 +1,17 @@
 import React, { useState, useEffect }  from 'react';
 import Task from './Task';
-import plus_sign_icon from '../../assets/plus-sign-icon.svg';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
-import star_icon from '../../assets/star-icon.svg';
-import star_solid_icon from '../../assets/star-solid-icon.svg';
-import checkmark_icon from '../../assets/checkmark-icon.svg';
-import right_chevron from '../../assets/right-chevron.svg';
-import trash_icon from '../../assets/trash-icon.svg';
-import three_dots_icon from '../../assets/three-dots-icon.svg';
-import trash_icon_red from '../../assets/trash-icon-red.svg';
-import rename_icon from '../../assets/rename-icon.svg';
+
+import { ReactComponent as PlusSignIcon } from '../../assets/plus-sign-icon.svg';
+import { ReactComponent as StarIcon } from '../../assets/star-icon.svg';
+import { ReactComponent as StarSolidIcon } from '../../assets/star-solid-icon.svg';
+import { ReactComponent as CheckmarkIcon } from '../../assets/checkmark-icon.svg';
+import { ReactComponent as RightChevronIcon } from '../../assets/right-chevron.svg';
+import { ReactComponent as TrashIcon } from '../../assets/trash-icon.svg';
+import { ReactComponent as ThreeDotsIcon } from '../../assets/three-dots-icon.svg';
+import { ReactComponent as TrashIconRed } from '../../assets/trash-icon-red.svg';
+import { ReactComponent as RenameIcon } from '../../assets/rename-icon.svg';
 
 const Display = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -19,7 +20,9 @@ const Display = ( props ) => {
   const [moreDropdown, setMoreDropdown] = useState(false);
   const [listName, setListName] = useState({"name": ""});
   const [listNameEdit, setListNameEdit] = useState(false);
+  const [inputFocus, setInputFocus] = useState(false);
   const moreDropdownContainer = React.createRef();
+  const addTaskInputContainer = React.createRef();
   let today = new Date();
   let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -51,14 +54,32 @@ const Display = ( props ) => {
 
   useEffect(() => {
     // add when mounted
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("mousedown", handleOutsideClickDropdown);
     // return function to be called when unmounted
     return () => {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("mousedown", handleOutsideClickDropdown);
     };
   })
 
-  const handleClick = e => {
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleOutsideClickInput);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClickInput);
+    };
+  })
+
+  const handleOutsideClickInput = e => {
+    if (addTaskInputContainer.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click 
+    setInputFocus(false);
+  };
+
+  const handleOutsideClickDropdown = e => {
     if (moreDropdownContainer.current.contains(e.target)) {
       // inside click
       return;
@@ -172,6 +193,10 @@ const Display = ( props ) => {
     props.setSelected(list['name']);
   }
 
+  const handleOnFocus = () => {
+    setInputFocus(true);
+  }
+
 
   return (
     <div className="display">
@@ -208,9 +233,8 @@ const Display = ( props ) => {
 
                 ?
                   
-                  <img alt="more icon" 
+                  <ThreeDotsIcon 
                        onClick={handleMoreDropdown} 
-                       src={three_dots_icon} 
                        className="more-icon"
                   />
                 :
@@ -235,11 +259,11 @@ const Display = ( props ) => {
                ? 
                   <div>
                     <div className="option-wrap" onClick={handleRenameCustomList}>
-                      <img src={rename_icon} className="img" alt="rename icon"/>
+                      <RenameIcon className="icon" />
                       <ul>Rename list</ul>
                     </div>
                     <div className="option-wrap" onClick={handleDeleteCustomList}>
-                      <img src={trash_icon_red} className="img" alt="trash icon"/>
+                      <TrashIconRed className="icon" />
                       <ul style={{color: '#DB3B29'}}>Delete list</ul>
                     </div>
                   </div>
@@ -258,11 +282,16 @@ const Display = ( props ) => {
             }
           </div>
           
-          <div className="add-to-do">
+          <div className="add-to-do" ref={addTaskInputContainer}>
 
             <form onSubmit={handleAddTask}>
 
-              <img src={plus_sign_icon} alt="plus sign icon"/>
+              {inputFocus ? 
+                <div className="circle"></div>
+                :
+                <PlusSignIcon style={{width: '18px', height: '18px'}}/>
+
+              }
               <input 
                  type="text"
                  name="to_do"
@@ -270,11 +299,12 @@ const Display = ( props ) => {
                  onChange={handleChange} 
                  placeholder={props.selected === "Planned" ? "Add a task due today" : "Add a task"}
                  autoComplete="off"
+                 onFocus={handleOnFocus}
                />
 
             </form>
 
-            <div className="border"></div>
+            <div className="border" style={{borderBottom: `${inputFocus ? '1px solid #3F6AE3' : '1px solid #EAEAEA'}`}}></div>
           </div>
       
           <div className="todo-list">
@@ -297,8 +327,7 @@ const Display = ( props ) => {
                   {props.selectedTask.completed 
                   
                   ? 
-                    <img alt="checkmark icon" 
-                         src={checkmark_icon} 
+                    <CheckmarkIcon 
                          className="checkmark-icon"
                          onClick={handleUnmarked}/>
                   : 
@@ -318,14 +347,12 @@ const Display = ( props ) => {
                   {props.selectedTask.important 
                   
                   ? 
-                    <img alt="star solid icon" 
-                         src={star_solid_icon} 
+                    <StarSolidIcon 
                          onClick={handleImportant} 
                          className="star-solid-icon"
                     />
                   :
-                    <img alt="star icon" 
-                         src={star_icon} 
+                    <StarIcon 
                          onClick={handleImportant} 
                          className="star-icon"
                     />
@@ -337,13 +364,11 @@ const Display = ( props ) => {
 
             <div className="bottom-section-wrap">
 
-              <img alt="right chevron icon" 
-                   src={right_chevron} 
+              <RightChevronIcon 
                    onClick={handleCloseEditWindow} 
                    className="right-chevron-icon"
               />
-              <img alt="trash icon" 
-                   src={trash_icon} 
+              <TrashIcon
                    onClick={handleDeleteTask} 
                    className="trash-icon"
               />

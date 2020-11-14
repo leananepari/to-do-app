@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
-import checkmark_icon from '../../assets/checkmark-icon.svg';
-import star_icon from '../../assets/star-icon.svg';
-import star_solid_icon from '../../assets/star-solid-icon.svg';
+import { ReactComponent as StarIcon } from '../../assets/star-icon.svg';
+import { ReactComponent as StarSolidIcon } from '../../assets/star-solid-icon.svg';
+import { ReactComponent as CheckmarkIcon } from '../../assets/checkmark-icon.svg';
 
 const Task = ( props ) => {
 
@@ -44,8 +44,8 @@ const Task = ( props ) => {
       style={{ backgroundColor: `${props.selectedTask !== "" && props.selectedTask.task_id === props.task.task_id && props.editWindow ? "#F3F6FF": ''}`}}>
 
       {props.task.completed ? 
-        <img src={checkmark_icon} alt="checkmark icon"
-             style={{width: '18px', cursor: 'pointer'}} 
+        <CheckmarkIcon
+             className="checkmark-icon" 
              onClick={handleUnmarked}/>
         : 
         <div className="circle" onClick={handleMarked}></div>}
@@ -56,11 +56,9 @@ const Task = ( props ) => {
         </div>
       </div>
         {props.task.important ? 
-          <img src={star_solid_icon} onClick={handleImportant} alt="star solid icon"
-               style={{width: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px'}}/>
+          <StarSolidIcon onClick={handleImportant} className="star-icon" />
         :
-          <img src={star_icon} onClick={handleImportant} alt="star icon"
-               style={{width: '16px', cursor: 'pointer', margin: '0 auto', marginRight: '0px'}}/>
+          <StarIcon onClick={handleImportant} className="star-icon"/>
         }
       <div className="border"></div>
     </div>
