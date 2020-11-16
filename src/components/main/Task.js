@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
+import soundFile from '../../assets/completed-sound.wav';
+
 import { ReactComponent as StarIcon } from '../../assets/star-icon.svg';
 import { ReactComponent as StarSolidIcon } from '../../assets/star-solid-icon.svg';
 import { ReactComponent as CheckmarkIcon } from '../../assets/checkmark-icon.svg';
 
 const Task = ( props ) => {
+  const [audio] = useState(new Audio(soundFile));
 
   const handleMarked = () => {
+    audio.play();
     props.task['completed'] = !props.task['completed'];
     if (props.selectedTask !== '' && props.selectedTask.task_id === props.task.task_id) {
       props.selectedTask['completed'] = !props.selectedTask['completed'];

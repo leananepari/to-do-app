@@ -54,6 +54,7 @@ const Display = ( props ) => {
 
   }, [props.taskList, props.selected, props.slideWindow, props.reload])
 
+
   useEffect(() => {
     // add when mounted
     document.addEventListener("mousedown", handleOutsideClickDropdown);
