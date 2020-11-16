@@ -12,6 +12,7 @@ import { ReactComponent as TrashIcon } from '../../assets/trash-icon.svg';
 import { ReactComponent as ThreeDotsIcon } from '../../assets/three-dots-icon.svg';
 import { ReactComponent as TrashIconRed } from '../../assets/trash-icon-red.svg';
 import { ReactComponent as RenameIcon } from '../../assets/rename-icon.svg';
+import { ReactComponent as DownChevronIcon } from '../../assets/down-chevron.svg';
 
 const Display = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -21,6 +22,7 @@ const Display = ( props ) => {
   const [listName, setListName] = useState({"name": ""});
   const [listNameEdit, setListNameEdit] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
+  const [showCompletedList, setShowCompletedList] = useState(false);
   const moreDropdownContainer = React.createRef();
   const addTaskInputContainer = React.createRef();
   let today = new Date();
@@ -197,6 +199,10 @@ const Display = ( props ) => {
     setInputFocus(true);
   }
 
+  const handleCompletedShowHide = () => {
+    setShowCompletedList(!showCompletedList);
+  }
+
 
   return (
     <div className="display">
@@ -308,10 +314,28 @@ const Display = ( props ) => {
           </div>
       
           <div className="todo-list">
-            {selectedList.map((task) => {
+            {selectedList.filter(task => task.completed !== true).map((task) => {
               return <Task task={task} key={task.task_id} />
             })}
+            <div className="completed-list">
+              <div className="completed-title-wrap" 
+                   style={{display: `${selectedList.filter(task => task.completed === true).length > 0 ? 'block' : 'none'}`}}>
+                {showCompletedList ? 
+                  <DownChevronIcon className="completed-list-icon" onClick={handleCompletedShowHide}/>
+                : 
+                  <RightChevronIcon className="completed-list-icon"onClick={handleCompletedShowHide}/>
+                }
+                Completed
+                <div className="border" style={{display: `${showCompletedList ? 'none' : 'block'}`}}></div>
+              </div>
+              <div style={{display: `${showCompletedList ? 'block' : 'none'}`}}>
+                {selectedList.filter(task => task.completed === true).map((task) => {
+                  return <Task task={task} key={task.task_id} />
+                })}
+              </div>
+            </div>
           </div>
+
 
         </div>
 

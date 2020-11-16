@@ -533,6 +533,33 @@ header {
         .todo:hover {
           background-color: #F7F7F7;
         }
+
+        .completed-list {
+          
+          .completed-title-wrap {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+          }
+  
+          .border {
+            border-bottom: 1px solid #EAEAEA;
+            position: absolute;
+            left: 15px;
+            right: 10px;
+            bottom: 0px;
+          }
+
+          .completed-list-icon {
+            width: 14px; 
+            height: 14px; 
+            margin-right: 10px; 
+            cursor: pointer;
+          }
+
+        }
+
   
       }
   

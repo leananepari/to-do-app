@@ -383,6 +383,22 @@ header {
             margin-right: 0px; }
         .dashboard-wrap .display .middle-section-wrap .todo-list .todo:hover {
           background-color: #F7F7F7; }
+        .dashboard-wrap .display .middle-section-wrap .todo-list .completed-list .completed-title-wrap {
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          position: relative; }
+        .dashboard-wrap .display .middle-section-wrap .todo-list .completed-list .border {
+          border-bottom: 1px solid #EAEAEA;
+          position: absolute;
+          left: 15px;
+          right: 10px;
+          bottom: 0px; }
+        .dashboard-wrap .display .middle-section-wrap .todo-list .completed-list .completed-list-icon {
+          width: 14px;
+          height: 14px;
+          margin-right: 10px;
+          cursor: pointer; }
       .dashboard-wrap .display .middle-section-wrap .add-to-do {
         padding: 10px 20px 10px 20px;
         position: relative; }
