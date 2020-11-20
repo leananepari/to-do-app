@@ -147,6 +147,7 @@ const Display = ( props ) => {
   }
 
   const handleMarked = () => {
+    props.audio.play();
     props.selectedTask['completed'] = !props.selectedTask['completed'];
     props.setFlagMarked(true);
     props.setFlagTab(props.selectedTab);
@@ -429,7 +430,8 @@ export default connect(
     editTask: state.dashboard.editTask,
     editTaskCategory: state.dashboard.editTaskCategory,
     customListLookupByName: state.dashboard.customListLookupByName,
-    selectedTab: state.dashboard.selectedTab
+    selectedTab: state.dashboard.selectedTab,
+    audio: state.dashboard.audio
   }),
   { addTask: dashboard.addTask, 
     setEditWindow: dashboard.setEditWindow, 
