@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
-import soundFile from '../../assets/completed-sound.wav';
 
 import { ReactComponent as StarIcon } from '../../assets/star-icon.svg';
 import { ReactComponent as StarSolidIcon } from '../../assets/star-solid-icon.svg';
 import { ReactComponent as CheckmarkIcon } from '../../assets/checkmark-icon.svg';
 
 const Task = ( props ) => {
-  const [audio] = useState(new Audio(soundFile));
+  const history = useHistory();
 
   const handleMarked = () => {
-    audio.play();
+    props.audio.play();
     props.task['completed'] = !props.task['completed'];
     if (props.selectedTask !== '' && props.selectedTask.task_id === props.task.task_id) {
       props.selectedTask['completed'] = !props.selectedTask['completed'];
     }
-    props.updateTask(props.task, props.history)
+    props.setFlagMarked(true);
+    props.setFlagTab(props.selectedTab);
+    props.updateTask(props.task, history);
   }
 
   const handleUnmarked = () => {
@@ -24,15 +26,19 @@ const Task = ( props ) => {
     if (props.selectedTask !== '' && props.selectedTask.task_id === props.task.task_id) {
       props.selectedTask['completed'] = !props.selectedTask['completed'];
     }
-    props.updateTask(props.task, props.history)
+
+    props.setFlagUnmarked(true);
+    props.setFlagTab(props.selectedTab);
+    props.updateTask(props.task, history);
   }
 
   const handleImportant = () => {
+    props.task['important'] ? props.setFlagImportant(false) : props.setFlagImportant(true);
     props.task['important'] = !props.task['important'];
     if (props.selectedTask !== '' && props.selectedTask.task_id === props.task.task_id) {
       props.selectedTask['important'] = !props.selectedTask['important'];
     }
-    props.updateTask(props.task, props.history);
+    props.updateTask(props.task, history);
   }
 
   const handleSelectedTask = () => {
@@ -75,11 +81,17 @@ export default connect(
     dashboard: state.dashboard,
     reload: state.dashboard.reload,
     selectedTask: state.dashboard.selectedTask,
-    editWindow: state.dashboard.editWindow
+    editWindow: state.dashboard.editWindow,
+    selectedTab: state.dashboard.selectedTab,
+    audio: state.dashboard.audio
   }),
   { updateTask: dashboard.updateTask, 
     deleteTask: dashboard.deleteTask, 
     setSelectedTask: dashboard.setSelectedTask, 
     setEditWindow: dashboard.setEditWindow, 
-    setEditTask: dashboard.setEditTask }
+    setEditTask: dashboard.setEditTask,
+    setFlagTab: dashboard.setFlagTab,
+    setFlagImportant: dashboard.setFlagImportant,
+    setFlagMarked: dashboard.setFlagMarked,
+    setFlagUnmarked: dashboard.setFlagUnmarked }
 )(Task);

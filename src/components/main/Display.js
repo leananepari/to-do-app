@@ -1,4 +1,5 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect, useRef }  from 'react';
+import { useHistory } from 'react-router-dom';
 import Task from './Task';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
@@ -23,8 +24,9 @@ const Display = ( props ) => {
   const [listNameEdit, setListNameEdit] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
   const [showCompletedList, setShowCompletedList] = useState(false);
-  const moreDropdownContainer = React.createRef();
-  const addTaskInputContainer = React.createRef();
+  const moreDropdownContainer = useRef();
+  const addTaskInputContainer = useRef();
+  const history = useHistory();
   let today = new Date();
   let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -32,28 +34,27 @@ const Display = ( props ) => {
 
 
   useEffect(() => {
-
-    if (props.selected === "My Day") {
+    console.log('USE effect display')
+    if (props.selectedTab === "My Day") {
       let filtered = props.taskList.filter(todo => todo.my_day === true);
       setSelectedList(filtered)
-    } else if (props.selected === "Important") {
+    } else if (props.selectedTab === "Important") {
         let filtered = props.taskList.filter(todo => todo.important === true);
         setSelectedList(filtered)
-    } else if (props.selected === "Planned") {
+    } else if (props.selectedTab === "Planned") {
         let filtered = props.taskList.filter(todo => todo.due !== null);
         setSelectedList(filtered)
-    } else if (props.selected === "Tasks") {
+    } else if (props.selectedTab === "Tasks") {
         let filtered = props.taskList.filter(todo => todo.list_id_fk === null);
         setSelectedList(filtered)
     } else {
-      if (props.customListLookupByName[props.selected]) {
-        let filtered = props.taskList.filter(todo => todo.list_id_fk === props.customListLookupByName[props.selected]['list_id']);
+      if (props.customListLookupByName[props.selectedTab]) {
+        let filtered = props.taskList.filter(todo => todo.list_id_fk === props.customListLookupByName[props.selectedTab]['list_id']);
         setSelectedList(filtered)
       }
     }
 
-  }, [props.taskList, props.selected, props.slideWindow, props.reload])
-
+  }, [props.taskList, props.selectedTab, props.slideWindow])
 
   useEffect(() => {
     // add when mounted
@@ -114,22 +115,26 @@ const Display = ( props ) => {
       "my_day": false,
       "note": ""
     }
-    if (props.selected === "Important") {
+    if (props.selectedTab === "Important") {
       task['important'] = true;
     }
 
-    if (props.customListLookupByName[props.selected]) {
-      task['list_id_fk'] = props.customListLookupByName[props.selected]['list_id'];
+    if (props.customListLookupByName[props.selectedTab]) {
+      task['list_id_fk'] = props.customListLookupByName[props.selectedTab]['list_id'];
     }
 
-    if (props.selected === "My Day") {
+    if (props.selectedTab === "My Day") {
       task["my_day"] = true;
     }
 
-    task["user_id_fk"] = user.userid;
-    props.addTask(task, props.history)
-    setNewTodo( { 'to_do': "", "category_id_fk": "" } );
+    if (props.selectedTab === "Planned") {
+      task['due'] = new Date();
+    }
 
+    task["user_id_fk"] = user.userid;
+    props.setFlagTab(props.selectedTab);
+    props.addTask(task, history)
+    setNewTodo( { 'to_do': "", "category_id_fk": "" } );
   }
 
   const handleEditTaskChange = (event) => {
@@ -138,22 +143,27 @@ const Display = ( props ) => {
 
   const handleEditTaskSubmitButton = (e) => {
     e.preventDefault();
-    props.updateTask(props.selectedTask);
+    props.updateTask(props.selectedTask, history);
   }
 
   const handleMarked = () => {
     props.selectedTask['completed'] = !props.selectedTask['completed'];
-    props.updateTask(props.selectedTask, props.history)
+    props.setFlagMarked(true);
+    props.setFlagTab(props.selectedTab);
+    props.updateTask(props.selectedTask, history)
   }
 
   const handleUnmarked = () => {
     props.selectedTask['completed'] = !props.selectedTask['completed'];
-    props.updateTask(props.selectedTask, props.history)
+    props.setFlagUnmarked(true);
+    props.setFlagTab(props.selectedTab);
+    props.updateTask(props.selectedTask, history)
   }
 
   const handleImportant = () => {
+    props.selectedTask['important'] ? props.setFlagImportant(false) : props.setFlagImportant(true);
     props.selectedTask['important'] = !props.selectedTask['important'];
-    props.updateTask(props.selectedTask, props.history);
+    props.updateTask(props.selectedTask, history);
   }
 
   const handleUserKeyPress = (e) => {
@@ -163,7 +173,8 @@ const Display = ( props ) => {
   }
 
   const handleDeleteTask = () => {
-    props.deleteTask(props.selectedTask.task_id, props.history)
+    props.setFlagTab(props.selectedTab);
+    props.deleteTask(props.selectedTask.task_id, history)
     props.setEditWindow(false);
   }
 
@@ -172,15 +183,14 @@ const Display = ( props ) => {
   }
 
   const handleRenameCustomList = () => {
-    setListName({"name": props.selected})
+    setListName({"name": props.selectedTab})
     setListNameEdit(true);
     setMoreDropdown(false);
   }
 
   const handleDeleteCustomList = () => {
-    props.deleteCustomList(props.customListLookupByName[props.selected]['list_id']);
+    props.deleteCustomList(props.customListLookupByName[props.selectedTab]['list_id']);
     setMoreDropdown(false);
-    props.setSelected("Tasks");
   }
 
   const handleChangeListName = ( event ) => {
@@ -189,11 +199,11 @@ const Display = ( props ) => {
 
   const handleListUpdateSubmit = e => {
     e.preventDefault();
-    let list = props.customListLookupByName[props.selected];
+    let list = {...props.customListLookupByName[props.selectedTab]};
     list['name'] = listName.name;
     props.updateCustomList(list);
     setListNameEdit(false);
-    props.setSelected(list['name']);
+    props.setSelectedTab(list['name']);
   }
 
   const handleOnFocus = () => {
@@ -224,19 +234,20 @@ const Display = ( props ) => {
                       value={listName.name} 
                       onChange={handleChangeListName} 
                       autoComplete="off"
+                      
                     />
                   </form>
                 :
-                  <div className="title" 
-                       style={{color: `${props.selected !== "My Day" ? "#3F6AE3" : "#34383C"}`}}>
-                       {props.selected}
+                  <div className="title"
+                       style={{color: `${props.selectedTab !== "My Day" ? "#3F6AE3" : "#34383C"}`}}>
+                       {props.selectedTab}
                   </div>
                }
 
-               {props.selected !== "My Day" 
-                && props.selected !== "Important" 
-                && props.selected !== "Planned" 
-                && props.selected !== "Tasks" 
+               {props.selectedTab !== "My Day" 
+                && props.selectedTab !== "Important" 
+                && props.selectedTab !== "Planned" 
+                && props.selectedTabTab !== "Tasks" 
 
                 ?
                   
@@ -249,19 +260,18 @@ const Display = ( props ) => {
                 }
             </div>
 
-
-            <div className="more-dropdown" 
+            <div className="more-dropdown"
                  style={{display: `${moreDropdown ? 'block' : 'none'}`}}>
 
               <div className="options">
-                {props.selected === "Important" 
-                 || props.selected === "Planned" ? "Options" : "List options"}
+                {props.selectedTab === "Important" 
+                 || props.selectedTab === "Planned" ? "Options" : "List options"}
               </div>
 
-              {props.selected !== "My Day" 
-               && props.selected !== "Important" 
-               && props.selected !== "Planned" 
-               && props.selected !== "Tasks" 
+              {props.selectedTab !== "My Day" 
+               && props.selectedTab !== "Important" 
+               && props.selectedTab !== "Planned" 
+               && props.selectedTab !== "Tasks" 
                
                ? 
                   <div>
@@ -280,7 +290,7 @@ const Display = ( props ) => {
             </div>
 
 
-            {props.selected === "My Day" 
+            {props.selectedTab === "My Day" 
             
             ?
               <div className="date">{date}</div>
@@ -291,7 +301,7 @@ const Display = ( props ) => {
           
           <div className="add-to-do" ref={addTaskInputContainer}>
 
-            <form onSubmit={handleAddTask}>
+            <form onSubmit={handleAddTask} >
 
               {inputFocus ? 
                 <div className="circle"></div>
@@ -304,7 +314,7 @@ const Display = ( props ) => {
                  name="to_do"
                  value={newTask.to_do} 
                  onChange={handleChange} 
-                 placeholder={props.selected === "Planned" ? "Add a task due today" : "Add a task"}
+                 placeholder={props.selectedTab === "Planned" ? "Add a task due today" : "Add a task"}
                  autoComplete="off"
                  onFocus={handleOnFocus}
                />
@@ -412,14 +422,14 @@ export default connect(
   state => ({
     dashboard: state.dashboard,
     taskList: state.dashboard.taskList,
-    reload: state.dashboard.reload,
     category_lookup: state.dashboard.category_lookup,
     category_id_lookup: state.dashboard.category_id_lookup,
     selectedTask: state.dashboard.selectedTask,
     editWindow: state.dashboard.editWindow,
     editTask: state.dashboard.editTask,
     editTaskCategory: state.dashboard.editTaskCategory,
-    customListLookupByName: state.dashboard.customListLookupByName
+    customListLookupByName: state.dashboard.customListLookupByName,
+    selectedTab: state.dashboard.selectedTab
   }),
   { addTask: dashboard.addTask, 
     setEditWindow: dashboard.setEditWindow, 
@@ -428,5 +438,11 @@ export default connect(
     updateTask: dashboard.updateTask, 
     deleteTask: dashboard.deleteTask, 
     updateCustomList: dashboard.updateCustomList,
-    deleteCustomList: dashboard.deleteCustomList }
+    deleteCustomList: dashboard.deleteCustomList, 
+    setSelectedTab: dashboard.setSelectedTab,
+    setFlagTab: dashboard.setFlagTab,
+    setFlagImportant: dashboard.setFlagImportant,
+    setFlagMarked: dashboard.setFlagMarked,
+    setFlagUnmarked: dashboard.setFlagUnmarked
+  }
 )(Display);

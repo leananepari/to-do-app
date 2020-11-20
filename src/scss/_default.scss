@@ -352,6 +352,7 @@ header {
 
       .add-new-list {
         padding: 10px 20px 10px 20px;
+
         form {
           display: flex;
           align-items: center;
@@ -382,7 +383,6 @@ header {
           }
         }
       }
-
     }
 
   .display {
@@ -524,6 +524,7 @@ header {
 
           .star-icon {
             width: 16px; 
+            height: 16px;
             cursor: pointer; 
             margin: 0 auto; 
             margin-right: 0px;

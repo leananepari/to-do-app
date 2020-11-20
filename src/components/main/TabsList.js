@@ -21,6 +21,10 @@ const TabsList = ( props ) => {
     };
   })
 
+  useEffect(() => {
+    console.log('here', props.lists)
+  }, [props.lists, props.setSelectedTab, props.taskList])
+
   const handleClick = e => {
     if (refContainer.current.contains(e.target)) {
       // inside click
@@ -35,7 +39,7 @@ const TabsList = ( props ) => {
     let list = {...newList}
     list['user_id_fk'] = user.userid;
     list['theme_id_fk'] = 1;
-    props.createCustomList(list, props.setSelected);
+    props.createCustomList(list, props.setSelectedTab);
     setNewList({'name': ''});
     
   }
@@ -86,7 +90,9 @@ export default connect(
   state => ({
     dashboard: state.dashboard,
     lists: state.dashboard.lists,
-    categories: state.dashboard.categories
+    categories: state.dashboard.categories,
+    taskList: state.dashboard.taskList
   }),
-  { createCustomList: dashboard.createCustomList }
+  { createCustomList: dashboard.createCustomList,
+    setSelectedTab: dashboard.setSelectedTab }
 )(TabsList);

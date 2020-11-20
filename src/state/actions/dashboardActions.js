@@ -10,12 +10,19 @@ export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 export const ADD_TASK_FAILURE = 'ADD_TASK_FAILURE';
 export const UPDATE_TASK_SUCCESS = 'UPDATE_TASK_SUCCESS';
 export const UPDATE_TASK_FAILURE = 'UPDATE_TASK_FAILURE';
+export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
+export const DELETE_TASK_FAILURE = 'DELETE_TASK_FAILURE'
 export const SET_SELECTED_TASK = 'SET_SELECTED_TASK';
 export const SET_EDIT_WINDOW = 'SET_EDIT_WINDOW';
 export const SET_EDIT_TASK = 'SET_EDIT_TASK';
 export const CREATE_NEW_CUSTOM_LIST = 'CREATE_NEW_CUSTOM_LIST';
 export const UPDATE_CUSTOM_LIST_SUCCESS = 'UPDATE_CUSTOM_LIST_SUCCESS';
 export const DELETE_CUSTOM_LIST_SUCCESS = 'DELETE_CUSTOM_LIST_SUCCESS';
+export const SET_SELECTED_TAB = 'SET_SELECTED_TAB';
+export const SET_FLAG_TAB = 'SET_FLAG_TAB';
+export const SET_FLAG_IMPORTANT = 'SET_FLAG_IMPORTANT';
+export const SET_FLAG_MARKED = 'SET_FLAG_MARKED';
+export const SET_FLAG_UNMARKED = 'SET_FLAG_UNMARKED';
 
 
 export const getTaskList = ( userId, history ) => {
@@ -55,7 +62,7 @@ export const updateTask = ( todo, history ) => {
 
     axiosWithAuth().put('/api/tasks/update', todo)
       .then(response => {
-        dispatch({ type: UPDATE_TASK_SUCCESS, payload: response.data });
+        dispatch({ type: UPDATE_TASK_SUCCESS, payload: response.data  });
       })
       .catch(error => {
         dispatch({ type: UPDATE_TASK_FAILURE, payload: error});
@@ -71,12 +78,12 @@ export const deleteTask = ( id, history ) => {
   return dispatch => {
 
     axiosWithAuth().delete(`/api/tasks/delete/${id}`)
-      .then(response => {
-        dispatch({ type: UPDATE_TASK_SUCCESS, payload: response.data });
+      .then(() => {
+        dispatch({ type: DELETE_TASK_SUCCESS, payload: id });
 
       })
       .catch(error => {
-        dispatch({ type: UPDATE_TASK_FAILURE, payload: error});
+        dispatch({ type: DELETE_TASK_FAILURE, payload: error});
         localStorage.removeItem('token');
         localStorage.removeItem('tokenType');
         history.push('/login');
@@ -84,13 +91,13 @@ export const deleteTask = ( id, history ) => {
   }
 }
 
-export const addTask = ( newTodo, history ) => {
+export const addTask = ( newTodo, selectedTab, history ) => {
 
   return dispatch => {
 
     axiosWithAuth().post('/api/tasks/add', newTodo)
-      .then(response => {
-        dispatch({ type: ADD_TASK_SUCCESS, payload: response.data })
+      .then((response) => {
+        dispatch({ type: ADD_TASK_SUCCESS, payload: response.data, tab: selectedTab })
       })
       .catch(error => {
         dispatch({ type: ADD_TASK_FAILURE, payload: error })
@@ -129,6 +136,46 @@ export const setEditTask = ( todo ) => {
   }
 }
 
+export const setSelectedTab = ( tab ) => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_SELECTED_TAB, payload: tab })
+  }
+}
+
+export const setFlagTab = ( tab ) => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_FLAG_TAB, payload: tab })
+  }
+}
+
+export const setFlagImportant = ( bool ) => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_FLAG_IMPORTANT, payload: bool })
+  }
+}
+
+export const setFlagMarked = () => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_FLAG_MARKED })
+  }
+}
+
+export const setFlagUnmarked = () => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_FLAG_UNMARKED })
+  }
+}
+
 
 export const createCustomList = ( newList, setSelectedTab ) => {
 
@@ -136,8 +183,9 @@ export const createCustomList = ( newList, setSelectedTab ) => {
 
     axiosWithAuth().post('/api/lists/add', newList)
       .then(response => {
+        console.log('NEWWWW LIST', response)
         dispatch({ type: CREATE_NEW_CUSTOM_LIST, payload: response.data });
-        setSelectedTab(newList['name']);
+        setSelectedTab(response.data.name);
       })
       .catch((error) => {
         console.log(error);
@@ -162,13 +210,14 @@ export const updateCustomList = ( list ) => {
 export const deleteCustomList = ( listId ) => {
 
   return dispatch => {
-    
+
     axiosWithAuth().delete(`/api/lists/delete/${listId}`)
       .then(() => {
-        dispatch({ type: DELETE_CUSTOM_LIST_SUCCESS })
+        dispatch({ type: DELETE_CUSTOM_LIST_SUCCESS, payload: listId })
       })
       .catch((error) => {
         console.log(error);
       })
   }
 }
+
