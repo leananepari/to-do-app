@@ -184,7 +184,7 @@ export const reducer = (state = initialState, action) => {
         if (state.flagImportant && action.payload.completed !== true) {
           importantCount += 1 
         } else {
-          if (!state.flagImportant && action.payload.completed !== true) {
+          if (state.flagImportant === false && action.payload.completed !== true) {
             importantCount -= 1
           }
         }       
@@ -192,9 +192,15 @@ export const reducer = (state = initialState, action) => {
       let taskCount = state.categoryCount[state.flagSelectedTab];
       if (state.flagMarked !== null) {
         taskCount -= 1;
+        if (action.payload.important) {
+          importantCount -= 1;
+        }
       }
       if (state.flagUnmarked !== null) {
         taskCount += 1;
+        if (action.payload.important) {
+          importantCount += 1;
+        }
       }
 
       return {
