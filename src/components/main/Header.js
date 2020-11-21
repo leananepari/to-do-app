@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo.svg';
-import userIcon from '../../assets/user-icon.svg';
-import settingsIcon from '../../assets/settings.svg';
-import logoutIcon from '../../assets/logout-icon.svg';
+
+import { ReactComponent as Logo } from '../../assets/Logo.svg';
+import { ReactComponent as UserIcon } from '../../assets/user-icon.svg';
+import { ReactComponent as SettingsIcon } from '../../assets/settings.svg';
+import { ReactComponent as LogoutIcon } from '../../assets/logout-icon.svg';
+import { ReactComponent as up_chevron } from '../../assets/up-chevron.svg';
+import { ReactComponent as down_chevron } from '../../assets/down-chevron-white.svg';
+
 import { connect } from 'react-redux';
-import { logout } from '../../redux/actions';
+import { authentication } from '../../state/actions';
 import { withRouter } from 'react-router-dom';
-import up_chevron from '../../assets/up-chevron.svg';
-import down_chevron from '../../assets/down-chevron.svg';
 
 const Header = ( props ) => {
-  let user = JSON.parse(localStorage.getItem('user'));
   const [dropdown, setDropdown] = useState(false);
   const container = React.createRef();
+  const ChevronIcon = dropdown ? up_chevron : down_chevron;
 
   useEffect(() => {
     // add when mounted
@@ -47,15 +49,15 @@ const Header = ( props ) => {
 
   return (
     <header>
-      <Link to={'/'} className="logo-header">
-        <img src={Logo} style={{width: '28px'}} alt="logo"/>
+      <Link to={"/"} className="logo-header">
+        <Logo className="logo-icon" />
         <h1>To Do</h1>
       </Link>
       <div className="right-side">
         <div className="dropdown-wrap" ref={container}>
-          <img alt="up or down chevron" src={dropdown ? up_chevron : down_chevron} style={{width: '18px', cursor: 'pointer'}} onClick={handleDropdown}/>
-          <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, 
-                                            position: 'absolute'}}>
+          <ChevronIcon className="chevron-icon" onClick={handleDropdown}/>
+          <div className="dropdown" style={{display: `${dropdown ? "block" : "none"}`, 
+                                            position: "absolute"}}>
             <div className="triangle">
               <div></div>
               <div></div>
@@ -63,16 +65,16 @@ const Header = ( props ) => {
                 <div className="triangle-up"></div>
               </div>
             </div>
-            <Link to={'/profile'} className="text">
-              <img src={userIcon} alt="user icon"/>
+            <Link to={"/profile"} className="text">
+              <UserIcon className="icon"/>
               Profile
             </Link>
-            <Link to={'/settings'} className="text">
-              <img src={settingsIcon} className="settings-icon" alt="settings icon"/>
+            <Link to={"/settings"} className="text">
+              <SettingsIcon  className="icon settings" />
               Settings
             </Link>
             <div className="text last" onClick={handleLogout}>
-              <img src={logoutIcon} alt="logout icon"/>
+              <LogoutIcon className="icon" />
               Logout
             </div>
           </div>
@@ -83,14 +85,10 @@ const Header = ( props ) => {
 }
 
 const headerWithRouter = withRouter(Header);
-const mapStateToProps = state => {
-  return {
-    taskList: state.taskList,
-    reload: state.reload
-  }
-};
 
-export default connect (
-  mapStateToProps,
-  { logout }
-)(headerWithRouter)
+export default connect(
+  state => ({
+    authentication: state.authentication,
+  }),
+  { logout: authentication.logout}
+)(headerWithRouter);

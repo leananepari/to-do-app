@@ -1,34 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TabsList from './TabsList';
 import Display from './Display';
 import { connect } from 'react-redux';
-import { getTaskList, getCustomLists } from '../../redux/actions';
+import { dashboard } from '../../state/actions';
 
 const Dashboard = ( props ) => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const [selected, setSelected] = useState("Tasks");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
-    //api call to get user's task list
-    props.getTaskList(user.userid, props.history);
+    if (props.taskList.length === 0) {
+      props.getTaskList(user.userid, props.history);
+    }
 
-  }, [props.reload])
+  }, [])
 
   return (
     <div className="dashboard-wrap">
-      <TabsList selected={selected} setSelected={setSelected} />
-      <Display selected={selected} setSelected={setSelected} />
+      <TabsList />
+      <Display />
     </div>
   )
 } 
 
-const mapStateToProps = state => {
-  return {
-    reload: state.reload,
-  }
-};
 
-export default connect (
-  mapStateToProps,
-  { getTaskList, getCustomLists }
-)(Dashboard)
+export default connect(
+  state => ({
+    dashboard: state.dashboard,
+    taskList: state.dashboard.taskList
+  }),
+  { getTaskList: dashboard.getTaskList }
+)(Dashboard);

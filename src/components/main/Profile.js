@@ -4,7 +4,7 @@ import React from 'react';
 const Profile = () => {
 
   return (
-    <div style={{marginTop: '80px'}}>
+    <div style={{marginTop: "80px"}}>
       Profile
     </div>
   )

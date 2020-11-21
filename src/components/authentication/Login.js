@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Logo from '../../assets/logo-blue-icon.svg';
+import { ReactComponent as Logo } from '../../assets/logo-blue-icon.svg';
 import { connect } from 'react-redux';
-import { login, setLoginFailureFalse } from '../../redux/actions';
+import { authentication } from '../../state/actions';
 
 const Login = (props) => {
   const [user, setUser] = useState({'username': "", 'password': ""});
@@ -28,7 +28,7 @@ const Login = (props) => {
           <div className="login-box" >
             <div>
               <div className="logo-wrap">
-                <img src={Logo} alt="logo" style={{width: '60px'}}/>
+                <Logo className="logo-icon"/>
                 <h1>To Do</h1>
               </div>
               <div className="subtitle">
@@ -66,12 +66,14 @@ const Login = (props) => {
 
 const mapStateToProps = state => {
   return {
-    loginFailure: state.loginFailure,
-    isLoading: state.isLoading
+    authentication: state.authentication,
+    loginFailure: authentication.loginFailure,
+    isLoading: authentication.isLoading
   }
 };
 
 export default connect (
   mapStateToProps,
-  { login, setLoginFailureFalse }
+  { login: authentication.login, 
+    setLoginFailureFalse: authentication.setLoginFailureFalse }
 )(Login)

@@ -12,5 +12,3 @@ export const axiosWithAuth = () => {
     },
   });
 }
-
-// https://cors-anywhere.herokuapp.com/https://api.some.co

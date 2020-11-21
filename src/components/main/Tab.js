@@ -1,35 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { dashboard } from '../../state/actions';
 
 const Tab = ( props ) => {
 
   const handleClick = () => {
-    props.setSelected(props.category)
+    if (props.selectedTab !== props.category) {
+      props.setSelectedTab(props.category);
+      props.setEditWindow(false);
+    }
   }
 
   return (
     <div className="tab" onClick={handleClick} 
-         style={{backgroundColor: `${props.selected === props.category ? '#EDEDED' : ''}`,
-                 marginTop: `${props.category === 'My Day' ? '20px' : '0px'}`}}>
-      <img src={props.icon} style={{height: '18px', width: '18px'}} alt="tab icon"/>
-      <div style={{color: `${props.selected === props.category && props.category !== "My Day" ? "#3F6AE3" : "#34383C"}`, 
-                   fontWeight: `${props.selected === props.category ? "500" : "200"}`}}>
+         style={{backgroundColor: `${props.selectedTab === props.category ? "#EDEDED" : ""}`,
+                 marginTop: `${props.category === "My Day" ? "20px" : "0px"}`}}>
+      <props.icon className="tab-icon"/>
+      <div style={{color: `${props.selectedTab === props.category && props.category !== "My Day" ? "#3F6AE3" : "#34383C"}`, 
+                   fontWeight: `${props.selectedTab === props.category ? "500" : "200"}`}}>
           {props.category}
       </div>
-      <div className="count" style={{color: '#1B1C21'}}>
-          {props.categoryCount[props.category]}
+      <div className="count" style={{color: "#1B1C21"}}>
+          {props.categoryCount[props.category] !== 0 ? props.categoryCount[props.category] : ""}
       </div>
     </div>
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    categoryCount: state.categoryCount,
-  }
-}
 
 export default connect(
-  mapStateToProps,
-  { }
-)(Tab)
+  state => ({
+    dashboard: state.dashboard,
+    categoryCount: state.dashboard.categoryCount,
+    selectedTab: state.dashboard.selectedTab
+  }),
+  { setEditWindow: dashboard.setEditWindow,
+    setSelectedTab: dashboard.setSelectedTab }
+)(Tab);
