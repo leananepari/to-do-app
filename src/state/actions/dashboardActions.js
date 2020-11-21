@@ -24,6 +24,17 @@ export const SET_FLAG_IMPORTANT = 'SET_FLAG_IMPORTANT';
 export const SET_FLAG_MARKED = 'SET_FLAG_MARKED';
 export const SET_FLAG_UNMARKED = 'SET_FLAG_UNMARKED';
 
+export const UPDATE_TASK_MARKED_SUCCESS = 'UPDATE_TASK_MARKED_SUCCESS';
+export const UPDATE_TASK_MARKED_FAILURE = 'UPDATE_TASK_MARKED_FAILURE';
+export const UPDATE_TASK_UNMARKED_SUCCESS = 'UPDATE_TASK_UNMARKED_SUCCESS';
+export const UPDATE_TASK_UNMARKED_FAILURE = 'UPDATE_TASK_UNMARKED_FAILURE';
+export const UPDATE_TASK_IMPORTANT_SUCCESS = 'UPDATE_TASK_IMPORTANT_SUCCESS';
+export const UPDATE_TASK_IMPORTANT_FAILURE = 'UPDATE_TASK_IMPORTANT_FAILURE';
+export const UPDATE_TASK_UNIMPORTANT_SUCCESS = 'UPDATE_TASK_UNIMPORTANT_SUCCESS';
+export const UPDATE_TASK_UNIMPORTANT_FAILURE = 'UPDATE_TASK_UNIMPORTANT_FAILURE';
+export const UPDATE_TASK_NAME_CHANGE_SUCCESS = 'UPDATE_TASK_NAME_CHANGE_SUCCESS';
+export const UPDATE_TASK_NAME_CHANGE_FAILURE = 'UPDATE_TASK_NAME_CHANGE_FAILURE';
+
 
 export const getTaskList = ( userId, history ) => {
 
@@ -56,16 +67,16 @@ export const getTaskList = ( userId, history ) => {
   }
 }
 
-export const updateTask = ( todo, history ) => {
+export const updateTaskNameChange = ( todo, history ) => {
 
   return dispatch => {
 
     axiosWithAuth().put('/api/tasks/update', todo)
       .then(response => {
-        dispatch({ type: UPDATE_TASK_SUCCESS, payload: response.data  });
+        dispatch({ type: UPDATE_TASK_NAME_CHANGE_SUCCESS, payload: response.data  });
       })
       .catch(error => {
-        dispatch({ type: UPDATE_TASK_FAILURE, payload: error});
+        dispatch({ type: UPDATE_TASK_NAME_CHANGE_FAILURE, payload: error});
         localStorage.removeItem('token');
         localStorage.removeItem('tokenType');
         history.push('/login');
@@ -73,13 +84,81 @@ export const updateTask = ( todo, history ) => {
   }
 }
 
-export const deleteTask = ( id, history ) => {
+export const updateTaskMarked = ( todo, history, selectedTab ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', todo)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_MARKED_SUCCESS, payload: response.data, selectedTab: selectedTab  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_MARKED_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskUnmarked = ( todo, history, selectedTab ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', todo)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_UNMARKED_SUCCESS, payload: response.data, selectedTab: selectedTab });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_UNMARKED_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskImportant = ( todo, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', todo)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_IMPORTANT_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_IMPORTANT_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskUnimportant = ( todo, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', todo)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_UNIMPORTANT_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_UNIMPORTANT_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const deleteTask = ( id, history, selectedTab ) => {
 
   return dispatch => {
 
     axiosWithAuth().delete(`/api/tasks/delete/${id}`)
       .then(() => {
-        dispatch({ type: DELETE_TASK_SUCCESS, payload: id });
+        dispatch({ type: DELETE_TASK_SUCCESS, payload: id, selectedTab: selectedTab });
 
       })
       .catch(error => {
@@ -91,13 +170,13 @@ export const deleteTask = ( id, history ) => {
   }
 }
 
-export const addTask = ( newTodo, selectedTab, history ) => {
+export const addTask = ( newTodo, history, selectedTab ) => {
 
   return dispatch => {
 
     axiosWithAuth().post('/api/tasks/add', newTodo)
       .then((response) => {
-        dispatch({ type: ADD_TASK_SUCCESS, payload: response.data, tab: selectedTab })
+        dispatch({ type: ADD_TASK_SUCCESS, payload: response.data, selectedTab: selectedTab })
       })
       .catch(error => {
         dispatch({ type: ADD_TASK_FAILURE, payload: error })

@@ -13,7 +13,6 @@ import { authentication } from '../../state/actions';
 import { withRouter } from 'react-router-dom';
 
 const Header = ( props ) => {
-  let user = JSON.parse(localStorage.getItem('user'));
   const [dropdown, setDropdown] = useState(false);
   const container = React.createRef();
   const ChevronIcon = dropdown ? up_chevron : down_chevron;
@@ -50,15 +49,15 @@ const Header = ( props ) => {
 
   return (
     <header>
-      <Link to={'/'} className="logo-header">
+      <Link to={"/"} className="logo-header">
         <Logo className="logo-icon" />
         <h1>To Do</h1>
       </Link>
       <div className="right-side">
         <div className="dropdown-wrap" ref={container}>
           <ChevronIcon className="chevron-icon" onClick={handleDropdown}/>
-          <div className="dropdown" style={{display: `${dropdown ? 'block' : 'none'}`, 
-                                            position: 'absolute'}}>
+          <div className="dropdown" style={{display: `${dropdown ? "block" : "none"}`, 
+                                            position: "absolute"}}>
             <div className="triangle">
               <div></div>
               <div></div>
@@ -66,11 +65,11 @@ const Header = ( props ) => {
                 <div className="triangle-up"></div>
               </div>
             </div>
-            <Link to={'/profile'} className="text">
+            <Link to={"/profile"} className="text">
               <UserIcon className="icon"/>
               Profile
             </Link>
-            <Link to={'/settings'} className="text">
+            <Link to={"/settings"} className="text">
               <SettingsIcon  className="icon settings" />
               Settings
             </Link>

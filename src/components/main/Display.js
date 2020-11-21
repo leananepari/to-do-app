@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Task from './Task';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
+import { filterTaskList } from '../../utils/helpers';
 
 import { ReactComponent as PlusSignIcon } from '../../assets/plus-sign-icon.svg';
 import { ReactComponent as StarIcon } from '../../assets/star-icon.svg';
@@ -34,24 +35,13 @@ const Display = ( props ) => {
 
 
   useEffect(() => {
-    console.log('USE effect display')
-    if (props.selectedTab === "My Day") {
-      let filtered = props.taskList.filter(todo => todo.my_day === true);
-      setSelectedList(filtered)
-    } else if (props.selectedTab === "Important") {
-        let filtered = props.taskList.filter(todo => todo.important === true);
-        setSelectedList(filtered)
-    } else if (props.selectedTab === "Planned") {
-        let filtered = props.taskList.filter(todo => todo.due !== null);
-        setSelectedList(filtered)
-    } else if (props.selectedTab === "Tasks") {
-        let filtered = props.taskList.filter(todo => todo.list_id_fk === null);
-        setSelectedList(filtered)
-    } else {
-      if (props.customListLookupByName[props.selectedTab]) {
-        let filtered = props.taskList.filter(todo => todo.list_id_fk === props.customListLookupByName[props.selectedTab]['list_id']);
-        setSelectedList(filtered)
-      }
+
+    if (filterTaskList[props.selectedTab]) {
+      setSelectedList(filterTaskList[props.selectedTab](props.taskList));
+    }
+    if (props.customListLookupByName[props.selectedTab]) {
+        setSelectedList(props.taskList.filter(todo => 
+        todo.list_id_fk === props.customListLookupByName[props.selectedTab]['list_id']));
     }
 
   }, [props.taskList, props.selectedTab, props.slideWindow])
@@ -98,73 +88,63 @@ const Display = ( props ) => {
   }
 
   const handleChange = (event) => {
-    setNewTodo( { ...newTask, [event.target.name]: event.target.value } )
+    setNewTodo( { ...newTask, [event.target.name]: event.target.value } );
   }
 
   const handleAddTask = (e) => {
     e.preventDefault();
 
     let task = {
-      "description": newTask['to_do'],
+      "description": newTask["to_do"],
       "category_id_fk": newTask["category_id_fk"],
       "completed": false,
-      "important": false,
+      "important": props.selectedTab === "Important" ? true : false,
       "created": "",
-      "due": "",
-      "list_id_fk": "",
-      "my_day": false,
-      "note": ""
-    }
-    if (props.selectedTab === "Important") {
-      task['important'] = true;
-    }
-
-    if (props.customListLookupByName[props.selectedTab]) {
-      task['list_id_fk'] = props.customListLookupByName[props.selectedTab]['list_id'];
+      "due": props.selectedTab === "Planned" ? new Date() : "",
+      "list_id_fk": props.customListLookupByName[props.selectedTab] ? 
+                    props.customListLookupByName[props.selectedTab]["list_id"] : "",
+      "my_day": props.selectedTab === "My Day" ? true : false,
+      "note": "",
+      "user_id_fk": user.userid
     }
 
-    if (props.selectedTab === "My Day") {
-      task["my_day"] = true;
-    }
-
-    if (props.selectedTab === "Planned") {
-      task['due'] = new Date();
-    }
-
-    task["user_id_fk"] = user.userid;
-    props.setFlagTab(props.selectedTab);
-    props.addTask(task, history)
-    setNewTodo( { 'to_do': "", "category_id_fk": "" } );
+    props.addTask(task, history, props.selectedTab);
+    setNewTodo( { "to_do": "", "category_id_fk": "" } );
   }
 
   const handleEditTaskChange = (event) => {
-    props.setEditTask( { ...props.selectedTask, [event.target.name]: event.target.value } )
+    props.setEditTask( { ...props.selectedTask, [event.target.name]: event.target.value } );
   }
 
   const handleEditTaskSubmitButton = (e) => {
     e.preventDefault();
-    props.updateTask(props.selectedTask, history);
+    props.updateTaskNameChange(props.selectedTask, history);
   }
 
   const handleMarked = () => {
     props.audio.play();
-    props.selectedTask['completed'] = !props.selectedTask['completed'];
-    props.setFlagMarked(true);
-    props.setFlagTab(props.selectedTab);
-    props.updateTask(props.selectedTask, history)
+    props.selectedTask["completed"] = !props.selectedTask["completed"];
+    props.updateTaskMarked(props.selectedTask, history, props.selectedTab);
   }
 
   const handleUnmarked = () => {
-    props.selectedTask['completed'] = !props.selectedTask['completed'];
-    props.setFlagUnmarked(true);
-    props.setFlagTab(props.selectedTab);
-    props.updateTask(props.selectedTask, history)
+    props.selectedTask["completed"] = !props.selectedTask["completed"];
+    props.updateTaskUnmarked(props.selectedTask, history, props.selectedTab);
   }
 
   const handleImportant = () => {
-    props.selectedTask['important'] ? props.setFlagImportant(false) : props.setFlagImportant(true);
-    props.selectedTask['important'] = !props.selectedTask['important'];
-    props.updateTask(props.selectedTask, history);
+    props.selectedTask["important"] = !props.selectedTask["important"];
+    props.updateTaskImportant(props.selectedTask, history);
+  }
+
+  const handleUnimportant = () => {
+    props.selectedTask["important"] = !props.selectedTask["important"];
+    props.updateTaskUnimportant(props.selectedTask, history);
+  }
+
+  const handleDeleteTask = () => {
+    props.deleteTask(props.selectedTask.task_id, history, props.selectedTab);
+    props.setEditWindow(false);
   }
 
   const handleUserKeyPress = (e) => {
@@ -173,38 +153,32 @@ const Display = ( props ) => {
     }
   }
 
-  const handleDeleteTask = () => {
-    props.setFlagTab(props.selectedTab);
-    props.deleteTask(props.selectedTask.task_id, history)
-    props.setEditWindow(false);
-  }
-
   const handleMoreDropdown = () => {
     setMoreDropdown(!moreDropdown);
   }
 
   const handleRenameCustomList = () => {
-    setListName({"name": props.selectedTab})
+    setListName({"name": props.selectedTab});
     setListNameEdit(true);
     setMoreDropdown(false);
   }
 
   const handleDeleteCustomList = () => {
-    props.deleteCustomList(props.customListLookupByName[props.selectedTab]['list_id']);
+    props.deleteCustomList(props.customListLookupByName[props.selectedTab]["list_id"]);
     setMoreDropdown(false);
   }
 
   const handleChangeListName = ( event ) => {
-    setListName( { ...listName, [event.target.name]: event.target.value } )
+    setListName( { ...listName, [event.target.name]: event.target.value } );
   }
 
   const handleListUpdateSubmit = e => {
     e.preventDefault();
     let list = {...props.customListLookupByName[props.selectedTab]};
-    list['name'] = listName.name;
+    list["name"] = listName.name;
     props.updateCustomList(list);
     setListNameEdit(false);
-    props.setSelectedTab(list['name']);
+    props.setSelectedTab(list["name"]);
   }
 
   const handleOnFocus = () => {
@@ -262,7 +236,7 @@ const Display = ( props ) => {
             </div>
 
             <div className="more-dropdown"
-                 style={{display: `${moreDropdown ? 'block' : 'none'}`}}>
+                 style={{display: `${moreDropdown ? "block" : "none"}`}}>
 
               <div className="options">
                 {props.selectedTab === "Important" 
@@ -282,7 +256,7 @@ const Display = ( props ) => {
                     </div>
                     <div className="option-wrap" onClick={handleDeleteCustomList}>
                       <TrashIconRed className="icon" />
-                      <ul style={{color: '#DB3B29'}}>Delete list</ul>
+                      <ul style={{color: "#DB3B29"}}>Delete list</ul>
                     </div>
                   </div>
                 :
@@ -307,7 +281,7 @@ const Display = ( props ) => {
               {inputFocus ? 
                 <div className="circle"></div>
                 :
-                <PlusSignIcon style={{width: '18px', height: '18px'}}/>
+                <PlusSignIcon style={{width: "18px", height: "18px"}}/>
 
               }
               <input 
@@ -322,7 +296,7 @@ const Display = ( props ) => {
 
             </form>
 
-            <div className="border" style={{borderBottom: `${inputFocus ? '1px solid #3F6AE3' : '1px solid #EAEAEA'}`}}></div>
+            <div className="border" style={{borderBottom: `${inputFocus ? "1px solid #3F6AE3" : "1px solid #EAEAEA"}`}}></div>
           </div>
       
           <div className="todo-list">
@@ -331,16 +305,16 @@ const Display = ( props ) => {
             })}
             <div className="completed-list">
               <div className="completed-title-wrap" 
-                   style={{display: `${selectedList.filter(task => task.completed === true).length > 0 ? 'block' : 'none'}`}}>
+                   style={{display: `${selectedList.filter(task => task.completed === true).length > 0 ? "block" : "none"}`}}>
                 {showCompletedList ? 
                   <DownChevronIcon className="completed-list-icon" onClick={handleCompletedShowHide}/>
                 : 
                   <RightChevronIcon className="completed-list-icon"onClick={handleCompletedShowHide}/>
                 }
                 Completed
-                <div className="border" style={{display: `${showCompletedList ? 'none' : 'block'}`}}></div>
+                <div className="border" style={{display: `${showCompletedList ? "none" : "block"}`}}></div>
               </div>
-              <div style={{display: `${showCompletedList ? 'block' : 'none'}`}}>
+              <div style={{display: `${showCompletedList ? "block" : "none"}`}}>
                 {selectedList.filter(task => task.completed === true).map((task) => {
                   return <Task task={task} key={task.task_id} />
                 })}
@@ -384,7 +358,7 @@ const Display = ( props ) => {
                   
                   ? 
                     <StarSolidIcon 
-                         onClick={handleImportant} 
+                         onClick={handleUnimportant} 
                          className="star-solid-icon"
                     />
                   :
@@ -437,14 +411,14 @@ export default connect(
     setEditWindow: dashboard.setEditWindow, 
     setSelectedTask: dashboard.setSelectedTask, 
     setEditTask: dashboard.setEditTask, 
-    updateTask: dashboard.updateTask, 
+    updateTaskNameChange: dashboard.updateTaskNameChange, 
+    updateTaskMarked: dashboard.updateTaskMarked,
+    updateTaskUnmarked: dashboard.updateTaskUnmarked,
+    updateTaskImportant: dashboard.updateTaskImportant,
+    updateTaskUnimportant: dashboard.updateTaskUnimportant,
     deleteTask: dashboard.deleteTask, 
     updateCustomList: dashboard.updateCustomList,
     deleteCustomList: dashboard.deleteCustomList, 
     setSelectedTab: dashboard.setSelectedTab,
-    setFlagTab: dashboard.setFlagTab,
-    setFlagImportant: dashboard.setFlagImportant,
-    setFlagMarked: dashboard.setFlagMarked,
-    setFlagUnmarked: dashboard.setFlagUnmarked
   }
 )(Display);

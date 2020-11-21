@@ -7,9 +7,9 @@ import { ReactComponent as ListIcon } from '../../assets/list-icon.svg';
 import { ReactComponent as PlusSignIcon } from '../../assets/plus-sign-icon.svg';
 
 const TabsList = ( props ) => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const [newList, setNewList] = useState({'name': ''});
-  const [focus, setFocus] = useState('none');
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [newList, setNewList] = useState({"name": ""});
+  const [focus, setFocus] = useState("none");
   const refContainer = React.createRef();
 
   useEffect(() => {
@@ -22,7 +22,6 @@ const TabsList = ( props ) => {
   })
 
   useEffect(() => {
-    console.log('here', props.lists)
   }, [props.lists, props.setSelectedTab, props.taskList])
 
   const handleClick = e => {
@@ -31,25 +30,25 @@ const TabsList = ( props ) => {
       return;
     }
     // outside click 
-    setFocus('none');
+    setFocus("none");
   };
 
   const handleAddNewList = (e) => {
     e.preventDefault();
-    let list = {...newList}
-    list['user_id_fk'] = user.userid;
-    list['theme_id_fk'] = 1;
+    let list = {...newList};
+    list["user_id_fk"] = user.userid;
+    list["theme_id_fk"] = 1; //themes will be added later
     props.createCustomList(list, props.setSelectedTab);
-    setNewList({'name': ''});
+    setNewList({"name": ""});
     
   }
 
   const handleChange = (event) => {
-    setNewList( { ...newList, [event.target.name]: event.target.value } )
+    setNewList( { ...newList, [event.target.name]: event.target.value } );
   }
 
   const handleOnFocus = () => {
-    setFocus('focus');
+    setFocus("focus");
   }
 
   return (

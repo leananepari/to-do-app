@@ -1,5 +1,6 @@
 import { dashboard } from '../actions'; 
 import soundFile from '../../assets/completed-sound.wav';
+import { mapTaskList, mapCustomList } from '../../utils/helpers';
 
 const initialState = {
   taskList: [],
@@ -43,6 +44,7 @@ export const reducer = (state = initialState, action) => {
       }
 
     case dashboard.GET_TASK_LIST_SUCCESS:
+
       let list = action.payload;
 
       let storeCount = {
@@ -57,15 +59,16 @@ export const reducer = (state = initialState, action) => {
         list.forEach(task => {
 
           if (task.list_id_fk !== null) {
-            if (storeCount[state.customListLookupById[task.list_id_fk.toString()]]) {
-              if (task.completed !== true) {
-                storeCount[state.customListLookupById[task.list_id_fk.toString()]] += 1;
-              }
-            } else {
-              if (task.completed !== true) {
-                storeCount[state.customListLookupById[task.list_id_fk.toString()]] = 1;
-              }
-            }
+
+            (storeCount[state.customListLookupById[task.list_id_fk.toString()]] 
+             && task.completed !== true) ?
+              storeCount[state.customListLookupById[task.list_id_fk.toString()]] += 1
+            :
+              task.completed !== true ? 
+                storeCount[state.customListLookupById[task.list_id_fk.toString()]] = 1
+              :
+                storeCount[state.customListLookupById[task.list_id_fk.toString()]] = 0
+            
           } else {
               if (task.completed !== true) {
                 storeCount['Tasks'] += 1;
@@ -76,15 +79,15 @@ export const reducer = (state = initialState, action) => {
             storeCount['Important'] += 1;
           }
 
-          if (task.due !== null) {
+          if (task.due !== null && task.completed !== true) {
             storeCount['Planned'] += 1;
           }
 
-          if (task.my_day === true) {
+          if (task.my_day === true && task.completed !== true) {
             storeCount["My Day"] += 1;
           }
-        });
 
+        });
       }
       
       list.reverse();
@@ -146,13 +149,7 @@ export const reducer = (state = initialState, action) => {
 
       return {
         ...state,
-        lists: state.lists.map(list => {
-          if (list.list_id === action.payload.list_id) {
-            return action.payload
-          } else {
-            return list
-          }
-        }),
+        lists: mapCustomList(state.lists, action.payload),
         customListLookupByName: {...state.customListLookupByName, [action.payload['name']]: action.payload},
         customListLookupById: {...state.customListLookupById, [action.payload['list_id']]: action.payload['name']},
         categoryCount: updatedCategoryCount
@@ -168,57 +165,68 @@ export const reducer = (state = initialState, action) => {
       }
     
     case dashboard.ADD_TASK_SUCCESS:
-      if (!state.categoryCount[state.flagSelectedTab]) {
-        state.categoryCount[state.flagSelectedTab] = 0;
+      if (!state.categoryCount[action.selectedTab]) {
+        state.categoryCount[action.selectedTab] = 0;
       }
 
       return {
         ...state,
         taskList: [action.payload, ...state.taskList],
-        categoryCount: {...state.categoryCount, [state.flagSelectedTab]: state.categoryCount[state.flagSelectedTab] += 1 }
+        categoryCount: {...state.categoryCount, [action.selectedTab]: state.categoryCount[action.selectedTab] += 1 }
       }
 
-    case dashboard.UPDATE_TASK_SUCCESS:
-      let importantCount = state.categoryCount["Important"];
-      if (state.flagImportant !== null) {
-        if (state.flagImportant && action.payload.completed !== true) {
-          importantCount += 1 
-        } else {
-          if (state.flagImportant === false && action.payload.completed !== true) {
-            importantCount -= 1
-          }
-        }       
-      }
-      let taskCount = state.categoryCount[state.flagSelectedTab];
-      if (state.flagMarked !== null) {
-        taskCount -= 1;
-        if (action.payload.important) {
-          importantCount -= 1;
-        }
-      }
-      if (state.flagUnmarked !== null) {
-        taskCount += 1;
-        if (action.payload.important) {
-          importantCount += 1;
-        }
-      }
+    case dashboard.UPDATE_TASK_NAME_CHANGE_SUCCESS:
 
       return {
         ...state,
-        taskList: state.taskList.map(l => {
-          if (l.task_id === action.payload.task_id) {
-            return action.payload
-          }
-          return l
-        }),
-        categoryCount: {...state.categoryCount, ["Important"]: importantCount, [state.flagSelectedTab]: taskCount},
-        flagMarked: null,
-        flagUnmarked: null,
-        flagImportant: null
+        taskList: mapTaskList(state.taskList, action.payload)
+      }
+
+    case dashboard.UPDATE_TASK_MARKED_SUCCESS:
+
+      return {
+        ...state,
+        taskList: mapTaskList(state.taskList, action.payload),
+        categoryCount: action.payload.important ? 
+        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] -= 1, 
+        [action.selectedTab]: state.categoryCount[action.selectedTab] -= 1} :
+        {...state.categoryCount, [action.selectedTab]: state.categoryCount[action.selectedTab] -= 1}
+      }
+
+    case dashboard.UPDATE_TASK_UNMARKED_SUCCESS:
+
+      return {
+        ...state,
+        taskList: mapTaskList(state.taskList, action.payload),
+        categoryCount: action.payload.important ? 
+        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] += 1, 
+        [action.selectedTab]: state.categoryCount[action.selectedTab] += 1} :
+        {...state.categoryCount, [action.selectedTab]: state.categoryCount[action.selectedTab] += 1}
+      }
+
+    case dashboard.UPDATE_TASK_IMPORTANT_SUCCESS:
+
+      return {
+        ...state,
+        taskList: mapTaskList(state.taskList, action.payload),
+        categoryCount: action.payload.completed !== true ? 
+        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] += 1} :
+        {...state.categoryCount}
+      }
+
+
+    case dashboard.UPDATE_TASK_UNIMPORTANT_SUCCESS:
+
+      return {
+        ...state,
+        taskList: mapTaskList(state.taskList, action.payload),
+        categoryCount: action.payload.completed !== true ? 
+        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] -= 1} :
+        {...state.categoryCount}
       }
 
     case dashboard.DELETE_TASK_SUCCESS:
-      let count = state.categoryCount[state.flagSelectedTab];
+      let count = state.categoryCount[action.selectedTab];
       state.taskList.forEach(task => {
         if (task.task_id === action.payload) {
           if (!task.completed) {
@@ -230,7 +238,7 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         taskList: state.taskList.filter(task => task.task_id !== action.payload),
-        categoryCount: {...state.categoryCount, [state.flagSelectedTab]: count}
+        categoryCount: {...state.categoryCount, [action.selectedTab]: count}
       }
 
     
@@ -255,30 +263,6 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         selectedTab: action.payload
-      }
-
-    case dashboard.SET_FLAG_TAB:
-      return {
-        ...state,
-        flagSelectedTab: action.payload
-      }
-
-    case dashboard.SET_FLAG_IMPORTANT:
-      return {
-        ...state,
-        flagImportant: action.payload
-      }
-    
-    case dashboard.SET_FLAG_MARKED:
-      return {
-        ...state,
-        flagMarked: true
-      }
-
-    case dashboard.SET_FLAG_UNMARKED:
-      return {
-        ...state,
-        flagUnmarked: false
       }
 
     default:
