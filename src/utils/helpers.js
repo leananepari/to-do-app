@@ -22,54 +22,6 @@ export const mapCustomList = (list, updatedList) => {
 
 }
 
-export const countCategories = (list, customListLookupById) => {
-
-  let storeCount = {
-    "My Day": 0,
-    "Important": 0,
-    "Planned": 0,
-    "Tasks": 0
-  };
-
-  if (list.length > 0) {
-
-    list.forEach(task => {
-
-      if (task.list_id_fk !== null) {
-
-        (storeCount[customListLookupById[task.list_id_fk.toString()]] 
-         && task.completed !== true) ?
-          storeCount[customListLookupById[task.list_id_fk.toString()]] += 1
-        :
-          task.completed !== true ? 
-            storeCount[customListLookupById[task.list_id_fk.toString()]] = 1
-          :
-            storeCount[customListLookupById[task.list_id_fk.toString()]] = 0
-        
-      } else {
-          if (task.completed !== true) {
-            storeCount['Tasks'] += 1;
-          }
-      }
-
-      if (task.important === true && task.completed !== true) {
-        storeCount['Important'] += 1;
-      }
-
-      if (task.due !== null && task.completed !== true) {
-        storeCount['Planned'] += 1;
-      }
-
-      if (task.my_day === true && task.completed !== true) {
-        storeCount["My Day"] += 1;
-      }
-
-    });
-  }
-  console.log('STORE COUNT: ', storeCount)
-  return storeCount
-}
-
 export const getCount = (list, tab) => {
 
   let options = {

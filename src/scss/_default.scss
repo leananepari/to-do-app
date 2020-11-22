@@ -508,11 +508,37 @@ header {
           .text {
             margin-left: 15px;
             cursor: pointer;
-    
-            .category {
-              font-size: 12px;
-              margin-top: 5px;
-              color:#767678;
+
+            .categories-wrap {
+              display: flex;
+              align-items: center;
+
+              .category {
+                font-size: 11px;
+                margin-top: 5px;
+                color:#767678;
+              }
+
+              .dot {
+                width: 3px;
+                height: 3px;
+                border-radius: 50%;
+                background-color: #767678;
+                margin: 0 8px 0 5px;
+                margin-top: 5px;
+              }
+
+              .icon-wrap {
+                display: flex;
+                align-items: center;
+
+                .sun-icon {
+                  width: 10px;
+                  height: 10px;
+                  margin-top: 4px;
+                  margin-right: 2px;
+                }
+              }
             }
           }
 

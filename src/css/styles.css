@@ -368,10 +368,28 @@ header {
           .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text {
             margin-left: 15px;
             cursor: pointer; }
-            .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .category {
-              font-size: 12px;
-              margin-top: 5px;
-              color: #767678; }
+            .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap {
+              display: flex;
+              align-items: center; }
+              .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .category {
+                font-size: 11px;
+                margin-top: 5px;
+                color: #767678; }
+              .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .dot {
+                width: 3px;
+                height: 3px;
+                border-radius: 50%;
+                background-color: #767678;
+                margin: 0 8px 0 5px;
+                margin-top: 5px; }
+              .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .icon-wrap {
+                display: flex;
+                align-items: center; }
+                .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .icon-wrap .sun-icon {
+                  width: 10px;
+                  height: 10px;
+                  margin-top: 4px;
+                  margin-right: 2px; }
           .dashboard-wrap .display .middle-section-wrap .todo-list .todo .checkmark-icon {
             width: 18px;
             height: 18px;
