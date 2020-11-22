@@ -15,6 +15,10 @@ import { ReactComponent as ThreeDotsIcon } from '../../assets/three-dots-icon.sv
 import { ReactComponent as TrashIconRed } from '../../assets/trash-icon-red.svg';
 import { ReactComponent as RenameIcon } from '../../assets/rename-icon.svg';
 import { ReactComponent as DownChevronIcon } from '../../assets/down-chevron.svg';
+import { ReactComponent as SunIcon } from '../../assets/sun-icon.svg';
+import { ReactComponent as SunIconPurple } from '../../assets/sun-icon-purple.svg';
+import { ReactComponent as CancelIcon } from '../../assets/cancel-icon.svg';
+
 
 const Display = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -187,6 +191,16 @@ const Display = ( props ) => {
 
   const handleCompletedShowHide = () => {
     setShowCompletedList(!showCompletedList);
+  }
+
+  const handleAddToMyDay = () => {
+    props.selectedTask.my_day = true;
+    props.updateTaskAddToMyDay(props.selectedTask);
+  }
+
+  const handleRemoveFromToMyDay = () => {
+    props.selectedTask.my_day = false;
+    props.updateTaskRemoveFromMyDay(props.selectedTask);
   }
 
 
@@ -370,6 +384,21 @@ const Display = ( props ) => {
                 </div>
               </form>
 
+              <div>
+                {props.selectedTask.my_day ?
+                  <div className="add-to-my-day added">
+                    <SunIconPurple className="sun-icon" />
+                    <div className="added-text">Added to My Day</div>
+                    <CancelIcon className="cancel-icon" onClick={handleRemoveFromToMyDay}/>
+                  </div>
+                  :
+                  <div className="add-to-my-day add">
+                    <SunIcon className="sun-icon"/>
+                    <div onClick={handleAddToMyDay} className="add-text">Add to My Day</div>
+                  </div>
+                }
+              </div>
+
             </div>
 
             <div className="bottom-section-wrap">
@@ -420,5 +449,7 @@ export default connect(
     updateCustomList: dashboard.updateCustomList,
     deleteCustomList: dashboard.deleteCustomList, 
     setSelectedTab: dashboard.setSelectedTab,
+    updateTaskAddToMyDay: dashboard.updateTaskAddToMyDay,
+    updateTaskRemoveFromMyDay: dashboard.updateTaskRemoveFromMyDay
   }
 )(Display);

@@ -34,6 +34,10 @@ export const UPDATE_TASK_UNIMPORTANT_SUCCESS = 'UPDATE_TASK_UNIMPORTANT_SUCCESS'
 export const UPDATE_TASK_UNIMPORTANT_FAILURE = 'UPDATE_TASK_UNIMPORTANT_FAILURE';
 export const UPDATE_TASK_NAME_CHANGE_SUCCESS = 'UPDATE_TASK_NAME_CHANGE_SUCCESS';
 export const UPDATE_TASK_NAME_CHANGE_FAILURE = 'UPDATE_TASK_NAME_CHANGE_FAILURE';
+export const UPDATE_TASK_ADD_TO_MY_DAY_SUCCESS = 'UPDATE_TASK_ADD_TO_MY_DAY_SUCCESS';
+export const UPDATE_TASK_ADD_TO_MY_DAY_FAILURE = 'UPDATE_TASK_ADD_TO_MY_DAY_FAILURE';
+export const UPDATE_TASK_REMOVE_FROM_MY_DAY_SUCCESS = 'UPDATE_TASK_REMOVE_FROM_MY_DAY_SUCCESS';
+export const UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE = 'UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE';
 
 
 export const getTaskList = ( userId, history ) => {
@@ -67,11 +71,11 @@ export const getTaskList = ( userId, history ) => {
   }
 }
 
-export const updateTaskNameChange = ( todo, history ) => {
+export const updateTaskNameChange = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_NAME_CHANGE_SUCCESS, payload: response.data  });
       })
@@ -84,11 +88,11 @@ export const updateTaskNameChange = ( todo, history ) => {
   }
 }
 
-export const updateTaskMarked = ( todo, history, selectedTab ) => {
+export const updateTaskMarked = ( task, history, selectedTab ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_MARKED_SUCCESS, payload: response.data, selectedTab: selectedTab  });
       })
@@ -101,11 +105,11 @@ export const updateTaskMarked = ( todo, history, selectedTab ) => {
   }
 }
 
-export const updateTaskUnmarked = ( todo, history, selectedTab ) => {
+export const updateTaskUnmarked = ( task, history, selectedTab ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_UNMARKED_SUCCESS, payload: response.data, selectedTab: selectedTab });
       })
@@ -118,11 +122,11 @@ export const updateTaskUnmarked = ( todo, history, selectedTab ) => {
   }
 }
 
-export const updateTaskImportant = ( todo, history ) => {
+export const updateTaskImportant = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_IMPORTANT_SUCCESS, payload: response.data  });
       })
@@ -135,16 +139,50 @@ export const updateTaskImportant = ( todo, history ) => {
   }
 }
 
-export const updateTaskUnimportant = ( todo, history ) => {
+export const updateTaskUnimportant = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_UNIMPORTANT_SUCCESS, payload: response.data  });
       })
       .catch(error => {
         dispatch({ type: UPDATE_TASK_UNIMPORTANT_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskAddToMyDay = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_ADD_TO_MY_DAY_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_ADD_TO_MY_DAY_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskRemoveFromMyDay = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_REMOVE_FROM_MY_DAY_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE, payload: error});
         localStorage.removeItem('token');
         localStorage.removeItem('tokenType');
         history.push('/login');

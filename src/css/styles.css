@@ -575,6 +575,44 @@ header {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
           .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .myControlClassName {
             cursor: pointer; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day {
+          display: flex;
+          align-items: center;
+          background-color: white;
+          padding: 20px 10px 20px 10px;
+          border: 1px solid #EAEAEA;
+          margin-top: 10px;
+          font-weight: 300;
+          font-size: 14px; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .sun-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 15px; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .added-text {
+            color: #465EFC;
+            font-weight: 300;
+            font-size: 14px;
+            cursor: default; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .add-text {
+            color: #767678;
+            font-weight: 300;
+            font-size: 14px;
+            cursor: default; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .cancel-icon {
+            height: 9px;
+            width: 9px;
+            justify-self: flex-end;
+            margin: 0 auto;
+            margin-right: 0px;
+            cursor: pointer;
+            display: none; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .added:hover .cancel-icon {
+          background-color: #F7F7F7;
+          display: block; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .added:hover {
+          background-color: #F7F7F7; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .add:hover {
+          background-color: #F7F7F7; }
       .dashboard-wrap .display .edit-todo-window .bottom-section-wrap {
         display: flex;
         justify-content: space-between; }
