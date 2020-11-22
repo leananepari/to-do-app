@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef }  from 'react';
 import { useHistory } from 'react-router-dom';
 import Task from './Task';
+import Modal from './Modal';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
 import { filterTaskList } from '../../utils/helpers';
@@ -24,7 +25,6 @@ const Display = ( props ) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [selectedList, setSelectedList] = useState([]);
   const [newTask, setNewTodo] = useState({ 'to_do': "", "category_id_fk": "" });
-  const [moreDropdown, setMoreDropdown] = useState(false);
   const [listName, setListName] = useState({"name": ""});
   const [listNameEdit, setListNameEdit] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
@@ -83,7 +83,7 @@ const Display = ( props ) => {
       return;
     }
     // outside click 
-    setMoreDropdown(false);
+    props.setMoreDropdown(false);
     setListNameEdit(false);
   };
 
@@ -147,8 +147,8 @@ const Display = ( props ) => {
   }
 
   const handleDeleteTask = () => {
-    props.deleteTask(props.selectedTask.task_id, history, props.selectedTab);
-    props.setEditWindow(false);
+    props.setModalTrue(props.selectedTask.task_id, props.selectedTask.description, 
+                           props.deleteTask, history, props.setEditWindow);
   }
 
   const handleUserKeyPress = (e) => {
@@ -158,18 +158,19 @@ const Display = ( props ) => {
   }
 
   const handleMoreDropdown = () => {
-    setMoreDropdown(!moreDropdown);
+    props.setMoreDropdown(!props.moreDropdown);
   }
 
   const handleRenameCustomList = () => {
     setListName({"name": props.selectedTab});
     setListNameEdit(true);
-    setMoreDropdown(false);
+    props.setMoreDropdown(false);
   }
 
   const handleDeleteCustomList = () => {
-    props.deleteCustomList(props.customListLookupByName[props.selectedTab]["list_id"]);
-    setMoreDropdown(false);
+    props.setMoreDropdown(false);
+    props.setModalTrue(props.customListLookupByName[props.selectedTab]["list_id"], props.selectedTab,
+                      props.deleteCustomList, history)
   }
 
   const handleChangeListName = ( event ) => {
@@ -250,7 +251,7 @@ const Display = ( props ) => {
             </div>
 
             <div className="more-dropdown"
-                 style={{display: `${moreDropdown ? "block" : "none"}`}}>
+                 style={{display: `${props.moreDropdown ? "block" : "none"}`}}>
 
               <div className="options">
                 {props.selectedTab === "Important" 
@@ -417,6 +418,7 @@ const Display = ( props ) => {
         </div>
 
       </div>
+      <Modal />
     </div>
   )
 }
@@ -434,7 +436,10 @@ export default connect(
     editTaskCategory: state.dashboard.editTaskCategory,
     customListLookupByName: state.dashboard.customListLookupByName,
     selectedTab: state.dashboard.selectedTab,
-    audio: state.dashboard.audio
+    audio: state.dashboard.audio,
+    modalDeleteText: state.dashboard.modalDeleteText,
+    modalDeleteFunction: state.dashboard.modalDeleteFunction,
+    moreDropdown: state.dashboard.moreDropdown
   }),
   { addTask: dashboard.addTask, 
     setEditWindow: dashboard.setEditWindow, 
@@ -450,6 +455,8 @@ export default connect(
     deleteCustomList: dashboard.deleteCustomList, 
     setSelectedTab: dashboard.setSelectedTab,
     updateTaskAddToMyDay: dashboard.updateTaskAddToMyDay,
-    updateTaskRemoveFromMyDay: dashboard.updateTaskRemoveFromMyDay
+    updateTaskRemoveFromMyDay: dashboard.updateTaskRemoveFromMyDay,
+    setModalTrue: dashboard.setModalTrue,
+    setMoreDropdown: dashboard.setMoreDropdown
   }
 )(Display);

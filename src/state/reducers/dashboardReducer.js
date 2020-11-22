@@ -9,6 +9,7 @@ const initialState = {
   category_id_lookup: {},
   selectedTask: '',
   editWindow: false,
+  moreDropdown: false,
   editTask: {"description": '', 
              "category_id_fk": '', 
              "important": false, 
@@ -24,6 +25,10 @@ const initialState = {
   customListLookupById: {}, 
   selectedTab: 'Tasks',
   audio: new Audio(soundFile),
+  modal: false,
+  modalDeleteId: '',
+  modalDeleteText: '',
+  modalDeleteFunction: ''
 };
 
 export const reducer = (state = initialState, action) => {
@@ -195,6 +200,34 @@ export const reducer = (state = initialState, action) => {
         ...state,
         selectedTab: action.payload
       }
+
+    case dashboard.SET_MODAL_TRUE:
+
+      return {
+        ...state,
+        modal: true,
+        modalDeleteId: action.id,
+        modalDeleteText: action.text,
+        modalDeleteFunction: action.func,
+        modalHistory: action.history
+      }
+
+    case dashboard.SET_MODAL_FALSE:
+
+    return {
+      ...state,
+      modal: false,
+      modalDeleteText: '',
+      modalDeleteFunction: '',
+      modalHistory: ''
+    }
+
+    case dashboard.SET_MORE_DROPDOWN:
+
+    return {
+      ...state,
+      moreDropdown: action.payload
+    }
 
     default:
       return state;
