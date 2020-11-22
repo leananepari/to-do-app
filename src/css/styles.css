@@ -368,10 +368,28 @@ header {
           .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text {
             margin-left: 15px;
             cursor: pointer; }
-            .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .category {
-              font-size: 12px;
-              margin-top: 5px;
-              color: #767678; }
+            .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap {
+              display: flex;
+              align-items: center; }
+              .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .category {
+                font-size: 11px;
+                margin-top: 5px;
+                color: #767678; }
+              .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .dot {
+                width: 3px;
+                height: 3px;
+                border-radius: 50%;
+                background-color: #767678;
+                margin: 0 8px 0 5px;
+                margin-top: 5px; }
+              .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .icon-wrap {
+                display: flex;
+                align-items: center; }
+                .dashboard-wrap .display .middle-section-wrap .todo-list .todo .text .categories-wrap .icon-wrap .sun-icon {
+                  width: 10px;
+                  height: 10px;
+                  margin-top: 4px;
+                  margin-right: 2px; }
           .dashboard-wrap .display .middle-section-wrap .todo-list .todo .checkmark-icon {
             width: 18px;
             height: 18px;
@@ -557,6 +575,44 @@ header {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
           .dashboard-wrap .display .edit-todo-window .edit-todo-section .edit-todo-form .myControlClassName {
             cursor: pointer; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day {
+          display: flex;
+          align-items: center;
+          background-color: white;
+          padding: 20px 10px 20px 10px;
+          border: 1px solid #EAEAEA;
+          margin-top: 10px;
+          font-weight: 300;
+          font-size: 14px; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .sun-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 15px; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .added-text {
+            color: #465EFC;
+            font-weight: 300;
+            font-size: 14px;
+            cursor: default; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .add-text {
+            color: #767678;
+            font-weight: 300;
+            font-size: 14px;
+            cursor: default; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .cancel-icon {
+            height: 9px;
+            width: 9px;
+            justify-self: flex-end;
+            margin: 0 auto;
+            margin-right: 0px;
+            cursor: pointer;
+            display: none; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .added:hover .cancel-icon {
+          background-color: #F7F7F7;
+          display: block; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .added:hover {
+          background-color: #F7F7F7; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .add:hover {
+          background-color: #F7F7F7; }
       .dashboard-wrap .display .edit-todo-window .bottom-section-wrap {
         display: flex;
         justify-content: space-between; }
@@ -570,6 +626,54 @@ header {
           height: 16px;
           cursor: pointer;
           margin: 20px; }
+    .dashboard-wrap .display .modal {
+      position: fixed;
+      z-index: 7;
+      color: darkred;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      background-color: rgba(0, 0, 0, 0.3); }
+      .dashboard-wrap .display .modal .modal_inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 10px 0 10px;
+        position: absolute;
+        width: fit-content;
+        left: 36%;
+        right: 36%;
+        top: 40%;
+        bottom: 40%;
+        margin: auto;
+        background: white;
+        border-radius: 2px; }
+        .dashboard-wrap .display .modal .modal_inner .first-line {
+          color: black;
+          font-weight: 500;
+          font-size: 14px; }
+        .dashboard-wrap .display .modal .modal_inner .second-line {
+          font-size: 14px;
+          font-weight: 300;
+          color: black;
+          margin-top: 15px; }
+        .dashboard-wrap .display .modal .modal_inner .btn-wrap {
+          margin: 0 auto;
+          margin-right: 0px; }
+          .dashboard-wrap .display .modal .modal_inner .btn-wrap .btn {
+            padding: 10px;
+            width: fit-content;
+            border: 1px solid transparent;
+            margin-right: 10px;
+            cursor: pointer; }
+          .dashboard-wrap .display .modal .modal_inner .btn-wrap .delete {
+            background-color: #DB3B29;
+            color: white; }
 
 /*
 html5doctor.com Reset Stylesheet

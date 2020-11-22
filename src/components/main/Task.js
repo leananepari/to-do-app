@@ -6,6 +6,7 @@ import { dashboard } from '../../state/actions';
 import { ReactComponent as StarIcon } from '../../assets/star-icon.svg';
 import { ReactComponent as StarSolidIcon } from '../../assets/star-solid-icon.svg';
 import { ReactComponent as CheckmarkIcon } from '../../assets/checkmark-icon.svg';
+import { ReactComponent as SunIcon } from '../../assets/sun-icon-small.svg';
 
 const Task = ( props ) => {
   const history = useHistory();
@@ -68,6 +69,37 @@ const Task = ( props ) => {
         <div style={{textDecoration: `${props.task.completed ? "line-through" : "none"}`}}>
              {props.task["description"]}
         </div>
+        <div className="categories-wrap">
+          <div className="category" style={{display: `${props.selectedTab === "My Day" 
+                                                        || props.selectedTab === "Important" 
+                                                        || props.selectedTab === "Planned" ? 'block' : 'none'}`}}>
+              {props.task.list_id_fk !== null ? props.customListLookupById[props.task.list_id_fk]
+               : "Tasks"}
+          </div>
+          {props.selectedTab !== "My Day" 
+           && props.selectedTab !== "Important" 
+           && props.selectedTab !== "Planned" 
+           && props.task.my_day
+           ?
+           <div className="icon-wrap">
+             <SunIcon className="sun-icon"/>
+             <div className="category">My Day</div>
+           </div>
+           :
+           (props.selectedTab === "My Day" 
+           || props.selectedTab === "Important" 
+           || props.selectedTab === "Planned")
+           && props.task.my_day ?
+           <>
+           <div className="dot"></div>
+           <div className="icon-wrap">
+             <SunIcon className="sun-icon"/>
+             <div className="category">My Day</div>
+           </div>
+           </>
+            : null
+          }
+        </div>
       </div>
         {props.task.important ? 
           <StarSolidIcon onClick={handleUnimportant} className="star-icon" />
@@ -86,7 +118,8 @@ export default connect(
     selectedTask: state.dashboard.selectedTask,
     editWindow: state.dashboard.editWindow,
     selectedTab: state.dashboard.selectedTab,
-    audio: state.dashboard.audio
+    audio: state.dashboard.audio,
+    customListLookupById: state.dashboard.customListLookupById
   }),
   { updateTaskMarked: dashboard.updateTaskMarked,
     updateTaskUnmarked: dashboard.updateTaskUnmarked,

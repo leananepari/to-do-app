@@ -34,6 +34,13 @@ export const UPDATE_TASK_UNIMPORTANT_SUCCESS = 'UPDATE_TASK_UNIMPORTANT_SUCCESS'
 export const UPDATE_TASK_UNIMPORTANT_FAILURE = 'UPDATE_TASK_UNIMPORTANT_FAILURE';
 export const UPDATE_TASK_NAME_CHANGE_SUCCESS = 'UPDATE_TASK_NAME_CHANGE_SUCCESS';
 export const UPDATE_TASK_NAME_CHANGE_FAILURE = 'UPDATE_TASK_NAME_CHANGE_FAILURE';
+export const UPDATE_TASK_ADD_TO_MY_DAY_SUCCESS = 'UPDATE_TASK_ADD_TO_MY_DAY_SUCCESS';
+export const UPDATE_TASK_ADD_TO_MY_DAY_FAILURE = 'UPDATE_TASK_ADD_TO_MY_DAY_FAILURE';
+export const UPDATE_TASK_REMOVE_FROM_MY_DAY_SUCCESS = 'UPDATE_TASK_REMOVE_FROM_MY_DAY_SUCCESS';
+export const UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE = 'UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE';
+export const SET_MODAL_TRUE = 'SET_MODAL_TRUE';
+export const SET_MODAL_FALSE = 'SET_MODAL_FALSE';
+export const SET_MORE_DROPDOWN = 'SET_MORE_DROPDOWN';
 
 
 export const getTaskList = ( userId, history ) => {
@@ -67,11 +74,11 @@ export const getTaskList = ( userId, history ) => {
   }
 }
 
-export const updateTaskNameChange = ( todo, history ) => {
+export const updateTaskNameChange = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_NAME_CHANGE_SUCCESS, payload: response.data  });
       })
@@ -84,13 +91,13 @@ export const updateTaskNameChange = ( todo, history ) => {
   }
 }
 
-export const updateTaskMarked = ( todo, history, selectedTab ) => {
+export const updateTaskMarked = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
-        dispatch({ type: UPDATE_TASK_MARKED_SUCCESS, payload: response.data, selectedTab: selectedTab  });
+        dispatch({ type: UPDATE_TASK_MARKED_SUCCESS, payload: response.data  });
       })
       .catch(error => {
         dispatch({ type: UPDATE_TASK_MARKED_FAILURE, payload: error});
@@ -101,13 +108,13 @@ export const updateTaskMarked = ( todo, history, selectedTab ) => {
   }
 }
 
-export const updateTaskUnmarked = ( todo, history, selectedTab ) => {
+export const updateTaskUnmarked = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
-        dispatch({ type: UPDATE_TASK_UNMARKED_SUCCESS, payload: response.data, selectedTab: selectedTab });
+        dispatch({ type: UPDATE_TASK_UNMARKED_SUCCESS, payload: response.data });
       })
       .catch(error => {
         dispatch({ type: UPDATE_TASK_UNMARKED_FAILURE, payload: error});
@@ -118,11 +125,11 @@ export const updateTaskUnmarked = ( todo, history, selectedTab ) => {
   }
 }
 
-export const updateTaskImportant = ( todo, history ) => {
+export const updateTaskImportant = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_IMPORTANT_SUCCESS, payload: response.data  });
       })
@@ -135,11 +142,11 @@ export const updateTaskImportant = ( todo, history ) => {
   }
 }
 
-export const updateTaskUnimportant = ( todo, history ) => {
+export const updateTaskUnimportant = ( task, history ) => {
 
   return dispatch => {
 
-    axiosWithAuth().put('/api/tasks/update', todo)
+    axiosWithAuth().put('/api/tasks/update', task)
       .then(response => {
         dispatch({ type: UPDATE_TASK_UNIMPORTANT_SUCCESS, payload: response.data  });
       })
@@ -152,14 +159,48 @@ export const updateTaskUnimportant = ( todo, history ) => {
   }
 }
 
-export const deleteTask = ( id, history, selectedTab ) => {
+export const updateTaskAddToMyDay = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_ADD_TO_MY_DAY_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_ADD_TO_MY_DAY_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskRemoveFromMyDay = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_REMOVE_FROM_MY_DAY_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const deleteTask = ( id, history ) => {
 
   return dispatch => {
 
     axiosWithAuth().delete(`/api/tasks/delete/${id}`)
       .then(() => {
-        dispatch({ type: DELETE_TASK_SUCCESS, payload: id, selectedTab: selectedTab });
-
+        dispatch({ type: DELETE_TASK_SUCCESS, payload: id });
+        dispatch({ type: SET_EDIT_WINDOW, payload: false});
       })
       .catch(error => {
         dispatch({ type: DELETE_TASK_FAILURE, payload: error});
@@ -206,6 +247,15 @@ export const setEditWindow = ( bool ) => {
   }
 }
 
+export const setMoreDropdown = ( bool ) => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_MORE_DROPDOWN, payload: bool})
+
+  }
+}
+
 export const setEditTask = ( todo ) => {
 
   return dispatch => {
@@ -223,38 +273,22 @@ export const setSelectedTab = ( tab ) => {
   }
 }
 
-export const setFlagTab = ( tab ) => {
+
+export const setModalTrue = ( id, text, func, history ) => {
 
   return dispatch => {
 
-    dispatch({ type: SET_FLAG_TAB, payload: tab })
+    dispatch({ type: SET_MODAL_TRUE, id: id, text: text, func: func, history: history })
   }
 }
 
-export const setFlagImportant = ( bool ) => {
+export const setModalFalse = () => {
 
   return dispatch => {
 
-    dispatch({ type: SET_FLAG_IMPORTANT, payload: bool })
+    dispatch({ type: SET_MODAL_FALSE })
   }
 }
-
-export const setFlagMarked = () => {
-
-  return dispatch => {
-
-    dispatch({ type: SET_FLAG_MARKED })
-  }
-}
-
-export const setFlagUnmarked = () => {
-
-  return dispatch => {
-
-    dispatch({ type: SET_FLAG_UNMARKED })
-  }
-}
-
 
 export const createCustomList = ( newList, setSelectedTab ) => {
 
@@ -262,7 +296,6 @@ export const createCustomList = ( newList, setSelectedTab ) => {
 
     axiosWithAuth().post('/api/lists/add', newList)
       .then(response => {
-        console.log('NEWWWW LIST', response)
         dispatch({ type: CREATE_NEW_CUSTOM_LIST, payload: response.data });
         setSelectedTab(response.data.name);
       })
@@ -286,7 +319,7 @@ export const updateCustomList = ( list ) => {
   }
 }
 
-export const deleteCustomList = ( listId ) => {
+export const deleteCustomList = ( listId, history ) => {
 
   return dispatch => {
 
@@ -294,8 +327,10 @@ export const deleteCustomList = ( listId ) => {
       .then(() => {
         dispatch({ type: DELETE_CUSTOM_LIST_SUCCESS, payload: listId })
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
       })
   }
 }

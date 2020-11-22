@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Tab from './Tab';
 import { category_icons } from '../../data';
+import { getCount, getCountCustomLists } from '../../utils/helpers';
 import { connect } from 'react-redux';
 import { dashboard } from '../../state/actions';
 import { ReactComponent as ListIcon } from '../../assets/list-icon.svg';
@@ -55,14 +56,14 @@ const TabsList = ( props ) => {
     <div className="tabs-list">
       {props.categories.map((category) => {
         return <Tab category={category} key={category} icon={category_icons[category]} 
-                    selected={props.selected} setSelected={props.setSelected} 
-                />
+               count={getCount(props.taskList, category)}/>
       })}
 
       <div className="custom-lists">
         {props.lists.map(list => {
           
-          return <Tab category={list.name} icon={ListIcon} key={list.list_id} selected={props.selected} setSelected={props.setSelected}/>
+          return <Tab category={list.name} icon={ListIcon} key={list.list_id} 
+                 count={getCountCustomLists(props.taskList, list.name, props.customListLookupByName)}/>
         })}
       </div>
       <div className="add-new-list"> 
@@ -90,7 +91,8 @@ export default connect(
     dashboard: state.dashboard,
     lists: state.dashboard.lists,
     categories: state.dashboard.categories,
-    taskList: state.dashboard.taskList
+    taskList: state.dashboard.taskList,
+    customListLookupByName: state.dashboard.customListLookupByName,
   }),
   { createCustomList: dashboard.createCustomList,
     setSelectedTab: dashboard.setSelectedTab }
