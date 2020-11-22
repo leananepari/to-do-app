@@ -21,7 +21,7 @@ const Tab = ( props ) => {
           {props.category}
       </div>
       <div className="count" style={{color: "#1B1C21"}}>
-          {props.categoryCount[props.category] !== 0 ? props.categoryCount[props.category] : ""}
+          {props.count !== 0 ? props.count : ""}
       </div>
     </div>
   )
@@ -31,7 +31,6 @@ const Tab = ( props ) => {
 export default connect(
   state => ({
     dashboard: state.dashboard,
-    categoryCount: state.dashboard.categoryCount,
     selectedTab: state.dashboard.selectedTab
   }),
   { setEditWindow: dashboard.setEditWindow,

@@ -5,8 +5,6 @@ import { mapTaskList, mapCustomList } from '../../utils/helpers';
 const initialState = {
   taskList: [],
   categories: ["My Day", "Important", "Planned", "Tasks"],
-  categoryCount: {},
-  reload: false,
   category_lookup: {},
   category_id_lookup: {},
   selectedTask: '',
@@ -21,89 +19,34 @@ const initialState = {
              'task_id': '',
             },
   editTaskCategory: '',
-  error: '',
   lists: [],
   customListLookupByName: {},
   customListLookupById: {}, 
   selectedTab: 'Tasks',
-
   audio: new Audio(soundFile),
-
-  flagImportant: null,
-  flagMarked: null,
-  flagUnmarked: null,
-  flagSelectedTab: null
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+
     case dashboard.GET_TASK_LIST_START:
       return {
         ...state,
-        error: ''
       }
 
     case dashboard.GET_TASK_LIST_SUCCESS:
-
       let list = action.payload;
-
-      let storeCount = {
-        "My Day": 0,
-        "Important": 0,
-        "Planned": 0,
-        "Tasks": 0
-      };
-
-      if (list.length > 0) {
-
-        list.forEach(task => {
-
-          if (task.list_id_fk !== null) {
-
-            (storeCount[state.customListLookupById[task.list_id_fk.toString()]] 
-             && task.completed !== true) ?
-              storeCount[state.customListLookupById[task.list_id_fk.toString()]] += 1
-            :
-              task.completed !== true ? 
-                storeCount[state.customListLookupById[task.list_id_fk.toString()]] = 1
-              :
-                storeCount[state.customListLookupById[task.list_id_fk.toString()]] = 0
-            
-          } else {
-              if (task.completed !== true) {
-                storeCount['Tasks'] += 1;
-              }
-          }
-
-          if (task.important === true && task.completed !== true) {
-            storeCount['Important'] += 1;
-          }
-
-          if (task.due !== null && task.completed !== true) {
-            storeCount['Planned'] += 1;
-          }
-
-          if (task.my_day === true && task.completed !== true) {
-            storeCount["My Day"] += 1;
-          }
-
-        });
-      }
-      
       list.reverse();
 
       return {
         ...state,
-        taskList: list,
-        categoryCount: storeCount,
-        error: ''
+        taskList: list
       }
 
     case dashboard.GET_TASK_LIST_FAILURE: 
       return {
         ...state,
-        isLoading: false,
-        error: 'Error'
+        isLoading: false
       }
 
     case dashboard.SET_SELECTED_TASK:
@@ -141,18 +84,14 @@ export const reducer = (state = initialState, action) => {
       }
 
     case dashboard.UPDATE_CUSTOM_LIST_SUCCESS:
-      let updatedCategoryCount = {...state.categoryCount};
-      state.lists.forEach(l => {
-        if (l.list_id === action.payload.list_id) {
-          updatedCategoryCount[action.payload.name] = updatedCategoryCount[l['name']];
-        }})
 
       return {
         ...state,
         lists: mapCustomList(state.lists, action.payload),
-        customListLookupByName: {...state.customListLookupByName, [action.payload['name']]: action.payload},
-        customListLookupById: {...state.customListLookupById, [action.payload['list_id']]: action.payload['name']},
-        categoryCount: updatedCategoryCount
+        customListLookupByName: {...state.customListLookupByName, 
+                                [action.payload['name']]: action.payload},
+        customListLookupById: {...state.customListLookupById, 
+                              [action.payload['list_id']]: action.payload['name']},
       }
 
     case dashboard.CREATE_NEW_CUSTOM_LIST:
@@ -160,19 +99,18 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         lists: [...state.lists, action.payload],
-        customListLookupByName: {...state.customListLookupByName, [action.payload['name']]: action.payload},
-        customListLookupById: {...state.customListLookupById, [action.payload['list_id']]: action.payload['name']}
+        customListLookupByName: {...state.customListLookupByName, 
+                                [action.payload['name']]: action.payload},
+        customListLookupById: {...state.customListLookupById, 
+                              [action.payload['list_id']]: action.payload['name']}
       }
     
     case dashboard.ADD_TASK_SUCCESS:
-      if (!state.categoryCount[action.selectedTab]) {
-        state.categoryCount[action.selectedTab] = 0;
-      }
+      let updatedListAddTask = [action.payload, ...state.taskList];
 
       return {
         ...state,
-        taskList: [action.payload, ...state.taskList],
-        categoryCount: {...state.categoryCount, [action.selectedTab]: state.categoryCount[action.selectedTab] += 1 }
+        taskList: updatedListAddTask,
       }
 
     case dashboard.UPDATE_TASK_NAME_CHANGE_SUCCESS:
@@ -183,62 +121,43 @@ export const reducer = (state = initialState, action) => {
       }
 
     case dashboard.UPDATE_TASK_MARKED_SUCCESS:
+      let updatedListWhenMarked = mapTaskList(state.taskList, action.payload);
 
       return {
         ...state,
-        taskList: mapTaskList(state.taskList, action.payload),
-        categoryCount: action.payload.important ? 
-        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] -= 1, 
-        [action.selectedTab]: state.categoryCount[action.selectedTab] -= 1} :
-        {...state.categoryCount, [action.selectedTab]: state.categoryCount[action.selectedTab] -= 1}
+        taskList: updatedListWhenMarked,
       }
 
     case dashboard.UPDATE_TASK_UNMARKED_SUCCESS:
+      let updatedListWhenUnmarked = mapTaskList(state.taskList, action.payload);
 
       return {
         ...state,
-        taskList: mapTaskList(state.taskList, action.payload),
-        categoryCount: action.payload.important ? 
-        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] += 1, 
-        [action.selectedTab]: state.categoryCount[action.selectedTab] += 1} :
-        {...state.categoryCount, [action.selectedTab]: state.categoryCount[action.selectedTab] += 1}
+        taskList: updatedListWhenUnmarked,
       }
 
     case dashboard.UPDATE_TASK_IMPORTANT_SUCCESS:
+      let updatedListWhenImportant = mapTaskList(state.taskList, action.payload);
 
       return {
         ...state,
-        taskList: mapTaskList(state.taskList, action.payload),
-        categoryCount: action.payload.completed !== true ? 
-        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] += 1} :
-        {...state.categoryCount}
+        taskList: updatedListWhenImportant,
       }
 
-
     case dashboard.UPDATE_TASK_UNIMPORTANT_SUCCESS:
+      let updatedListWhenUnimportant = mapTaskList(state.taskList, action.payload);
 
       return {
         ...state,
-        taskList: mapTaskList(state.taskList, action.payload),
-        categoryCount: action.payload.completed !== true ? 
-        {...state.categoryCount, ["Important"]: state.categoryCount["Important"] -= 1} :
-        {...state.categoryCount}
+        taskList: updatedListWhenUnimportant
       }
 
     case dashboard.DELETE_TASK_SUCCESS:
-      let count = state.categoryCount[action.selectedTab];
-      state.taskList.forEach(task => {
-        if (task.task_id === action.payload) {
-          if (!task.completed) {
-            count -= 1;
-          } 
-        }
-      })
+      let updatedListDeleteTask = state.taskList.filter(task => task.task_id !== action.payload);
 
       return {
         ...state,
-        taskList: state.taskList.filter(task => task.task_id !== action.payload),
-        categoryCount: {...state.categoryCount, [action.selectedTab]: count}
+        taskList: updatedListDeleteTask
       }
 
     
@@ -249,14 +168,10 @@ export const reducer = (state = initialState, action) => {
           i = index
         }
       })
-      let updatedCount = {...state.categoryCount};
-      delete updatedCount[state.customListLookupById[action.payload]];
-
       return {
         ...state,
         selectedTab: i === 0 ? "Tasks" : state.lists[i - 1]['name'],
         lists: state.lists.filter(l => l.list_id !== action.payload),
-        categoryCount: updatedCount
       }
 
     case dashboard.SET_SELECTED_TAB:
