@@ -148,7 +148,7 @@ const Display = ( props ) => {
 
   const handleDeleteTask = () => {
     props.setModalTrue(props.selectedTask.task_id, props.selectedTask.description, 
-                           props.deleteTask, history, props.setEditWindow);
+                           props.deleteTask, history);
   }
 
   const handleUserKeyPress = (e) => {

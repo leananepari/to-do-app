@@ -3,7 +3,7 @@
 
 Task manager app that lets you add tasks, set due dates, get reminders, and customize themes.
 
-![Demo](src/assets/to-do-video.gif)
+![Demo](src/latest-todo-video.gif)
 
 ### `UX/UI`
 
