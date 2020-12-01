@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import TabsList from './TabsList';
 import Display from './Display';
 import { connect } from 'react-redux';
-import { dashboard } from '../../state/actions';
+import { dashboard } from '../../../state/actions';
 
 const Dashboard = ( props ) => {
   const user = JSON.parse(localStorage.getItem("user"));

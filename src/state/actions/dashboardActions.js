@@ -41,6 +41,9 @@ export const UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE = 'UPDATE_TASK_REMOVE_FROM_M
 export const SET_MODAL_TRUE = 'SET_MODAL_TRUE';
 export const SET_MODAL_FALSE = 'SET_MODAL_FALSE';
 export const SET_MORE_DROPDOWN = 'SET_MORE_DROPDOWN';
+export const SET_SELECTED_TASK_LIST = 'SET_SELECTED_TASK_LIST';
+export const SET_EDIT_LIST_NAME = 'SET_EDIT_LIST_NAME';
+export const SET_LIST_NAME_INPUT = 'SET_LIST_NAME_INPUT';
 
 
 export const getTaskList = ( userId, history ) => {
@@ -332,6 +335,32 @@ export const deleteCustomList = ( listId, history ) => {
         localStorage.removeItem('tokenType');
         history.push('/login');
       })
+  }
+}
+
+export const setSelectedTaskList = ( tasks ) => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_SELECTED_TASK_LIST, payload: tasks })
+  }
+}
+
+
+export const setEditListName = ( bool ) => {
+
+  return dispatch => {
+
+    dispatch({ type: SET_EDIT_LIST_NAME, payload: bool })
+  }
+}
+
+
+export const setListNameInput = ( listName ) => {
+  
+  return dispatch => {
+
+    dispatch({ type: SET_LIST_NAME_INPUT, payload: listName })
   }
 }
 

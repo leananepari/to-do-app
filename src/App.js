@@ -4,8 +4,8 @@ import { Route, Switch } from "react-router-dom";
 import Dashboard from './components/main/Dashboard';
 import Login from './components/authentication/Login';
 import SignUp from './components/authentication/SignUp';
-import Profile from './components/main/Profile';
-import Settings from './components/main/Settings';
+import Profile from './components/main/User/Profile';
+import Settings from './components/main/User/Settings';
 import PrivateRoute from './components/authentication/PrivateRoute';
 
 function App() {

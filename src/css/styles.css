@@ -341,7 +341,7 @@ header {
             font-weight: 300;
             font-size: 14px; }
       .dashboard-wrap .display .middle-section-wrap .todo-list {
-        overflow-y: scroll;
+        overflow-y: auto;
         height: calc(100% - 132px); }
         .dashboard-wrap .display .middle-section-wrap .todo-list .todo {
           display: flex;

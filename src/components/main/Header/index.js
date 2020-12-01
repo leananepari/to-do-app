@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { ReactComponent as Logo } from '../../assets/Logo.svg';
-import { ReactComponent as UserIcon } from '../../assets/user-icon.svg';
-import { ReactComponent as SettingsIcon } from '../../assets/settings.svg';
-import { ReactComponent as LogoutIcon } from '../../assets/logout-icon.svg';
-import { ReactComponent as up_chevron } from '../../assets/up-chevron.svg';
-import { ReactComponent as down_chevron } from '../../assets/down-chevron-white.svg';
+import { ReactComponent as Logo } from '../../../assets/Logo.svg';
+import { ReactComponent as UserIcon } from '../../../assets/user-icon.svg';
+import { ReactComponent as SettingsIcon } from '../../../assets/settings.svg';
+import { ReactComponent as LogoutIcon } from '../../../assets/logout-icon.svg';
+import { ReactComponent as up_chevron } from '../../../assets/up-chevron.svg';
+import { ReactComponent as down_chevron } from '../../../assets/down-chevron-white.svg';
 
 import { connect } from 'react-redux';
-import { authentication } from '../../state/actions';
+import { authentication } from '../../../state/actions';
 import { withRouter } from 'react-router-dom';
 
 const Header = ( props ) => {

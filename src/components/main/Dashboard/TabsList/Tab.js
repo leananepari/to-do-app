@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { dashboard } from '../../state/actions';
+import { dashboard } from '../../../../state/actions';
 
 const Tab = ( props ) => {
 

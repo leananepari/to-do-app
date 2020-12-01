@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Tab from './Tab';
-import { category_icons } from '../../data';
-import { getCount, getCountCustomLists } from '../../utils/helpers';
+import { category_icons } from '../../../../data';
+import { getCount, getCountCustomLists } from '../../../../utils/helpers';
 import { connect } from 'react-redux';
-import { dashboard } from '../../state/actions';
-import { ReactComponent as ListIcon } from '../../assets/list-icon.svg';
-import { ReactComponent as PlusSignIcon } from '../../assets/plus-sign-icon.svg';
+import { dashboard } from '../../../../state/actions';
+import { ReactComponent as ListIcon } from '../../../../assets/list-icon.svg';
+import { ReactComponent as PlusSignIcon } from '../../../../assets/plus-sign-icon.svg';
 
 const TabsList = ( props ) => {
   const user = JSON.parse(localStorage.getItem("user"));

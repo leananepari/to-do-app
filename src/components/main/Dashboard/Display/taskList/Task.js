@@ -1,12 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { dashboard } from '../../state/actions';
+import { dashboard } from '../../../../../state/actions';
 
-import { ReactComponent as StarIcon } from '../../assets/star-icon.svg';
-import { ReactComponent as StarSolidIcon } from '../../assets/star-solid-icon.svg';
-import { ReactComponent as CheckmarkIcon } from '../../assets/checkmark-icon.svg';
-import { ReactComponent as SunIcon } from '../../assets/sun-icon-small.svg';
+import { ReactComponent as StarIcon } from '../../../../../assets/star-icon.svg';
+import { ReactComponent as StarSolidIcon } from '../../../../../assets/star-solid-icon.svg';
+import { ReactComponent as CheckmarkIcon } from '../../../../../assets/checkmark-icon.svg';
+import { ReactComponent as SunIcon } from '../../../../../assets/sun-icon-small.svg';
+
 
 const Task = ( props ) => {
   const history = useHistory();

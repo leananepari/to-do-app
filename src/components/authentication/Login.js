@@ -67,8 +67,8 @@ const Login = (props) => {
 const mapStateToProps = state => {
   return {
     authentication: state.authentication,
-    loginFailure: authentication.loginFailure,
-    isLoading: authentication.isLoading
+    loginFailure: state.authentication.loginFailure,
+    isLoading: state.authentication.isLoading
   }
 };
 
