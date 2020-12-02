@@ -8,6 +8,7 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
+  
   switch (action.type) {
     case authentication.LOGIN_START:
     case authentication.SIGNUP_START:
@@ -17,6 +18,7 @@ export const reducer = (state = initialState, action) => {
       }
 
     case authentication.SET_USER:
+
       return {
         ...state,
         isLoading: false,
@@ -24,6 +26,7 @@ export const reducer = (state = initialState, action) => {
       }
     
     case authentication.LOGIN_FAILURE:
+
       return {
         ...state,
         isLoading: false,
@@ -31,12 +34,14 @@ export const reducer = (state = initialState, action) => {
       }
     
     case authentication.SET_LOGIN_FAILURE_FALSE:
+
       return {
         ...state,
         loginFailure: false
       }
     
     case authentication.SIGNUP_FAILURE:
+
       return {
         ...state,
         isLoading: false,
@@ -44,10 +49,12 @@ export const reducer = (state = initialState, action) => {
       }
     
     case authentication.SET_SIGNUP_FAILURE_FALSE:
+
       return {
         ...state,
         signupFailure: false
       }
+    
     default:
       return state;
   }

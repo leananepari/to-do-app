@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as Logo } from '../../assets/logo-blue-icon.svg';
 import { connect } from 'react-redux';
 import { authentication } from '../../state/actions';
 
 const Login = (props) => {
   const [user, setUser] = useState({'username': "", 'password': ""});
+
+  useEffect(() => {
+    props.isAuthenticated( props.history );
+  }, [])
 
   const handleChange = (event) => {
     props.setLoginFailureFalse();
@@ -75,5 +79,8 @@ const mapStateToProps = state => {
 export default connect (
   mapStateToProps,
   { login: authentication.login, 
-    setLoginFailureFalse: authentication.setLoginFailureFalse }
+    setLoginFailureFalse: authentication.setLoginFailureFalse,
+    getUserInfo: authentication.getUserInfo,
+    isAuthenticated: authentication.isAuthenticated
+  }
 )(Login)
