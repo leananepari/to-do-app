@@ -1,13 +1,14 @@
 
-## Task Manager App
+## Task Manager App (clone)
 
-Task manager app that lets you add tasks, set due dates, get reminders, and customize themes.
+Task manager app that lets you add tasks, set due dates, get reminders, and customize themes. 
 
-![Demo](src/assets/to-do-video.gif)
+[Login](https://to-do-app-five.now.sh/login)
+Username: user
+Password: password
 
-### `UX/UI`
 
-Designs were taken from an existing to-do app design images available online.
+![Demo](src/assets/fast-x5.gif)
 
 ### `Front End`
 

@@ -4,6 +4,8 @@ import { mapTaskList, mapCustomList } from '../../utils/helpers';
 
 const initialState = {
   taskList: [],
+  selectedTaskList: [],
+  // newTask: {"description": ""},
   categories: ["My Day", "Important", "Planned", "Tasks"],
   category_lookup: {},
   category_id_lookup: {},
@@ -23,6 +25,8 @@ const initialState = {
   lists: [],
   customListLookupByName: {},
   customListLookupById: {}, 
+  editListName: false,
+  listNameInput: {"name": ""},
   selectedTab: 'Tasks',
   audio: new Audio(soundFile),
   modal: false,
@@ -227,6 +231,27 @@ export const reducer = (state = initialState, action) => {
     return {
       ...state,
       moreDropdown: action.payload
+    }
+
+    case dashboard.SET_SELECTED_TASK_LIST:
+
+    return {
+      ...state,
+      selectedTaskList: action.payload
+    }
+
+    case dashboard.SET_EDIT_LIST_NAME:
+
+    return {
+      ...state,
+      editListName: action.payload
+    }
+
+    case dashboard.SET_LIST_NAME_INPUT:
+
+    return {
+      ...state,
+      listNameInput: action.payload
     }
 
     default:

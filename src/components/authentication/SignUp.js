@@ -77,8 +77,8 @@ const SignUp = (props) => {
 const mapStateToProps = state => {
   return {
     authentication: state.authentication,
-    signupFailure: authentication.signupFailure,
-    isLoading: authentication.isLoading
+    signupFailure: state.authentication.signupFailure,
+    isLoading: state.authentication.isLoading
   }
 };
 
