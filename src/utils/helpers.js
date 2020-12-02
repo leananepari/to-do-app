@@ -46,3 +46,21 @@ export const filterTaskList = {
   "Planned": (list) =>  list.filter(task => task.due !== null),
   "Tasks": (list) =>  list.filter(task => task.list_id_fk === null)
 }
+
+export const formatDate = (time) => {
+  let output;
+  let options;
+  let currYear = new Date().getFullYear();
+  
+  let date = new Date(time);
+
+  date.getFullYear() < currYear || date.getFullYear() > currYear 
+  ?
+  options =  { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' }
+  :
+  options =  { weekday: 'short', month: 'long', day: 'numeric' };
+
+  output = date.toLocaleDateString("en-US", options);
+
+  return output
+}

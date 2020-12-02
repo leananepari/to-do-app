@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { dashboard } from '../../../../state/actions';
 import { useHistory } from 'react-router-dom';
 
+import AddRemoveDueDate from './AddRemoveDueDate';
+import AddRemoveMyDay from './AddRemoveMyDay';
+
 import { ReactComponent as StarIcon } from '../../../../assets/star-icon.svg';
 import { ReactComponent as StarSolidIcon } from '../../../../assets/star-solid-icon.svg';
 import { ReactComponent as CheckmarkIcon } from '../../../../assets/checkmark-icon.svg';
 import { ReactComponent as TrashIcon } from '../../../../assets/trash-icon.svg';
-import { ReactComponent as SunIcon } from '../../../../assets/sun-icon.svg';
-import { ReactComponent as SunIconPurple } from '../../../../assets/sun-icon-purple.svg';
-import { ReactComponent as CancelIcon } from '../../../../assets/cancel-icon.svg';
 import { ReactComponent as RightChevronIcon } from '../../../../assets/right-chevron.svg';
+
 
 const EditTaskSideWindow = ( props ) => {
   const history = useHistory();
@@ -54,16 +55,6 @@ const EditTaskSideWindow = ( props ) => {
     if (e.key === "Enter" && !e.shiftKey) {
       handleEditTaskSubmitButton(e); 
     }
-  }
-
-  const handleAddToMyDay = () => {
-    props.selectedTask.my_day = true;
-    props.updateTaskAddToMyDay(props.selectedTask);
-  }
-
-  const handleRemoveFromToMyDay = () => {
-    props.selectedTask.my_day = false;
-    props.updateTaskRemoveFromMyDay(props.selectedTask);
   }
 
   const handleCloseEditWindow = () => {
@@ -114,20 +105,9 @@ const EditTaskSideWindow = ( props ) => {
           </div>
         </form>
 
-        <div>
-          {props.selectedTask.my_day ?
-            <div className="add-to-my-day added">
-              <SunIconPurple className="sun-icon" />
-              <div className="added-text">Added to My Day</div>
-              <CancelIcon className="cancel-icon" onClick={handleRemoveFromToMyDay}/>
-            </div>
-            :
-            <div className="add-to-my-day add">
-              <SunIcon className="sun-icon"/>
-              <div onClick={handleAddToMyDay} className="add-text">Add to My Day</div>
-            </div>
-          }
-        </div>
+        <AddRemoveMyDay />
+
+        <AddRemoveDueDate />
 
       </div>
 
@@ -165,8 +145,6 @@ export default connect(
     updateTaskImportant: dashboard.updateTaskImportant,
     updateTaskUnimportant: dashboard.updateTaskUnimportant,
     deleteTask: dashboard.deleteTask, 
-    updateTaskAddToMyDay: dashboard.updateTaskAddToMyDay,
-    updateTaskRemoveFromMyDay: dashboard.updateTaskRemoveFromMyDay,
     setModalTrue: dashboard.setModalTrue
   }
 )(EditTaskSideWindow);

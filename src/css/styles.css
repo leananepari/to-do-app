@@ -598,6 +598,8 @@ header {
             font-weight: 300;
             font-size: 14px;
             cursor: default; }
+          .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .add-text:hover {
+            color: black; }
           .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-to-my-day .cancel-icon {
             height: 9px;
             width: 9px;
@@ -613,6 +615,45 @@ header {
           background-color: #F7F7F7; }
         .dashboard-wrap .display .edit-todo-window .edit-todo-section .add:hover {
           background-color: #F7F7F7; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-due-date {
+          display: flex;
+          align-items: center;
+          background-color: white;
+          padding: 20px 10px 20px 10px;
+          border: 1px solid #EAEAEA;
+          margin-top: 10px;
+          font-weight: 300;
+          font-size: 14px;
+          color: #767678;
+          font-weight: 300;
+          font-size: 14px;
+          cursor: default; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .calendar-icon {
+          width: 16px;
+          height: 16px;
+          margin-right: 15px; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .add-due-date:hover {
+          background-color: #F7F7F7;
+          color: black; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .added {
+          color: #465EFC; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .added:hover {
+          color: #465EFC; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .overdue {
+          color: #DB3B29; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .overdue:hover {
+          color: #DB3B29; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .cancel-icon {
+          height: 9px;
+          width: 9px;
+          justify-self: flex-end;
+          margin: 0 auto;
+          margin-right: 0px;
+          cursor: pointer;
+          display: none; }
+        .dashboard-wrap .display .edit-todo-window .edit-todo-section .overdue:hover .cancel-icon {
+          background-color: #F7F7F7;
+          display: block; }
       .dashboard-wrap .display .edit-todo-window .bottom-section-wrap {
         display: flex;
         justify-content: space-between; }

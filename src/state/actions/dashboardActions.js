@@ -59,6 +59,7 @@ export const getTaskList = ( userId, history ) => {
           axiosWithAuth().get(`/api/tasks/all/${userId}`, qs.stringify({ grant_type: 'password' }))
             .then(response => {
               dispatch({ type: GET_TASK_LIST_SUCCESS, payload: response.data })
+              console.log('TASKS: ', response)
             })
             .catch(error => {
               dispatch({ type: GET_TASK_LIST_FAILURE, payload: error });
