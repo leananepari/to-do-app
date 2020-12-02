@@ -1,11 +1,10 @@
-import { dashboard } from '../actions'; 
+import { dashboard, authentication } from '../actions'; 
 import soundFile from '../../assets/completed-sound.wav';
 import { mapTaskList, mapCustomList } from '../../utils/helpers';
 
 const initialState = {
   taskList: [],
   selectedTaskList: [],
-  // newTask: {"description": ""},
   categories: ["My Day", "Important", "Planned", "Tasks"],
   category_lookup: {},
   category_id_lookup: {},
@@ -39,6 +38,7 @@ export const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case dashboard.GET_TASK_LIST_START:
+      
       return {
         ...state,
       }
@@ -164,18 +164,18 @@ export const reducer = (state = initialState, action) => {
     case dashboard.UPDATE_TASK_ADD_TO_MY_DAY_SUCCESS:
       let updatedListWhenAddToMyDay = mapTaskList(state.taskList, action.payload);
 
-    return {
-      ...state,
-      taskList: updatedListWhenAddToMyDay
-    }
+      return {
+        ...state,
+        taskList: updatedListWhenAddToMyDay
+      }
     
     case dashboard.UPDATE_TASK_REMOVE_FROM_MY_DAY_SUCCESS:
       let updatedListWhenRemovedFromMyDay = mapTaskList(state.taskList, action.payload);
 
-    return {
-      ...state,
-      taskList: updatedListWhenRemovedFromMyDay
-    }
+      return {
+        ...state,
+        taskList: updatedListWhenRemovedFromMyDay
+      }
 
     case dashboard.DELETE_TASK_SUCCESS:
       let updatedListDeleteTask = state.taskList.filter(task => task.task_id !== action.payload);
@@ -200,6 +200,7 @@ export const reducer = (state = initialState, action) => {
       }
 
     case dashboard.SET_SELECTED_TAB:
+      
       return {
         ...state,
         selectedTab: action.payload
@@ -218,41 +219,75 @@ export const reducer = (state = initialState, action) => {
 
     case dashboard.SET_MODAL_FALSE:
 
-    return {
-      ...state,
-      modal: false,
-      modalDeleteText: '',
-      modalDeleteFunction: '',
-      modalHistory: ''
-    }
+      return {
+        ...state,
+        modal: false,
+        modalDeleteText: '',
+        modalDeleteFunction: '',
+        modalHistory: ''
+      }
 
     case dashboard.SET_MORE_DROPDOWN:
 
-    return {
-      ...state,
-      moreDropdown: action.payload
-    }
+      return {
+        ...state,
+        moreDropdown: action.payload
+      }
 
     case dashboard.SET_SELECTED_TASK_LIST:
 
-    return {
-      ...state,
-      selectedTaskList: action.payload
-    }
+      return {
+        ...state,
+        selectedTaskList: action.payload
+      }
 
     case dashboard.SET_EDIT_LIST_NAME:
 
-    return {
-      ...state,
-      editListName: action.payload
-    }
+      return {
+        ...state,
+        editListName: action.payload
+      }
 
     case dashboard.SET_LIST_NAME_INPUT:
 
-    return {
-      ...state,
-      listNameInput: action.payload
-    }
+      return {
+        ...state,
+        listNameInput: action.payload
+      }
+
+    case authentication.LOGOUT:
+
+      return {
+        taskList: [],
+        selectedTaskList: [],
+        categories: ["My Day", "Important", "Planned", "Tasks"],
+        category_lookup: {},
+        category_id_lookup: {},
+        selectedTask: '',
+        editWindow: false,
+        moreDropdown: false,
+        editTask: {"description": '', 
+                  "category_id_fk": '', 
+                  "important": false, 
+                  "completed": false, 
+                  "created": "",
+                  "due": "",
+                  'user_id_fk': '',
+                  'task_id': '',
+                  },
+        editTaskCategory: '',
+        lists: [],
+        customListLookupByName: {},
+        customListLookupById: {}, 
+        editListName: false,
+        listNameInput: {"name": ""},
+        selectedTab: 'Tasks',
+        audio: new Audio(soundFile),
+        modal: false,
+        modalDeleteId: '',
+        modalDeleteText: '',
+        modalDeleteFunction: ''
+      }
 
     default:
       return state;

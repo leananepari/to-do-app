@@ -363,4 +363,3 @@ export const setListNameInput = ( listName ) => {
     dispatch({ type: SET_LIST_NAME_INPUT, payload: listName })
   }
 }
-

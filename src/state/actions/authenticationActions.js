@@ -8,6 +8,7 @@ export const SIGNUP_START = 'SIGNUP_START';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const SET_LOGIN_FAILURE_FALSE = 'SET_LOGIN_FAILURE_FALSE';
 export const SET_SIGNUP_FAILURE_FALSE = 'SET_SIGNUP_FAILURE_FALSE';
+export const LOGOUT = 'LOGOUT';
 
 
 export const login = ( user, history ) => {
@@ -20,7 +21,7 @@ export const login = ( user, history ) => {
         .then(response => {
           localStorage.setItem("token", response.data.access_token);
           localStorage.setItem("tokenType", response.data.token_type);
-            return getUserInfo()();
+          return getUserInfo()();
         })
         .then(user => {
           dispatch({ type: SET_USER, payload: user });
@@ -40,26 +41,24 @@ export const signup = ( newUser, history ) => {
     dispatch({ type: SIGNUP_START });
 
     axiosWithAuth().post('/createnewuser', newUser)
-    .then(response => {
-      localStorage.setItem("token", response.data.access_token);
-      localStorage.setItem("tokenType", response.data.token_type);
-      console.log('RESPONSE data', response)
-      return getUserInfo()();
-
-    })
-    .then(user => {
-      dispatch({ type: SET_USER, payload: user });
-      localStorage.setItem("user", JSON.stringify(user));
-      history.push('/');
-    })
-    .catch(error => {
-      console.log('Error', error)
-      dispatch({ type: SIGNUP_FAILURE })
-    });
+      .then(response => {
+        localStorage.setItem("token", response.data.access_token);
+        localStorage.setItem("tokenType", response.data.token_type);
+        return getUserInfo()();
+      })
+      .then(user => {
+        dispatch({ type: SET_USER, payload: user });
+        localStorage.setItem("user", JSON.stringify(user));
+        history.push('/');
+      })
+      .catch(error => {
+        console.log('Error', error)
+        dispatch({ type: SIGNUP_FAILURE })
+      });
   }
 }
 
-const getUserInfo = () => () => {
+export const getUserInfo = () => () => {
 
   return new Promise((resolve, reject) => {
     axiosWithAuth().get('/users/getuserinfo')
@@ -67,14 +66,28 @@ const getUserInfo = () => () => {
         resolve( response.data );
       })
       .catch(error => {
-        console.log('Could not get user info', error);
         reject( error );
       });
   });
 };
 
-export const logout = ( history ) => {
+export const isAuthenticated = ( history ) => {
+
   return () => {
+    axiosWithAuth().get('/users/getuserinfo')
+      .then(() => {
+        history.push("/");
+      })
+      .catch(() => {
+        history.push("/login");
+      });
+  }
+}
+
+export const logout = ( history ) => {
+
+  return dispatch => {
+    dispatch({ type: LOGOUT })
     localStorage.removeItem('token');
     localStorage.removeItem('tokenType');
     localStorage.removeItem('user');
@@ -84,13 +97,16 @@ export const logout = ( history ) => {
 
 
 export const setLoginFailureFalse = () => {
+
   return dispatch => {
     dispatch({ type: SET_LOGIN_FAILURE_FALSE })
   }
 }
 
 export const setSignupFailureFalse = () => {
+  
   return dispatch => {
     dispatch({ type: 'SET_SIGNUP_FAILURE_FALSE' })
   }
 }
+
