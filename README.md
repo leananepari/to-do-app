@@ -3,7 +3,9 @@
 
 Task manager app that lets you add tasks, set due dates, get reminders, and customize themes. 
 
-[Visit](https://to-do-app-five.now.sh/login)
+[Login](https://to-do-app-five.now.sh/login)
+Username: user
+Password: password
 
 
 ![Demo](src/assets/fast-x5.gif)
