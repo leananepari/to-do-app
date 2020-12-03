@@ -21,10 +21,11 @@ const Dropdown = ( props ) => {
     props.setModalTrue(props.customListLookupByName[props.selectedTab]["list_id"], props.selectedTab,
                       props.deleteCustomList, history)
   }
+  
 
   return (
-    <div className="more-dropdown"  ref={props.reference}
-         style={{display: `${props.moreDropdown ? "block" : "none"}`}}>
+    <div className="more-dropdown" 
+        style={{display: `${props.moreDropdown ? "block" : "none"}`}}>
 
       <div className="options">
         {props.selectedTab === "Important" 
@@ -66,6 +67,6 @@ export default connect(
     setModalTrue: dashboard.setModalTrue,
     deleteCustomList: dashboard.deleteCustomList,
     setEditListName: dashboard.setEditListName,
-    setListNameInput: dashboard.setListNameInput
+    setListNameInput: dashboard.setListNameInput,
   }
 )(Dropdown);

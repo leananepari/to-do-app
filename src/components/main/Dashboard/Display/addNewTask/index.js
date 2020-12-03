@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { dashboard } from '../../../../../state/actions';
+import OutsideClickHandler from '../../../../../utils/OutsideClickHandler';
 
 import { ReactComponent as PlusSignIcon } from '../../../../../assets/plus-sign-icon.svg';
 
@@ -40,69 +41,48 @@ const AddNewTask = ( props ) => {
     props.setInputFocus(true);
   }
 
+  const handleOutsideClickAddNewTask = () => {
+    props.setInputFocus(false);
+  }
+
   return (
-    <div className="add-to-do">
+    <OutsideClickHandler callback={handleOutsideClickAddNewTask}>
+      <div className="add-to-do">
 
-      <form onSubmit={handleAddTask} >
+        <form onSubmit={handleAddTask} >
 
-        {props.inputFocus ? 
-          <div className="circle"></div>
-          :
-          <PlusSignIcon style={{width: "18px", height: "18px"}}/>
-        }
-        <input 
-          type="text"
-          name="to_do"
-          value={newTask.to_do} 
-          onChange={handleChange} 
-          placeholder={props.selectedTab === "Planned" ? "Add a task due today" : "Add a task"}
-          autoComplete="off"
-          onFocus={handleOnFocus}
-          ref={props.reference}
-        />
+          {props.inputFocus ? 
+            <div className="circle"></div>
+            :
+            <PlusSignIcon style={{width: "18px", height: "18px"}}/>
+          }
+          <input 
+            type="text"
+            name="to_do"
+            value={newTask.to_do} 
+            onChange={handleChange} 
+            placeholder={props.selectedTab === "Planned" ? "Add a task due today" : "Add a task"}
+            autoComplete="off"
+            onFocus={handleOnFocus}
+            ref={props.reference}
+          />
 
-      </form>
+        </form>
 
-      <div className="border" style={{borderBottom: `${props.inputFocus ? "1px solid #3F6AE3" : "1px solid #EAEAEA"}`}}></div>
-    </div>
+        <div className="border" style={{borderBottom: `${props.inputFocus ? "1px solid #3F6AE3" : "1px solid #EAEAEA"}`}}></div>
+      </div>
+    </OutsideClickHandler>
   )
 }
 
 export default connect(
   state => ({
     dashboard: state.dashboard,
-    taskList: state.dashboard.taskList,
-    category_lookup: state.dashboard.category_lookup,
-    category_id_lookup: state.dashboard.category_id_lookup,
-    selectedTask: state.dashboard.selectedTask,
-    editWindow: state.dashboard.editWindow,
-    editTask: state.dashboard.editTask,
-    editTaskCategory: state.dashboard.editTaskCategory,
     customListLookupByName: state.dashboard.customListLookupByName,
     selectedTab: state.dashboard.selectedTab,
-    audio: state.dashboard.audio,
-    modalDeleteText: state.dashboard.modalDeleteText,
-    modalDeleteFunction: state.dashboard.modalDeleteFunction,
-    moreDropdown: state.dashboard.moreDropdown,
-    selectedTaskList: state.dashboard.selectedTaskList
+    inputFocus: state.dashboard.inputFocus
   }),
   { addTask: dashboard.addTask, 
-    setEditWindow: dashboard.setEditWindow, 
-    setSelectedTask: dashboard.setSelectedTask, 
-    setEditTask: dashboard.setEditTask, 
-    updateTaskNameChange: dashboard.updateTaskNameChange, 
-    updateTaskMarked: dashboard.updateTaskMarked,
-    updateTaskUnmarked: dashboard.updateTaskUnmarked,
-    updateTaskImportant: dashboard.updateTaskImportant,
-    updateTaskUnimportant: dashboard.updateTaskUnimportant,
-    deleteTask: dashboard.deleteTask, 
-    updateCustomList: dashboard.updateCustomList,
-    deleteCustomList: dashboard.deleteCustomList, 
-    setSelectedTab: dashboard.setSelectedTab,
-    updateTaskAddToMyDay: dashboard.updateTaskAddToMyDay,
-    updateTaskRemoveFromMyDay: dashboard.updateTaskRemoveFromMyDay,
-    setModalTrue: dashboard.setModalTrue,
-    setMoreDropdown: dashboard.setMoreDropdown,
-    setSelectedTaskList: dashboard.setSelectedTaskList
+    setInputFocus: dashboard.setInputFocus
   }
 )(AddNewTask);

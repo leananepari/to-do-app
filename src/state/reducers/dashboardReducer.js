@@ -31,14 +31,16 @@ const initialState = {
   modal: false,
   modalDeleteId: '',
   modalDeleteText: '',
-  modalDeleteFunction: ''
+  modalDeleteFunction: '',
+  inputFocus: false,
+  dateSelectionDropdown: false
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case dashboard.GET_TASK_LIST_START:
-      
+
       return {
         ...state,
       }
@@ -288,6 +290,20 @@ export const reducer = (state = initialState, action) => {
         modalDeleteText: '',
         modalDeleteFunction: ''
       }
+
+    case dashboard.SET_INPUT_FOCUS:
+
+    return {
+      ...state,
+      inputFocus: action.payload
+    }
+
+    case dashboard.SET_DATE_SELECTION_DROPDOWN:
+
+    return {
+      ...state,
+      dateSelectionDropdown: action.payload
+    }
 
     default:
       return state;

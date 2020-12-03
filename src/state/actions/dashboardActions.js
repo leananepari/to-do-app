@@ -44,6 +44,8 @@ export const SET_MORE_DROPDOWN = 'SET_MORE_DROPDOWN';
 export const SET_SELECTED_TASK_LIST = 'SET_SELECTED_TASK_LIST';
 export const SET_EDIT_LIST_NAME = 'SET_EDIT_LIST_NAME';
 export const SET_LIST_NAME_INPUT = 'SET_LIST_NAME_INPUT';
+export const SET_INPUT_FOCUS = 'SET_INPUT_FOCUS';
+export const SET_DATE_SELECTION_DROPDOWN = 'SET_DATE_SELECTION_DROPDOWN';
 
 
 export const getTaskList = ( userId, history ) => {
@@ -362,5 +364,22 @@ export const setListNameInput = ( listName ) => {
   return dispatch => {
 
     dispatch({ type: SET_LIST_NAME_INPUT, payload: listName })
+  }
+}
+
+export const setInputFocus = ( bool ) => {
+  
+  return dispatch => {
+
+    dispatch({ type: SET_INPUT_FOCUS, payload: bool })
+  }
+}
+
+
+export const setDateSelectionDropdown = ( bool ) => {
+  
+  return dispatch => {
+
+    dispatch({ type: SET_DATE_SELECTION_DROPDOWN, payload: bool })
   }
 }
