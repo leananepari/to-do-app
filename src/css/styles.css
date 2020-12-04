@@ -684,6 +684,47 @@ header {
               cursor: pointer; }
             .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .option-wrap:hover {
               background-color: #EDEDED; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .pick:hover .calendar {
+              display: flex;
+              flex-direction: column;
+              width: 250px;
+              position: absolute;
+              background: white;
+              box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px;
+              border-radius: 2px;
+              z-index: 6;
+              right: calc(50% + 100px);
+              top: -10px; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .calendar {
+              display: none; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .save-btn {
+              border: 1px solid transparent;
+              margin: 20px 10px 20px 0;
+              align-self: flex-end;
+              cursor: pointer;
+              padding: 8px 10px 8px 10px;
+              background-color: #465EFC;
+              color: white;
+              border-radius: 5px; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .save-btn:hover {
+              box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px; }
+            .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .react-calendar {
+              width: 250px;
+              border: 1px solid transparent; }
+              .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .react-calendar .react-calendar__month-view__weekdays__weekday abbr {
+                border-bottom: 1px solid transparent; }
+              .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .react-calendar .react-calendar__tile--now {
+                background: #465EFC; }
+              .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .react-calendar .react-calendar__tile--active {
+                background: #C7CFFE;
+                color: auto; }
+              .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .react-calendar .react-calendar__tile--active .now {
+                background: #465EFC; }
+              .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .react-calendar .react-calendar__tile {
+                max-width: 100%;
+                text-align: center;
+                padding: 0.75em 0.5em;
+                border-radius: 5px; }
             .dashboard-wrap .display .edit-todo-window .edit-todo-section .wrap .date-selection-dropdown .icon {
               width: 16px;
               height: 16px;

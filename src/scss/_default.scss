@@ -546,13 +546,6 @@ header {
                 }
                 
               }
-
-              // .date {
-              //   font-size: 11px;
-              //   color:#767678;
-              //   margin-top: 5px;
-              //   letter-spacing: 0.5px;
-              // }
             }
           }
 
@@ -950,7 +943,6 @@ header {
             position: absolute; 
             background: white;
             width: 200px;
-            // height: 100px;
             box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px;
             border-radius: 2px;
             z-index: 5;
@@ -976,6 +968,69 @@ header {
             .option-wrap:hover {
               background-color: #EDEDED;
             }
+
+            .pick:hover .calendar {
+              display: flex;
+              flex-direction: column;
+              width: 250px;
+              position: absolute; 
+              background: white;
+              box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px;
+              border-radius: 2px;
+              z-index: 6;
+              right: calc(50% + 100px);
+              top: -10px;
+            }
+
+            .calendar {
+              display: none;
+            }
+
+            .save-btn {
+              border: 1px solid transparent;
+              margin: 20px 10px 20px 0;
+              align-self: flex-end;
+              cursor: pointer;
+              padding: 8px 10px 8px 10px;
+              background-color: #465EFC;
+              color: white;
+              border-radius: 5px;
+            }
+
+            .save-btn:hover {
+              box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px;
+            }
+
+            .react-calendar {
+              width: 250px;
+              border: 1px solid transparent;
+
+              .react-calendar__month-view__weekdays__weekday {
+                abbr {
+                  border-bottom: 1px solid transparent;
+                }
+              }
+
+              .react-calendar__tile--now {
+                background: #465EFC;
+              }
+
+              .react-calendar__tile--active {
+                background: #C7CFFE;
+                color: auto;
+              }
+
+              .react-calendar__tile--active .now {
+                background: #465EFC;
+              }
+
+              .react-calendar__tile {
+                max-width: 100%;
+                text-align: center;
+                padding: 0.75em 0.5em;
+                border-radius: 5px;
+              }
+            }
     
             .icon {
               width: 16px;
@@ -990,6 +1045,7 @@ header {
             }
             
           }
+
         }
 
 

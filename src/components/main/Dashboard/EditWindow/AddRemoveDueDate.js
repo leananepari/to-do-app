@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { dashboard } from '../../../../state/actions';
 import OutsideClickHandler from '../../../../utils/OutsideClickHandler';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 import { ReactComponent as CalendarIcon } from '../../../../assets/calendar-icon.svg';
 import { ReactComponent as CalendarIconPurple } from '../../../../assets/calendar-icon-purple.svg';
@@ -14,6 +16,7 @@ import { formatDate } from '../../../../utils/helpers';
 
 const AddDueDate = ( props ) => {
   const [date, setDate] = useState();
+  const [value, onChange] = useState(new Date());
   let now = new Date();
   now.setHours(0, 0, 0, 0);
 
@@ -45,7 +48,9 @@ const AddDueDate = ( props ) => {
   }
 
   const handleClickPickDate = () => {
-
+    props.selectedTask.due = value;
+    props.updateTaskAddDueDate(props.selectedTask);
+    props.setDateSelectionDropdown(false);
   }
 
   const handleRemoveDueDate = () => {
@@ -65,7 +70,7 @@ const AddDueDate = ( props ) => {
             </div>
 
             <div className="date-selection-dropdown"
-                style={{display: `${props.dateSelectionDropdown ? "block" : "none"}`}}>
+                 style={{display: `${props.dateSelectionDropdown ? "block" : "none"}`}}>
 
               <div className="title">
                 Due
@@ -80,13 +85,24 @@ const AddDueDate = ( props ) => {
                   <CalendarIconTomorrow className="icon" />
                   <ul>Tomorrow</ul>
                 </div>
-                <div className="option-wrap" onClick={handleClickPickDate}>
+                <div className="option-wrap pick">
                   <CalendarIconPickDate className="icon" />
                   <ul>Pick a date</ul>
+                  <div className="calendar">
+                    <div className="title">
+                      Pick a date
+                    </div>
+                    <Calendar 
+                      onChange={onChange}
+                      value={value}
+                    />
+                    <button className="save-btn" onClick={handleClickPickDate}>Save</button>
+                  </div>
                 </div>
               </div>
 
             </div>
+
           </div>
           :
           props.selectedTask.due > now ?
