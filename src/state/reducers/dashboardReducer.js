@@ -31,14 +31,16 @@ const initialState = {
   modal: false,
   modalDeleteId: '',
   modalDeleteText: '',
-  modalDeleteFunction: ''
+  modalDeleteFunction: '',
+  inputFocus: false,
+  dateSelectionDropdown: false
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
 
     case dashboard.GET_TASK_LIST_START:
-      
+
       return {
         ...state,
       }
@@ -177,6 +179,22 @@ export const reducer = (state = initialState, action) => {
         taskList: updatedListWhenRemovedFromMyDay
       }
 
+    case dashboard.UPDATE_TASK_ADD_DUE_DATE_SUCCESS:
+      let updatedListWhenAddDueDate = mapTaskList(state.taskList, action.payload);
+
+      return {
+        ...state,
+        taskList: updatedListWhenAddDueDate
+      }
+    
+    case dashboard.UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS:
+      let updatedListWhenRemoveDueDate = mapTaskList(state.taskList, action.payload);
+
+      return {
+        ...state,
+        taskList: updatedListWhenRemoveDueDate
+      }
+
     case dashboard.DELETE_TASK_SUCCESS:
       let updatedListDeleteTask = state.taskList.filter(task => task.task_id !== action.payload);
 
@@ -288,6 +306,20 @@ export const reducer = (state = initialState, action) => {
         modalDeleteText: '',
         modalDeleteFunction: ''
       }
+
+    case dashboard.SET_INPUT_FOCUS:
+
+    return {
+      ...state,
+      inputFocus: action.payload
+    }
+
+    case dashboard.SET_DATE_SELECTION_DROPDOWN:
+
+    return {
+      ...state,
+      dateSelectionDropdown: action.payload
+    }
 
     default:
       return state;

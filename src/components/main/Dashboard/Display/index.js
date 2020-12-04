@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef }  from 'react';
+import React, { useEffect }  from 'react';
 import Modal from '../Modal/Modal';
 import EditTaskSideWindow from '../EditWindow';
 import AddNewTask from './addNewTask';
@@ -10,10 +10,6 @@ import { filterTaskList } from '../../../../utils/helpers';
 
 
 const Display = ( props ) => {
-  const [inputFocus, setInputFocus] = useState(false);
-  const moreDropdownContainer = useRef();
-  const addTaskInputContainer = useRef();
-
 
   useEffect(() => {
 
@@ -27,57 +23,15 @@ const Display = ( props ) => {
 
   }, [props.taskList, props.selectedTab, props.slideWindow])
 
-  useEffect(() => {
-    // add when mounted
-    document.addEventListener("mousedown", handleOutsideClickDropdown);
-    // return function to be called when unmounted
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClickDropdown);
-    };
-  })
-
-  useEffect(() => {
-    // add when mounted
-    document.addEventListener("mousedown", handleOutsideClickAddTaskInput);
-    // return function to be called when unmounted
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClickAddTaskInput);
-    };
-  })
-
-
-  const handleOutsideClickAddTaskInput = e => {
-    if (addTaskInputContainer.current.contains(e.target)) {
-      // inside click
-      return;
-    }
-    // outside click 
-    setInputFocus(false);
-  };
-
-  const handleOutsideClickDropdown = e => {
-    if (moreDropdownContainer.current.contains(e.target)) {
-      // inside click
-      return;
-    }
-    // outside click 
-    props.setMoreDropdown(false);
-    setInputFocus(false);
-    props.setEditListName(false);
-  };
-
-
 
   return (
     <div className="display">
         
         <div className="middle-section-wrap">
 
-          <Header reference={moreDropdownContainer}/>
+          <Header />
 
-          <AddNewTask reference={addTaskInputContainer} 
-                      inputFocus={inputFocus} 
-                      setInputFocus={setInputFocus}/>
+          <AddNewTask />
 
           <TaskList />
 
@@ -103,8 +57,6 @@ export default connect(
     selectedTab: state.dashboard.selectedTab
   }),
   {
-    setMoreDropdown: dashboard.setMoreDropdown,
     setSelectedTaskList: dashboard.setSelectedTaskList,
-    setEditListName: dashboard.setEditListName
   }
 )(Display);

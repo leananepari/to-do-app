@@ -44,6 +44,13 @@ export const SET_MORE_DROPDOWN = 'SET_MORE_DROPDOWN';
 export const SET_SELECTED_TASK_LIST = 'SET_SELECTED_TASK_LIST';
 export const SET_EDIT_LIST_NAME = 'SET_EDIT_LIST_NAME';
 export const SET_LIST_NAME_INPUT = 'SET_LIST_NAME_INPUT';
+export const SET_INPUT_FOCUS = 'SET_INPUT_FOCUS';
+export const SET_DATE_SELECTION_DROPDOWN = 'SET_DATE_SELECTION_DROPDOWN';
+export const UPDATE_TASK_ADD_DUE_DATE_SUCCESS = 'UPDATE_TASK_ADD_DUE_DATE_SUCCESS';
+export const UPDATE_TASK_ADD_DUE_DATE_FAILURE = 'UPDATE_TASK_ADD_DUE_DATE_FAILURE';
+export const UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS = 'UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS';
+export const UPDATE_TASK_REMOVE_DUE_DATE_FAILURE = 'UPDATE_TASK_REMOVE_DUE_DATE_FAILURE';
+
 
 
 export const getTaskList = ( userId, history ) => {
@@ -59,6 +66,7 @@ export const getTaskList = ( userId, history ) => {
           axiosWithAuth().get(`/api/tasks/all/${userId}`, qs.stringify({ grant_type: 'password' }))
             .then(response => {
               dispatch({ type: GET_TASK_LIST_SUCCESS, payload: response.data })
+              console.log('TASKS: ', response)
             })
             .catch(error => {
               dispatch({ type: GET_TASK_LIST_FAILURE, payload: error });
@@ -189,6 +197,40 @@ export const updateTaskRemoveFromMyDay = ( task, history ) => {
       })
       .catch(error => {
         dispatch({ type: UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskAddDueDate = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_ADD_DUE_DATE_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_ADD_DUE_DATE_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskRemoveDueDate = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_REMOVE_DUE_DATE_FAILURE, payload: error});
         localStorage.removeItem('token');
         localStorage.removeItem('tokenType');
         history.push('/login');
@@ -361,5 +403,22 @@ export const setListNameInput = ( listName ) => {
   return dispatch => {
 
     dispatch({ type: SET_LIST_NAME_INPUT, payload: listName })
+  }
+}
+
+export const setInputFocus = ( bool ) => {
+  
+  return dispatch => {
+
+    dispatch({ type: SET_INPUT_FOCUS, payload: bool })
+  }
+}
+
+
+export const setDateSelectionDropdown = ( bool ) => {
+  
+  return dispatch => {
+
+    dispatch({ type: SET_DATE_SELECTION_DROPDOWN, payload: bool })
   }
 }

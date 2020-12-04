@@ -16,6 +16,7 @@
     "qs": "^6.9.3",
     "react": "^16.13.0",
     "react-accessible-dropdown": "^1.0.2",
+    "react-calendar": "^3.2.1",
     "react-dom": "^16.13.0",
     "react-dropdown": "^1.6.4",
     "react-redux": "^7.2.0",
