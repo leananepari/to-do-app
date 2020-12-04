@@ -29,7 +29,7 @@ Password: password
 
 - [x] User is able to add, mark as completed/uncompleted, or delete a task.
 
-- [ ] User is able to set a due date for a task. 
+- [x] User is able to set a due date for a task. 
 
 - [ ] User is able to set reminders. 
 
