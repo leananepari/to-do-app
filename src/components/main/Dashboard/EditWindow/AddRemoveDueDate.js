@@ -10,17 +10,12 @@ import { ReactComponent as CancelIcon } from '../../../../assets/cancel-icon.svg
 import { ReactComponent as CalendarIconToday} from '../../../../assets/calendar-icon-today.svg';
 import { ReactComponent as CalendarIconPickDate} from '../../../../assets/calendar-icon-pick-a-date.svg';
 import { ReactComponent as CalendarIconTomorrow} from '../../../../assets/calendar-icon-tomorrow.svg';
-
-
-
 import { formatDate } from '../../../../utils/helpers';
 
 const AddDueDate = ( props ) => {
   const [date, setDate] = useState();
   let now = new Date();
   now.setHours(0, 0, 0, 0);
-
-
 
   useEffect(() => {
     if (props.selectedTask.due !== null) {
@@ -32,7 +27,30 @@ const AddDueDate = ( props ) => {
     props.setDateSelectionDropdown(true);
   }
 
-  const handleOutsideClickDateSelectionDropdown= () => {
+  const handleOutsideClickDateSelectionDropdown = () => {
+    props.setDateSelectionDropdown(false);
+  }
+
+  const handleTodayClick = () => {
+    props.selectedTask.due = new Date();
+    props.updateTaskAddDueDate(props.selectedTask);
+  }
+
+  const handleTomorrowClick = () => {
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    props.selectedTask.due = tomorrow;
+    props.updateTaskAddDueDate(props.selectedTask);
+  }
+
+  const handleClickPickDate = () => {
+
+  }
+
+  const handleRemoveDueDate = () => {
+    props.selectedTask.due = null;
+    props.updateTaskRemoveDueDate(props.selectedTask);
     props.setDateSelectionDropdown(false);
   }
 
@@ -41,47 +59,47 @@ const AddDueDate = ( props ) => {
       <>
         {props.selectedTask.due === null ?
           <div className="wrap">
-          <div className="add-due-date" onClick={handleAddDueDateClick}>
-            <CalendarIcon className="calendar-icon"/>
-            <div>Add due date</div>
-          </div>
-
-          <div className="date-selection-dropdown"
-              style={{display: `${props.dateSelectionDropdown ? "block" : "none"}`}}>
-
-            <div className="title">
-              Due
+            <div className="add-due-date" onClick={handleAddDueDateClick}>
+              <CalendarIcon className="calendar-icon"/>
+              <div>Add due date</div>
             </div>
 
-            <div>
-              <div className="option-wrap">
-                <CalendarIconToday className="icon" />
-                <ul>Today</ul>
-              </div>
-              <div className="option-wrap">
-                <CalendarIconTomorrow className="icon" />
-                <ul>Tomorrow</ul>
-              </div>
-              <div className="option-wrap">
-                <CalendarIconPickDate className="icon" />
-                <ul>Pick a date</ul>
-              </div>
-            </div>
+            <div className="date-selection-dropdown"
+                style={{display: `${props.dateSelectionDropdown ? "block" : "none"}`}}>
 
-          </div>
+              <div className="title">
+                Due
+              </div>
+
+              <div>
+                <div className="option-wrap" onClick={handleTodayClick}>
+                  <CalendarIconToday className="icon" />
+                  <ul>Today</ul>
+                </div>
+                <div className="option-wrap" onClick={handleTomorrowClick}>
+                  <CalendarIconTomorrow className="icon" />
+                  <ul>Tomorrow</ul>
+                </div>
+                <div className="option-wrap" onClick={handleClickPickDate}>
+                  <CalendarIconPickDate className="icon" />
+                  <ul>Pick a date</ul>
+                </div>
+              </div>
+
+            </div>
           </div>
           :
           props.selectedTask.due > now ?
             <div className="add-due-date added">
               <CalendarIconPurple className="calendar-icon"/>
               <div>Due {date}</div>
-              <CancelIcon className="cancel-icon" />
+              <CancelIcon onClick={handleRemoveDueDate} className="cancel-icon" />
             </div>
             :
             <div className="add-due-date overdue">
               <CalendarIconRed className="calendar-icon"/>
               <div>Overdue {date}</div>
-              <CancelIcon className="cancel-icon" />
+              <CancelIcon onClick={handleRemoveDueDate} className="cancel-icon" />
             </div>
         }
       </>
@@ -96,6 +114,8 @@ export default connect(
     dateSelectionDropdown: state.dashboard.dateSelectionDropdown
   }),
   {
-    setDateSelectionDropdown: dashboard.setDateSelectionDropdown
+    setDateSelectionDropdown: dashboard.setDateSelectionDropdown,
+    updateTaskAddDueDate: dashboard.updateTaskAddDueDate,
+    updateTaskRemoveDueDate: dashboard.updateTaskRemoveDueDate
   }
 )(AddDueDate);

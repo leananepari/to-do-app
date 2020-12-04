@@ -46,6 +46,11 @@ export const SET_EDIT_LIST_NAME = 'SET_EDIT_LIST_NAME';
 export const SET_LIST_NAME_INPUT = 'SET_LIST_NAME_INPUT';
 export const SET_INPUT_FOCUS = 'SET_INPUT_FOCUS';
 export const SET_DATE_SELECTION_DROPDOWN = 'SET_DATE_SELECTION_DROPDOWN';
+export const UPDATE_TASK_ADD_DUE_DATE_SUCCESS = 'UPDATE_TASK_ADD_DUE_DATE_SUCCESS';
+export const UPDATE_TASK_ADD_DUE_DATE_FAILURE = 'UPDATE_TASK_ADD_DUE_DATE_FAILURE';
+export const UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS = 'UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS';
+export const UPDATE_TASK_REMOVE_DUE_DATE_FAILURE = 'UPDATE_TASK_REMOVE_DUE_DATE_FAILURE';
+
 
 
 export const getTaskList = ( userId, history ) => {
@@ -192,6 +197,40 @@ export const updateTaskRemoveFromMyDay = ( task, history ) => {
       })
       .catch(error => {
         dispatch({ type: UPDATE_TASK_REMOVE_FROM_MY_DAY_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskAddDueDate = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_ADD_DUE_DATE_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_ADD_DUE_DATE_FAILURE, payload: error});
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenType');
+        history.push('/login');
+      });
+  }
+}
+
+export const updateTaskRemoveDueDate = ( task, history ) => {
+
+  return dispatch => {
+
+    axiosWithAuth().put('/api/tasks/update', task)
+      .then(response => {
+        dispatch({ type: UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS, payload: response.data  });
+      })
+      .catch(error => {
+        dispatch({ type: UPDATE_TASK_REMOVE_DUE_DATE_FAILURE, payload: error});
         localStorage.removeItem('token');
         localStorage.removeItem('tokenType');
         history.push('/login');

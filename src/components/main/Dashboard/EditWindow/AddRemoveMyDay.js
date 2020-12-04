@@ -27,9 +27,9 @@ const AddRemoveMyDay = ( props ) => {
           <CancelIcon className="cancel-icon" onClick={handleRemoveFromToMyDay}/>
         </div>
         :
-        <div className="add-to-my-day add">
+        <div className="add-to-my-day add" onClick={handleAddToMyDay}>
           <SunIcon className="sun-icon"/>
-          <div onClick={handleAddToMyDay} className="add-text">Add to My Day</div>
+          <div className="add-text">Add to My Day</div>
         </div>
       }
     </div>

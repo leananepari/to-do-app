@@ -179,6 +179,22 @@ export const reducer = (state = initialState, action) => {
         taskList: updatedListWhenRemovedFromMyDay
       }
 
+    case dashboard.UPDATE_TASK_ADD_DUE_DATE_SUCCESS:
+      let updatedListWhenAddDueDate = mapTaskList(state.taskList, action.payload);
+
+      return {
+        ...state,
+        taskList: updatedListWhenAddDueDate
+      }
+    
+    case dashboard.UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS:
+      let updatedListWhenRemoveDueDate = mapTaskList(state.taskList, action.payload);
+
+      return {
+        ...state,
+        taskList: updatedListWhenRemoveDueDate
+      }
+
     case dashboard.DELETE_TASK_SUCCESS:
       let updatedListDeleteTask = state.taskList.filter(task => task.task_id !== action.payload);
 

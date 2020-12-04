@@ -478,7 +478,7 @@ header {
         height: calc(100% - 132px);
   
   
-        .todo {
+        .task {
           display: flex;
           align-items: center;
           font-size: 14px;
@@ -487,6 +487,7 @@ header {
           height: 40px;
           padding: 10px 20px 10px 20px;
           position: relative;
+          cursor: pointer;
   
           .border {
             border-bottom: 1px solid #EAEAEA;
@@ -505,9 +506,8 @@ header {
             box-sizing: border-box;
           }
     
-          .text {
+          .task-description {
             margin-left: 15px;
-            cursor: pointer;
 
             .categories-wrap {
               display: flex;
@@ -517,6 +517,8 @@ header {
                 font-size: 11px;
                 margin-top: 5px;
                 color:#767678;
+                letter-spacing: 0.5px;
+                margin-right: 5px;
               }
 
               .dot {
@@ -528,17 +530,29 @@ header {
                 margin-top: 5px;
               }
 
-              .icon-wrap {
+              .category-icon-wrap {
                 display: flex;
                 align-items: center;
 
-                .sun-icon {
+                .icon {
                   width: 10px;
                   height: 10px;
                   margin-top: 4px;
                   margin-right: 2px;
                 }
+
+                .overdue {
+                  color: #DB3B29;
+                }
+                
               }
+
+              // .date {
+              //   font-size: 11px;
+              //   color:#767678;
+              //   margin-top: 5px;
+              //   letter-spacing: 0.5px;
+              // }
             }
           }
 
