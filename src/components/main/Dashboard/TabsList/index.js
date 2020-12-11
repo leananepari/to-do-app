@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { dashboard } from '../../../../state/actions';
 import { ReactComponent as ListIcon } from '../../../../assets/list-icon.svg';
 import { ReactComponent as PlusSignIcon } from '../../../../assets/plus-sign-icon.svg';
+import { ReactComponent as HamburgerMenuIcon } from '../../../../assets/hamburger-menu-icon.svg';
+
 
 const TabsList = ( props ) => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -52,8 +54,24 @@ const TabsList = ( props ) => {
     setFocus("focus");
   }
 
+  const handleSideBarMenuClick = () => {
+    props.setSideBarMenuIconsOnly(!props.sideBarMenuIconsOnly);
+  }
+
+  const handlePlusSignClick = () => {
+    if (props.sideBarMenuIconsOnly) {
+      props.setSideBarMenuIconsOnly(false);  
+    } 
+    refContainer.current.focus();
+  }
+
   return (
-    <div className="tabs-list">
+    <div className={`tabs-list ${props.sideBarMenuIconsOnly ? 'icons-only' : ''}`}>
+
+      <div className="hamburger-menu">
+        <HamburgerMenuIcon className="hamburger-icon" onClick={handleSideBarMenuClick}/>
+      </div>
+
       {props.categories.map((category) => {
         return <Tab category={category} key={category} icon={category_icons[category]} 
                count={getCount(props.taskList, category)}/>
@@ -67,8 +85,8 @@ const TabsList = ( props ) => {
         })}
       </div>
       <div className="add-new-list"> 
-        <form onSubmit={handleAddNewList} >
-          <PlusSignIcon className={`plus-sign-icon ${focus}`} />
+        <form onSubmit={handleAddNewList}>
+          <PlusSignIcon className={`plus-sign-icon ${focus}`} onClick={handlePlusSignClick}/>
           <input 
               type="text"
               name="name"
@@ -93,7 +111,10 @@ export default connect(
     categories: state.dashboard.categories,
     taskList: state.dashboard.taskList,
     customListLookupByName: state.dashboard.customListLookupByName,
+    sideBarMenuIconsOnly: state.dashboard.sideBarMenuIconsOnly
   }),
   { createCustomList: dashboard.createCustomList,
-    setSelectedTab: dashboard.setSelectedTab }
+    setSelectedTab: dashboard.setSelectedTab,
+    setSideBarMenuIconsOnly: dashboard.setSideBarMenuIconsOnly 
+  }
 )(TabsList);

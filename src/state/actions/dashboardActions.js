@@ -50,6 +50,7 @@ export const UPDATE_TASK_ADD_DUE_DATE_SUCCESS = 'UPDATE_TASK_ADD_DUE_DATE_SUCCES
 export const UPDATE_TASK_ADD_DUE_DATE_FAILURE = 'UPDATE_TASK_ADD_DUE_DATE_FAILURE';
 export const UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS = 'UPDATE_TASK_REMOVE_DUE_DATE_SUCCESS';
 export const UPDATE_TASK_REMOVE_DUE_DATE_FAILURE = 'UPDATE_TASK_REMOVE_DUE_DATE_FAILURE';
+export const SET_SIDE_BAR_MENU_ICONS_ONLY = 'SET_SIDE_BAR_MENU_ICONS_ONLY';
 
 
 
@@ -420,5 +421,13 @@ export const setDateSelectionDropdown = ( bool ) => {
   return dispatch => {
 
     dispatch({ type: SET_DATE_SELECTION_DROPDOWN, payload: bool })
+  }
+}
+
+export const setSideBarMenuIconsOnly = ( bool ) => {
+  
+  return dispatch => {
+
+    dispatch({ type: SET_SIDE_BAR_MENU_ICONS_ONLY, payload: bool })
   }
 }

@@ -33,7 +33,8 @@ const initialState = {
   modalDeleteText: '',
   modalDeleteFunction: '',
   inputFocus: false,
-  dateSelectionDropdown: false
+  dateSelectionDropdown: false,
+  sideBarMenuIconsOnly: false
 };
 
 export const reducer = (state = initialState, action) => {
@@ -309,17 +310,24 @@ export const reducer = (state = initialState, action) => {
 
     case dashboard.SET_INPUT_FOCUS:
 
-    return {
-      ...state,
-      inputFocus: action.payload
-    }
+      return {
+        ...state,
+        inputFocus: action.payload
+      }
 
     case dashboard.SET_DATE_SELECTION_DROPDOWN:
 
-    return {
-      ...state,
-      dateSelectionDropdown: action.payload
-    }
+      return {
+        ...state,
+        dateSelectionDropdown: action.payload
+      }
+
+    case dashboard.SET_SIDE_BAR_MENU_ICONS_ONLY:
+
+      return {
+        ...state,
+        sideBarMenuIconsOnly: action.payload
+      }
 
     default:
       return state;
