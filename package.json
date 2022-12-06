@@ -13,7 +13,7 @@
     "axios": "^0.19.2",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.2",
-    "qs": "^6.9.3",
+    "qs": "^6.9.7",
     "react": "^16.13.0",
     "react-accessible-dropdown": "^1.0.2",
     "react-calendar": "^3.2.1",
